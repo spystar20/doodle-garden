@@ -215,7 +215,7 @@ input[type='number'] {
 }
 
 .custom-toast-body {
-  @apply text-md font-[Antonio];
+  @apply  font-[Antonio];
 }
 
 .custom-progress {

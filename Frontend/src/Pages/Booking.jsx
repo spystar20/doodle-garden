@@ -132,7 +132,7 @@ setMessage('');
                       selected={selectedDate}
                       onChange={(date) => setSelectedDate(date)}
                       placeholderText="Pick a date"
-                      className='  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-md font-[Outfit] outline-none'
+                      className='  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-base font-[Outfit] outline-none'
                       calendarClassName="!bg-black !text-white !rounded-xl !shadow-lg !border !border-gray-200 font-['Outfit']"
                       dayClassName={(d) => 'hover:!bg-pink-100 !text-white hover:!text-black rounded-md'}
                       renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
@@ -165,7 +165,7 @@ setMessage('');
                     timeCaption="Time"
                     dateFormat="h:mm aa" // Format like 3:45 PM
                     placeholderText="Choose time"
-                    className="px-4  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-md font-[Outfit] outline-none"
+                    className="px-4  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-base font-[Outfit] outline-none"
 
                     timeClassName={(t) =>
                       "px-3 py-1  rounded-md text-gray-700 hover:bg-pink-100 hover:text-pink-500 transition-all cursor-pointer"
