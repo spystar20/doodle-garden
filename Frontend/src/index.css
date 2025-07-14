@@ -1,0 +1,223 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Imperial+Script&family=Kalam:wght@300;400;700&family=Outfit:wght@100..900&display=swap');
+@import "tailwindcss";
+
+.nav{background-color: 	#FFFFF0;
+}
+.button-1 {
+    border: none;
+    color: black;
+    text-align: center;
+    padding: .7rem;
+
+    width: 10vw;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 36px;
+    box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7);
+  }
+  
+  .button-1{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button-1:after {
+    content: '»';
+    position: absolute;
+    opacity: 0;  
+    top: 11px;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button-1:hover{
+    background-color:black;
+    color: white;
+    padding-right: 24px;
+    padding-left:8px;
+  }
+  @media  (max-width:488px){
+    .button-1{
+      margin: 2px;
+      padding: 0.5rem;
+      width: 29vw;
+    }
+    .button-1:hover{
+    width: 33vw;
+    padding: 0.6rem;
+    padding-left: 0.3rem;
+    }
+  
+
+  }
+  @media (min-width:488px ) and ( max-width:1024px) 
+    {
+    .button-1{
+      width: 17vw;
+    }
+  }
+  .button-1:hover:after {
+    opacity: 1;
+    right: 10px;
+  }
+  .hover-underline-animation {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .hover-underline-animation::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: black;
+    transition: transform 0.25s ease-out;
+  }
+  
+  .hover-underline-animation:hover::after {
+    transform: scaleX(1);
+  }
+  
+  .hover-underline-animation.left::after {
+    transform-origin: bottom right;
+  }
+  
+  .hover-underline-animation.left:hover::after {
+    transform-origin: bottom left;
+  }
+  
+   .embla__slide_1{
+    width: 100%;
+    height: 100vh;
+    background: url('https://i.pinimg.com/736x/bd/6f/2b/bd6f2b46c588799618ef3053fbe1fe4e.jpg');
+    background-size: cover;
+    background-position: center;
+   }
+   .embla__slide_2{
+    width: 100%;
+    height: 100vh;
+    background: url('https://i.pinimg.com/736x/28/a6/1b/28a61bd7d68143c518d71de1c4570935.jpg');
+    background-size: cover;
+    background-position: center;
+   }
+   .embla__slide_3{
+    width: 100%;
+    height: 100vh;
+    background: url('https://i.pinimg.com/736x/47/dd/ed/47dded0cb3b367dd7d9b95f103c7d54a.jpg');
+    background-size: cover;
+    background-position: center;
+   }
+
+   .embla__slide_4{
+    width: 100%;
+    height: 100vh;
+    background: url('https://i.pinimg.com/736x/13/d0/39/13d039ee54747ced62cad64b9d53a306.jpg');
+    background-size: cover;
+    background-position: center;
+  
+   }
+   .embla__slide_5{
+    width: 100%;
+    height: 100vh;
+    background: url('https://i.pinimg.com/736x/9d/64/fe/9d64fe0a023da6bf904e21a3127b6a84.jpg');
+    background-size: cover;
+    background-position: center;
+
+   }
+
+
+   .embla {
+    z-index: 20;
+    overflow-x: hidden;
+overflow-y: hidden;
+   
+  }
+  .embla__container {
+    
+      display: flex;
+  
+  }
+  .embla__slide {
+    flex: 0 0 100vw;
+  }
+.polaroid li:hover{
+  transform: translateY(-10px);
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+}
+.polaroid li:hover img{
+  transform: scale(1.1);
+  transition: all 0.5s ease-in-out;
+
+}
+.img-hover-zoom {
+  /* height: 300px;  */
+  overflow: hidden; 
+}
+
+.img-hover-zoom img {
+  transition: transform .5s ease;
+  border-radius: 0.75rem;
+}
+
+
+.img-hover-zoom:hover img {
+  transform: scale(1.2);
+  border-radius: 0.75rem;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+/* Time container (right panel) */
+/* Entire <ul> time list wrapper */
+.react-datepicker__time-list {
+  @apply max-h-64 overflow-y-auto scroll-auto  bg-black rounded-lg shadow-sm px-2 py-2;
+}
+
+/* Each time option (li) */
+.react-datepicker__time-list-item {
+  @apply text-white  py-1 px-3 rounded-md cursor-pointer hover:bg-pink-100 hover:text-pink-600 transition font-['Outfit'];
+}
+
+/* Selected time */
+.react-datepicker__time-list-item--selected {
+  @apply bg-pink-500 text-white font-bold;
+}
+.react-datepicker-time__header {
+  @apply text-pink-600 text-lg font-semibold font-['Outfit'] text-center border-b border-gray-200 pb-2;
+}
+.react-datepicker__header {
+  @apply bg-pink-50 text-center py-2 px-4 rounded-t-lg border-b border-pink-200;
+}
+
+.scrollbar{
+  scrollbar-width: thin;
+  scrollbar-color: black transparent ;
+  scrollbar-arrow-color: blueviolet;
+}
+
+/* Tailwind-based styling */
+.custom-toast {
+  @apply bg-[#fffff0] text-black border border-black font-[Antonio] rounded-xl shadow-md;
+}
+
+.custom-toast-body {
+  @apply text-md font-[Antonio];
+}
+
+.custom-progress {
+  @apply bg-black;
+}
