@@ -38,7 +38,7 @@ const [message, setMessage] = useState('');
       name , phone , guests: selectedGuest, date: selectedDate, time, message
     }
     try{
-      const response = await axios.post('https://doodle-garden.onrender.com/api/reservations', formData);
+      const response = await axios.post('https://doodle-garden-1.onrender.com/api/reservations', formData);
          console.log('Reservation saved:', response.data);
 toast.success("🎉 Reservation successful!", {
   style: {
