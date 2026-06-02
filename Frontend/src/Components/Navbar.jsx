@@ -16,7 +16,7 @@ const Navbar = () => {
     setShowMenu(!showMenu)
   }
   return (
-    <div data-aos="fade-in" className='w-full  shadow-lg px-4 fixed top-0  z-[999] capitalize nav'>
+    <div data-aos="fade-in" className='w-full  shadow-lg px-4 py-5 fixed top-0  z-[999] capitalize nav'>
 
       <div className=' hidden lg:flex  items-start justify-between lg:items-center py-6 px-4 lg:py-0 md:px-20 '>
         <ul className='lg:flex grid grid-cols-2 justify-between gap-5 lg:gap-14 capitalize text-lg font-[Outfit] md:hidden'>
@@ -26,10 +26,11 @@ const Navbar = () => {
           <Link to="/Contact"><li className='cursor-pointer hover-underline-animation left '>contact us</li></Link>
           <Link to="/About"><li className='cursor-pointer hover-underline-animation left'>about us</li></Link>
         </ul>
-        <div><img className='hidden md:block md:w-[15vw] lg:w-[7vw] rounded-br-3xl rounded-tl-3xl' src={logo} alt="" /></div>
-        <div> <Link to="/Booking"><button className='button-1 rounded-2xl font-[Outfit] text-base'>book a table</button></Link></div>
-
-
+        <div><img className='hidden md:block md:w-[12vw] lg:w-[6vw] rounded-br-3xl rounded-tl-3xl' src={logo} alt="" /></div>
+        {/* <div> <Link to="/Booking"><button className='button-1 rounded-2xl font-[Outfit] text-base'>book a table</button></Link></div> */}
+<div className='flex items-center justify-between gap-4 text-lg'>
+<div><Link to='/login' className='rounded-xl border-2 shadow-2xl hover:bg-black hover:text-white py-2 px-10  border-black hover:scale-75 scale-100 font-[Outfit] text-base' ><button>Login</button></Link></div>
+<div><Link to='/sign'><button className='rounded-xl border-2 shadow-2xl bg-black text-white py-2 px-10 hover:scale-95 scale-100 font-[Outfit] text-base'>Signup</button></Link></div></div>
       </div>
       {/* navbar in mobile */}
 

@@ -221,3 +221,14 @@ input[type='number'] {
 .custom-progress {
   @apply bg-black;
 }
+
+.spin{
+  animation: spin 12s ease-in  infinite;
+}
+@keyframes spin {
+  to{
+        transform: rotate(360deg);
+
+  }
+
+}

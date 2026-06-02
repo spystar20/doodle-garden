@@ -36,7 +36,7 @@ const Home = () => {
       },[])
   return (
 
-    <div className='overflow-x-hidden max-w-[100vw]'>
+    <div className='overflow-x-hidden opacity-20 max-w-[100vw]'>
      
       <div  className="embla  w-full " ref={emblaRef}>
         <div className="embla__container">
