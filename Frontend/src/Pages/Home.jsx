@@ -29,6 +29,15 @@ const images = [{
   img: 'https://i.pinimg.com/736x/9d/64/fe/9d64fe0a023da6bf904e21a3127b6a84.jpg'
 }
 ]
+const showcaseImg = [{
+  id:1,img:'https://i.pinimg.com/736x/e6/eb/b9/e6ebb9412c5fd5a5f7c6def60fc346d5.jpg'
+},{
+  id:2,img:'https://i.pinimg.com/736x/5c/16/f4/5c16f441f7405cfbcc6e1824c21a60d5.jpg'
+},{
+  id:3,img:'https://i.pinimg.com/736x/d9/01/e4/d901e4f085ce51739c03c9198ec8b6b8.jpg'
+},{
+  id:4,img:'https://i.pinimg.com/474x/d2/3e/5e/d23e5e0b68e5247ac7bc538e61422c61.jpg'
+}]
 const Home = () => {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()])
    useEffect(()=>{
@@ -48,7 +57,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div  className='absolute top-[4rem]   flex justify-center opacity-35 h-[91vh]  items-center  md:top-[0.4rem] lg:top-[7.3rem] md:opacity-20 bg-white w-full md:h-[100vh]'>
+      <div  className='absolute top-[4rem]   flex justify-center opacity-35  items-center  md:top-[0.4rem] lg:top-[7.3rem] md:opacity-40 bg-white w-full min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-120px)]'>
         <div data-aos="fade-up" className='text-center '>
           <h2 className='font-[Imperial_Script] md:text-8xl text-6xl '>Doodle’s Garden</h2>
           <ul className='flex justify-center items-center py-7 gap-10 list-disc  text-pretty  uppercase md:text-2xl'>
@@ -63,15 +72,17 @@ const Home = () => {
         </div>
       </div>
        {/* INTRO */}
-      <div  className='bg-black p-10  md:p-20'>
+      <div  className='bg-black py-10 px-5  md:p-20'>
         <div data-aos="fade-down" className='text-center py-20 '>
           <h2 className='text-[rgb(255,255,240)] text-2xl uppercase font-[Outfit] font-bold'>Spend the Perfect Time with your Loved-Ones</h2>
           <p className='text-[#fffff0eb] font-thin pt-4 lg:px-24 text-base'>Welcome to Doodle’s Garden, where every meal is a family affair! Situated in the heart of our community, Doodle’s Garden is more than just a diner – it’s a gathering place for friends, families along with their pets to come together and create lasting memories over delicious food and warm hospitality.</p></div>
-        <ul className='grid grid-cols-2 lg:grid-cols-4 justify-center polaroid  items-center gap-12'>
-          <li data-aos="fade-up" data-aos-delay="100" className='bg-[#FFFFF0] flex justify-center items-start pt-6 w-[36vw] h-[36vh]  lg:w-[18vw] lg:h-[56vh]  rounded-sm'><img className='w-[32vw] lg:w-[15vw]' src="https://i.pinimg.com/736x/e6/eb/b9/e6ebb9412c5fd5a5f7c6def60fc346d5.jpg" alt="" /></li>
-          <li data-aos="fade-up" data-aos-delay="300" className='bg-[#FFFFF0] flex justify-center items-start pt-6 w-[36vw] h-[36vh] lg:w-[18vw] lg:h-[56vh] rounded-sm'><img className='w-[32vw] lg:w-[15vw]' src="https://i.pinimg.com/736x/5c/16/f4/5c16f441f7405cfbcc6e1824c21a60d5.jpg" alt="" /></li>
-          <li data-aos="fade-up" data-aos-delay="600" className='bg-[#FFFFF0] flex justify-center items-start pt-6 w-[36vw] h-[36vh]  lg:w-[18vw] lg:h-[56vh]  rounded-sm'><img className='w-[32vw] lg:w-[15vw]' src="https://i.pinimg.com/736x/d9/01/e4/d901e4f085ce51739c03c9198ec8b6b8.jpg" alt="" /></li>
-          <li data-aos="fade-up" data-aos-delay="900" className='bg-[#FFFFF0] flex justify-center items-start pt-6 w-[36vw] h-[36vh]  lg:w-[18vw] lg:h-[56vh]  rounded-sm'><img className='w-[32vw] lg:w-[15vw]' src="https://i.pinimg.com/474x/d2/3e/5e/d23e5e0b68e5247ac7bc538e61422c61.jpg" alt='' /></li></ul>
+          <ul className='grid grid-cols-2 lg:grid-cols-4 justify-center polaroid  items-center gap-6 md:gap-12'>
+            {showcaseImg.map((img,index)=>(
+<li key={img.id} data-aos="fade-up" data-aos-delay="900" className='bg-[#FFFFF0] flex justify-center items-start p-2 w-full md:pt-10 h-[230px] lg:w-[18vw] lg:h-[56vh]  rounded-sm'>
+<img src={img.img} className='w-[230px] h-[180px] lg:w-[240px] rounded-sm md:h-[280px] object-cover'  alt="" />
+</li>
+))}
+          </ul>
       </div>
 
         {/* MENU */}
