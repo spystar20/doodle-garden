@@ -6,6 +6,7 @@ const router = express.Router()
 import { createAccess,createRefresh } from '../Utils.js/jwt.js'
 import {sendEmailLink, sendOtp, sendPasswordLink} from '../Controller/otpController.js'
 import {emailverify, otpVerify, verifypassword } from '../Verify/otpVerify.js'
+import { CreateMenu } from '../Controller/controller.dish.js'
 router.post('/sign',async (req,res)=>{
     console.log("signup hit")
     try{
@@ -65,4 +66,6 @@ router.post('/verify-email',emailverify)
 router.post('/send-email-link',sendEmailLink)
 router.post('/reset-password',sendPasswordLink)
 router.post("/verify-password",verifypassword)
+router.post('/create-menu',CreateMenu)
+router.get('/menu',getMenu)
 export default router
