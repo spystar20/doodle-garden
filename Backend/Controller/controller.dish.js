@@ -1,19 +1,21 @@
-import MenuSchema from "../Model/MenuSchema"
+import MenuSchema from "../Model/MenuSchema.js"
 
 export const CreateMenu= async(req,res) =>{
 try{
-const {title,img,desc,rating,isVeg,category,price} = req.body 
+const {title,image,desc,rating,isVeg,category,price} = req.body 
 const newDish = await MenuSchema.create({
-    title,img,desc,rating,isVeg,category,price
+    title,image,desc,rating,isVeg,category,price
 })
 return res.status(200).json({message:'dish served'})
-}catch{
+}catch(err){
 console.log(err)
 }
 }
 export const getMenu = async(req,res)=>{
     try{
 const menu = await MenuSchema.find()
+return res.status(200).json({message:'dish served',menu})
+
     }catch(err){
         console.log(err)
     }
