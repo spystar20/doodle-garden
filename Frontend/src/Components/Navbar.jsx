@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import logo from '../assets/logo.jpg'
+import logo from '../assets/logo.png'
 import { Link } from 'react-router'
 import Aos from 'aos'
 import { useEffect } from 'react'
 import 'aos/dist/aos.css'
 import { IoMenu } from "react-icons/io5";
-import { MdOutlineRestaurantMenu } from "react-icons/md";
+import { MdMenu, MdOutlineRestaurantMenu } from "react-icons/md";
 const Navbar = () => {
   useEffect(() => {
     Aos.init({ duration: 1500 })
@@ -16,22 +16,25 @@ const Navbar = () => {
     setShowMenu(!showMenu)
   }
   return (
-    <div data-aos="fade-in" className='w-full  shadow-lg px-4 py-5 fixed top-0  z-[999] capitalize nav'>
+    <div data-aos="fade-in" className='w-full bg-[#FFFFF0] shadow-lg px-4 py-5 fixed top-0  z-[999] capitalize '>
 
-      <div className=' hidden lg:flex  items-start justify-between lg:items-center py-6 px-4 lg:py-0 md:px-20 '>
-        <ul className='lg:flex grid grid-cols-2 justify-between gap-5 lg:gap-14 capitalize text-lg font-[Outfit] md:hidden'>
+      <div className=' hidden lg:grid grid-cols-3  items-start justify-between lg:items-center py-6 px-4 lg:py-0 md:px-20 '>
+        <ul className='lg:flex grid grid-cols-2 justify-between gap-5 lg:gap-10 capitalize text-base  font-[Outfit] md:hidden'>
           <Link to="/"><li className='text-black cursor-pointer hover-underline-animation   left'>home</li></Link>
           <Link to="/Menu"><li className='text-black cursor-pointer hover-underline-animation left'>menu</li></Link>
           <Link to="/Venue"><li className='cursor-pointer hover-underline-animation left'>venue</li></Link>
           <Link to="/Contact"><li className='cursor-pointer hover-underline-animation left '>contact us</li></Link>
           <Link to="/About"><li className='cursor-pointer hover-underline-animation left'>about us</li></Link>
         </ul>
-        <div><img className='hidden md:block md:w-[12vw] lg:w-[6vw] rounded-br-3xl rounded-tl-3xl' src={logo} alt="" /></div>
+        <div className='items-center justify-center flex'><img className='hidden md:block md:w-[12vw] lg:w-[250px] ' src={logo} alt="" /></div>
         {/* <div> <Link to="/Booking"><button className='button-1 rounded-2xl font-[Outfit] text-base'>book a table</button></Link></div> */}
-<div className='flex items-center justify-between gap-4 text-lg'>
-<div><Link to='/login' className='rounded-xl border-2 shadow-2xl hover:bg-black hover:text-white py-2 px-10  border-black hover:scale-75 scale-100 font-[Outfit] text-base' ><button>Login</button></Link></div>
-<div><Link to='/sign'><button className='rounded-xl border-2 shadow-2xl bg-black text-white py-2 px-10 hover:scale-95 scale-100 font-[Outfit] text-base'>Signup</button></Link></div></div>
+        
+        <div className='flex items-center justify-end gap-4 text-lg'>
+          <div><Link to='/login' className='rounded-xl border-2 shadow-2xl hover:bg-black hover:text-white py-2 px-10  border-black hover:scale-75 scale-100 font-[Outfit] text-base' ><button>Login</button></Link></div>
+          <div>
+            <Link to='/sign'><button className='rounded-xl border-2 shadow-2xl bg-black text-white py-2 px-10 hover:scale-95 scale-100 font-[Outfit] text-base'>Signup</button></Link></div></div>
       </div>
+      
       {/* navbar in mobile */}
 
       <div className=' lg:hidden md:py-5 sticky top-0 z-50 flex flex-col items-start justify-between py-5 px-2 '>

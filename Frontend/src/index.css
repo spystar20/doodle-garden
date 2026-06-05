@@ -2,7 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&family=Imperial+Script&family=Kalam:wght@300;400;700&family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
-.nav{background-color: 	#FFFFF0;
+@theme{
+  --color-biege:#FFFFF0
 }
 .button-1 {
     border: none;

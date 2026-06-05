@@ -1,11 +1,11 @@
 import React from 'react'
+import ManageMenu from './ManageMenu'
+import AddMenu from './AddMenu'
+import { Route, Router } from 'react-router-dom'
 
-const Dashboard = () => {
+export const Dashboard = () => {
   return (
-    <div>
-
-        
-    </div>
+    <div></div>
   )
 }
 
