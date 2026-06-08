@@ -1,8 +1,13 @@
 import MenuSchema from "../Model/MenuSchema.js"
+import cloudinary from "../Utils.js/cloudinary.js"
 
 export const CreateMenu= async(req,res) =>{
 try{
-const {title,image,desc,rating,isVeg,category,price} = req.body 
+const {title,desc,rating,isVeg,category,price} = req.body 
+const result = await cloudinary.uploader.upload(req.file.path,{
+    folder:'doodle-garden'
+})
+const image = result.secure_url
 const newDish = await MenuSchema.create({
     title,image,desc,rating,isVeg,category,price
 })

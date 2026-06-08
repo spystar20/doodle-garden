@@ -9,6 +9,9 @@ import { FaInstagram, FaFacebook, FaSquareXTwitter } from 'react-icons/fa6';
 import { HiLocationMarker } from 'react-icons/hi';
 import { MdOutlinePhonePaused } from 'react-icons/md';
 import { Link } from 'react-router';
+import { api } from '../../axios/api';
+import DishCard from '../Components/DishCard';
+import {AnimatePresence, motion} from 'motion/react'
 const menuData = {
   salads: [
     { name: "Bistro Salad", price: "$12", description: "Candied walnuts mixed greens, goat cheese, craisins, white balsamic dressing" },
@@ -46,24 +49,43 @@ const menuData = {
     { name: "Bread Pudding", price: "$6", description: "Smooth, slow-steeped iced coffee" },
   ]
 };
+
 const Menu = () => {
     const [selectedCategory, setSelectedCategory] = useState("salads");
+    const [menu,setMenu] = useState([])
     useEffect(()=>{
         Aos.init({duration:1500})
         },[])
+
+        const fetchMenu = async()=>{
+    try{
+const res = await api.get('auth/menu')
+console.log(res)
+setMenu(res.data.menu)
+    }catch(err){
+console.log(err)
+    }
+}
+useEffect(()=>{
+    fetchMenu()
+},[])
     return (
 <div className='bg-[#fffff0]'>
              <Parallax  className='w-[100%] h-[40vh] md:h-[46vh] lg:h-[100vh]' bgImageSizes='cover'  bgImage='https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg' strength={300} >     
              </Parallax>
              
-            <div className='md:py-14 py-7 px-6 md:px-20'>
+            <div className='md:py-14 py-7 px-6 md:px-20 flex flex-col gap-6'>
                 <div className='flex justify-center items-center gap-5'>
                     <p className='w-2 h-2 bg-black rounded-full'></p>
                     <h1 className='text-4xl md:text-6xl font-[Imperial_Script] text-center'>The Menu</h1>
                     <p className=' w-2 h-2 bg-black rounded-full'></p>
                 </div>
-                <div>
-                    <div className='py-8'>
+                <div className='grid grid-cols-4 gap-3'>
+{menu?.map((i)=>(
+
+<DishCard key={i._id} rating={4} category={i.category} image={i.image} title={i.title} desc={i.desc} price={i.price} Isveg={i.isVeg}/>
+))}
+                    {/* <div className='py-8'>
                         <h1 className='md:text-3xl text-2xl font-[Imperial_Script] underline text-center capitalize underline-offset-3 px-8 pb-6 md:py-3'>shisha menu</h1>
                         <div data-aos="fade-down" data-aos-delay="100" className='border border-black rounded-xl md:p-10 grid-cols-1 grid md:grid-cols-2'>
                             <ul>
@@ -185,7 +207,7 @@ const Menu = () => {
                             </li>
                         </ul>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="max-w-3xl mx-auto p-6">
       {/* Navigation Buttons */}
@@ -204,6 +226,9 @@ const Menu = () => {
       </div>
 
       {/* Display Selected Menu */}
+      <AnimatePresence mode='wait'>
+      <motion.div key={selectedCategory} initial={{opacity:0,y:20,filter:'blur(10px)'}} animate={{opacity:1,y:0,filter:'blur(0px)'}}  
+          transition={{ duration: 0.5 }}>
       <div className="space-y-6 border border-black md:px-10 py-14 rounded-xl">
         {menuData[selectedCategory].map((item, index) => (
           <div key={index} className="flex justify-between rounded-xl hover:bg-[#fff8c944] px-5  pb-2">
@@ -215,14 +240,14 @@ const Menu = () => {
           </div>
         ))}
       </div>
+      </motion.div>
+      </AnimatePresence>
       </div>
       <div className='flex justify-center items-center gap-5'>
          <Link to="/Booking"><div><button data-aos="zoom-in" data-aos-delay="100" className=' border-black border bg-transparent hover:bg-black hover:text-white text-xl uppercase font-antonio text-black px-3 py-2 rounded-xl'>reserve a table</button></div></Link>
           <Link to="/Order"><div><button data-aos="zoom-in" data-aos-delay="100" className=' border-black border  bg-transparent hover:bg-black hover:text-white text-xl uppercase font-antonio text-black px-3 py-2 rounded-xl'>order online</button></div></Link>
       </div>
       </div>
-      {/* footer */}
-     <Footer/>
    
         </div>
     )

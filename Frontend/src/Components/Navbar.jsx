@@ -26,7 +26,7 @@ const Navbar = () => {
           <Link to="/Contact"><li className='cursor-pointer hover-underline-animation left '>contact us</li></Link>
           <Link to="/About"><li className='cursor-pointer hover-underline-animation left'>about us</li></Link>
         </ul>
-        <div className='items-center justify-center flex'><img className='hidden md:block md:w-[12vw] lg:w-[250px] ' src={logo} alt="" /></div>
+        <div className='items-center justify-center flex'><img className='hidden md:block md:w-[12vw] lg:w-[255px] ' src={logo} alt="" /></div>
         {/* <div> <Link to="/Booking"><button className='button-1 rounded-2xl font-[Outfit] text-base'>book a table</button></Link></div> */}
         
         <div className='flex items-center justify-end gap-4 text-lg'>

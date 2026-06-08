@@ -57,7 +57,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div  className='absolute top-[4rem]   flex justify-center opacity-35  items-center  md:top-[0.4rem] lg:top-[7.3rem] md:opacity-40 bg-white w-full min-h-[calc(100vh-60px)] md:min-h-[calc(100vh-120px)]'>
+      <div  className='absolute top-[4rem]   flex justify-center opacity-35  items-center  md:top-[0.4rem] lg:top-0 md:opacity-40 bg-white w-full min-h-[calc(100vh-60px)] md:min-h-full'>
         <div data-aos="fade-up" className='text-center '>
           <h2 className='font-[Imperial_Script] md:text-8xl text-6xl '>Doodle’s Garden</h2>
           <ul className='flex justify-center items-center py-7 gap-10 list-disc  text-pretty  uppercase md:text-2xl'>

@@ -26,3 +26,13 @@ node_modules
 
 dist
 dist-ssr
+node_modules/
+Backend/node_modules/
+Frontend/node_modules/
+
+Backend/.env
+Frontend/.env
+
+dist/
+build/
+.env
