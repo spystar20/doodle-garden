@@ -11,6 +11,7 @@ import Dashboard from '../Layout/DashboardLayout'
 import Dashboardadmin from '../admin/Dashboard'
 import ManageMenu from '../admin/ManageMenu'
 import AddMenu from '../admin/AddMenu'
+import EditMenu from '../admin/EditMenu'
 const AppRoutes = () => {
   return (
     
@@ -27,6 +28,7 @@ const AppRoutes = () => {
       <Route path='/admin/dashboard' element={<Dashboardadmin/>}/>
  <Route path='/admin/manage-menu' element={<ManageMenu />}/>
          <Route path='/admin/add-item' element={<AddMenu />}/>
+         <Route path='/admin/manage-menu/:itemId/edit' element={<EditMenu/>}/>
 </Route>
         </Routes>
     

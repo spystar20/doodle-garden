@@ -6,7 +6,7 @@ const router = express.Router()
 import { createAccess,createRefresh } from '../Utils.js/jwt.js'
 import {sendEmailLink, sendOtp, sendPasswordLink} from '../Controller/otpController.js'
 import {emailverify, otpVerify, verifypassword } from '../Verify/otpVerify.js'
-import { CreateMenu, getMenu } from '../Controller/controller.dish.js'
+import { CreateMenu, EditMenu, getMenu, getMenuById } from '../Controller/controller.dish.js'
 import { upload } from '../Middleware/multer.js'
 router.post('/sign',async (req,res)=>{
     console.log("signup hit")
@@ -68,5 +68,7 @@ router.post('/send-email-link',sendEmailLink)
 router.post('/reset-password',sendPasswordLink)
 router.post("/verify-password",verifypassword)
 router.post('/create-menu',upload.single('image'), CreateMenu)
+router.get('/get-menu/:itemId',getMenuById)
+router.put('/menu/:itemId/edit',upload.single('image'),EditMenu)
 router.get('/menu',getMenu)
 export default router

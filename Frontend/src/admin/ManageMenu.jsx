@@ -28,10 +28,10 @@ useEffect(()=>{
       <p>Manage dishes, prices and availability</p>
       </div>
     
-      <div className='grid grid-cols-2 gap-6'>
+      <div className='grid grid-cols-3 gap-6'>
 {menu?.map((i)=>(
 
-<AdminDishCard key={i._id} rating={4} category={i.category} image={i.image} title={i.title} desc={i.desc} price={i.price} Isveg={i.isVeg}/>
+<AdminDishCard link_edit={`/admin/manage-menu/${i._id}/edit`} key={i._id} rating={4} category={i.category} image={i.image} title={i.title} desc={i.desc} price={i.price} Isveg={i.isVeg}/>
 ))}      </div>
       
     </div>
