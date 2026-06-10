@@ -56,6 +56,9 @@ if(category !== dish.category && category !== undefined){
 if(isVeg !== dish.isVeg && isVeg !== undefined){
     dish.isVeg = isVeg
 }
+if(price !== dish.price && price !== undefined){
+    dish.price = price
+}
 if(req.file){
     const result =await cloudinary.uploader.upload(req.file.path,{
         resource_type:'image',folder:'doodle-garden'
@@ -67,5 +70,19 @@ await dish.save()
 return res.status(200).json({message:"dish updated",dish})
     }catch(Err){
         return res.status(500).json({message:'internal error',Err})
+    }
+}
+export const DeleteMenuByID = async(req,res)=>{
+    try{
+    const {itemId} = req.params
+
+    const dish =await MenuSchema.findByIdAndDelete(itemId)
+
+    return res.status(200).json({message:'dish deleted'})
+    }
+    catch(err){
+        console.log(err)
+                return res.status(500).json({message:'internal error',Err})
+
     }
 }

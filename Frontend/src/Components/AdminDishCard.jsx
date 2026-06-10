@@ -2,7 +2,7 @@ import React from 'react'
 import { ImSpoonKnife } from "react-icons/im";
 import { Link } from 'react-router'
 
-const AdminDishCard = ({image , category,price,title,desc,rating,Isveg,link_edit}) => {
+const AdminDishCard = ({image , category,price,title,desc,rating,Isveg,link_edit,setOpenModal}) => {
   return (
     <div className="grid grid-cols-2 w-full group overflow-hidden rounded-xl border bg-biege border-black backdrop-blur-2xl p-1 ">
   
@@ -48,9 +48,9 @@ const AdminDishCard = ({image , category,price,title,desc,rating,Isveg,link_edit
    
 </div>
  <div className='flex gap-2 '>
-<Link to={link_edit}><button className="w-full cursor-pointer border-black  text-biege rounded-full bg-black py-2 text-sm font-medium font-[Outfit]">
-Edit    </button></Link>  
-<button className="w-full cursor-pointer border-red-400  text-biege rounded-full bg-red-400 py-2 text-sm font-medium font-[Outfit]">
+<Link to={link_edit} className="w-full text-center cursor-pointer border-black  text-biege rounded-full bg-black py-2 text-sm font-medium font-[Outfit]">
+Edit   </Link>  
+<button onClick={setOpenModal} className="w-full cursor-pointer border-red-400  text-biege rounded-full bg-red-400 py-2 text-sm font-medium font-[Outfit]">
 Delete    </button>
   </div>
 

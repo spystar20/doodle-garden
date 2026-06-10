@@ -5,7 +5,7 @@ import { api } from '../../axios/api';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { ImCross } from 'react-icons/im';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const EditMenu = () => {
       const [open,setOpen]= useState(false)
@@ -13,6 +13,7 @@ const EditMenu = () => {
   const [preview,setPreview]= useState('')
   const [image,setImage] = useState('')
   const {itemId} = useParams()
+  const navigate = useNavigate()
    const categoryOptions = [
   { value: "appetizer", label: "Appetizer" },
   { value: "salad", label: "Salad" },
@@ -36,11 +37,16 @@ const handleMenu = async()=>{
     form.append('category',formData.category)
     form.append('isVeg',isVeg)
     form.append('image',image)
-const res = await axios.post(`http://localhost:3000/auth/menu/${itemId}/edit`,form,{withCredentials:true})
+const res = await axios.put(`http://localhost:3000/auth/menu/${itemId}/edit`,form,{withCredentials:true})
 console.log(res)
 toast.success('Dish updated')
 setFormData({title:'',desc:'',price:'',category:''})
 setIsveg(null)
+setPreview('')
+setCategory('')
+setTimeout(() => {
+  navigate('/admin/manage-menu')
+}, 1500);
   }catch(err){
 
   }
@@ -63,11 +69,11 @@ setPreview(URL.createObjectURL(file))
     const fetchMenu = async()=>{
            try{
         const res = await api.get(`auth/get-menu/${itemId}`)
+        const selectedCategory = categoryOptions.find( item=> item.value === res?.data.category )
+        setCategory(selectedCategory)
         console.log(res)
         setFormData(res?.data)
-        setImage(res?.data.image)
         setPreview(res?.data.image)
-        setCategory(res?.data.category)
         setIsveg(res?.data.isVeg)
             }catch(err){
         console.log(err)
