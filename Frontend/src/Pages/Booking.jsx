@@ -17,77 +17,25 @@ const Booking = () => {
   const handleGuest = () => {
     setSowGuestOpt(!showGuestOpt)
   }
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [time, setTime] = useState(null);
+const [formData,setFormData] =useState({name:'',phone:'',guest:'',date:'',time:'',note:''})
 
-  const [selectedGuest, setSelectedGuest] = useState('');
+  // const [selectedGuest, setSelectedGuest] = useState('');
 
-  const handleSelectedGuest = (guest) => {
-    setSelectedGuest(guest);
-    setSowGuestOpt(false);
-  };
+  // const handleSelectedGuest = (guest) => {
+  //   setSelectedGuest(guest);
+  //   setSowGuestOpt(false);
+  // };
 
   const guests = ['1 guest', '2 guests', '3 guests', '4 guests', '5 guests', 'more than 5'];
 
- const [name, setName] = useState('');
-const [phone, setPhone] = useState('');
-const [message, setMessage] = useState('');
-  const handleSubmit = async (e) =>{
-    e.preventDefault();
-    const formData = {
-      name , phone , guests: selectedGuest, date: selectedDate, time, message
-    }
-    try{
-      const response = await axios.post('https://doodle-garden-1.onrender.com/api/reservations', formData);
-         console.log('Reservation saved:', response.data);
-toast.success("🎉 Reservation successful!", {
-  style: {
-    background: "#fffff0",
-    color: "black",
-    border: "1px solid black",
-    fontFamily: "Antonio, sans-serif",
-    fontWeight: 500,
-  },
-  icon: "✅",
-   progressStyle: {
-    background: "black",
-  },
-});
-setName('');
-setPhone('');
-setSelectedGuest('');
-setSelectedDate(null);
-setTime(null);
-setMessage('');
 
-
-    }
-    catch(error){
-    console.error('Reservation failed:', error);
-  toast.error("❌ Reservation failed. Try again!", {
-  style: {
-    background: "#fffff0",
-    color: "black",
-    border: "1px solid black",
-    fontFamily: "Antonio, sans-serif",
-    fontWeight: 500,
-  },
-  icon: "⚠️",
-   progressStyle: {
-    background: "black",
-  },
-});
-  }
-  
-  
-  }
   return (
     <div className='bg-[#fffff0] w-full    text-black'>
-      <Parallax className='w-[100%] h-[60vh] md:h-[46vh] lg:h-[90vh]' bgImageSizes='cover' bgImage='https://techcrunch.com/wp-content/uploads/2015/08/shutterstock_237882754.jpg' strength={300}>
+      <Parallax className='w-[100%] min-h-[60vh] md:h-[46vh] lg:min-h-screen' bgImageSizes='cover' bgImage='https://i.pinimg.com/736x/2b/a9/dc/2ba9dcc8de042bbac2657c6777661cb7.jpg' strength={300}>
         <div className='text-center w-[100%] flex justify-center items-center flex-col text-white  h-[68vh] md:h-[46vh] lg:h-[85vh] lg:py-20'>
           <h2 className='md:text-7xl capitalize text-4xl font-semibold font-[Imperial_Script]'>
             reserve a table</h2>
-          <p className='font-outfit px-20 text-center text-xs md:px-32 md:text-lg text-semibold'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis nihil sed, corrupti laudantium nesciunt minus nobis vero voluptatibus. </p>
+          <p className='font-outfit px-20 max-w-8/12 mt-3 text-center text-xs md:px-32 md:text-lg text-semibold'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis nihil sed, corrupti laudantium nesciunt minus nobis vero voluptatibus. </p>
         </div>
       </Parallax>
       <div className='md:py-14 py-3 '>
@@ -99,23 +47,23 @@ setMessage('');
         <div className='flex md:pt-12 px-5   w-full   justify-center items-center flex-col gap-4 py-5 '>
           {/* reservation form */}
           <div className='flex flex-col w-[100%] lg:w-[70%]  md:w-[85%] gap-12 justify-start p-10 rounded-xl border-2'>
-            <form onSubmit={handleSubmit}>
+            <form >
               {/* section-1 */}
               <div className='flex gap-6 flex-col lg:flex-row md:grid md:grid-cols-2 justify-center items-center'>
-                <input type="text" className='border-b-[0.1rem] pb-1  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-lg font-[Outfit] outline-none' placeholder=' Your Name' value={name} onChange={(e) => setName(e.target.value)} name="name" id="" />
-                <input type="tel" className='border-b-[0.1rem] pb-1  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-lg font-[Outfit] outline-none' placeholder='Phone Number' value={phone} onChange={(e) => setPhone(e.target.value)} name="phone" id="" />
+                <input type="text" className='border-b-[0.1rem] pb-1  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-lg font-[Outfit] outline-none' placeholder=' Your Name' value={formData.name} onChange={(e) => setFormData(prev=>({...prev,name:e.target.value}))} name="name" id="" />
+                <input type="tel" className='border-b-[0.1rem] pb-1  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-lg font-[Outfit] outline-none' placeholder='Phone Number' value={formData.phone} onChange={(e) => setFormData(prev=>({...prev,phone:e.target.value}))} name="phone" id="" />
               </div>
 {/* section-2 */}
               <div className='flex flex-col lg:flex lg:flex-row md:grid md:grid-cols-2  gap-6  justify-center items-center py-8'>
                 <div onClick={handleGuest} className='flex  justify-between  items-center  border-b-[0.1rem] pb-1  text-black capitalize  placeholder:text-black placeholder:font-[Outfit]  font-[Outfit] outline-none'>
-                  <input type="text" value={selectedGuest} className='text-black capitalize pb-1 placeholder:text-black placeholder:font-[Outfit]  font-[Outfit] outline-none' placeholder='Number of Guests' id="" /><span><MdArrowDropDown className={`text-3xl cursor-pointer ${showGuestOpt ? 'rotate-180' : 'rotate-0'}`} /></span>
+                  <input type="text"  className='text-black capitalize pb-1 placeholder:text-black placeholder:font-[Outfit]  font-[Outfit] outline-none' placeholder='Number of Guests' id="" /><span><MdArrowDropDown className={`text-3xl cursor-pointer ${showGuestOpt ? 'rotate-180' : 'rotate-0'}`} /></span>
                   <div className='relative w-full right-[15rem] top-[1rem]'>
                     <div className={`pt-2 px-auto flex justify-center items-center transition-all duration-300 ease-in-out absolute z-10 ${showGuestOpt ? 'visible translate-y-0' : 'invisible  -translate-y-4'}`}>
                       <ul className='flex overflow-y-scroll scrollbar h-[12rem] w-[13rem] scroll-smooth  flex-col  gap-2 bg-black text-white font-[Outfit] text-lg backdrop-blur-md border border-white/20 rounded-xl  shadow-lg'>
                         {guests.map((guest, index) => (
                           <li
                             key={index}
-                            onClick={() => handleSelectedGuest(guest)}
+                            onClick={(guest) => setFormData(prev=>({...prev,guest:guest}))}
                             className='text-center py-2 capitalize font-[Antonio] cursor-pointer rounded-lg hover:bg-[#fffff0] hover:text-black'
                           >
                             {guest}
@@ -129,8 +77,8 @@ setMessage('');
                   <div>
 
                     <DatePicker
-                      selected={selectedDate}
-                      onChange={(date) => setSelectedDate(date)}
+                      selected={formData.date}
+                      onChange={(date) => setFormData(prev=>({...prev,date:date}))}
                       placeholderText="Pick a date"
                       className='  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-base font-[Outfit] outline-none'
                       calendarClassName="!bg-black !text-white !rounded-xl !shadow-lg !border !border-gray-200 font-['Outfit']"
@@ -151,14 +99,11 @@ setMessage('');
                     /></div>
                   <span><FaCalendar /></span>
                 </div>
-
-
-                {/* <input type="date" placeholder='DD/MM/YYYY' name="" id="" className='border-b-[0.1rem] pb-1  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-lg font-[Outfit] outline-none' /> */}
                 <div className="flex justify-center items-center border-b-[0.1rem] pb-1">
 
                   <DatePicker
-                    selected={time}
-                    onChange={(time) => setTime(time)}
+                    selected={formData.time}
+                    onChange={(time) => setFormData(prev=>({...prev,time:time}))}
                     showTimeSelect
                     showTimeSelectOnly
                     timeIntervals={15} // 15 minute gaps (customizable)
@@ -175,8 +120,8 @@ setMessage('');
                 </div>
               </div>
               <div className='border  md:py-6  py-3  pt-2 px-2 rounded-lg '>
-                <textarea value={message}
-  onChange={(e) => setMessage(e.target.value)} className=' overflow-auto scrollbar overflow-y-scroll w-full h-full p-2 md:p-4  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-sm md:text-lg font-[Outfit] outline-none' placeholder='Message(Optional)' name="" id="" ></textarea>
+                <textarea value={formData.note}
+  onChange={(e) => setFormData(prev=>({...prev,note:e.target.value}))} className=' overflow-auto scrollbar overflow-y-scroll w-full h-full p-2 md:p-4  text-black capitalize placeholder:text-black placeholder:font-[Outfit] text-sm md:text-lg font-[Outfit] outline-none' placeholder='Message(Optional)' name="" id="" ></textarea>
               </div>
               <div className='flex py-6 justify-center items-center w-full '>
                 <button className=' flex border-black border  w-full bg-black py-2 md:py-3 px-2  text-xl uppercase font-antonio cursor-pointer text-white scale-100 hover:scale-95 items-center justify-center rounded-xl' >
@@ -188,19 +133,7 @@ setMessage('');
         </div>
       </div>
       {/* footer */}
-      <Footer className='pt-20' />
-     <ToastContainer
-  position="top-center"
-  autoClose={3000}
-  hideProgressBar={false}
-  newestOnTop={false}
-  closeOnClick
-  rtl={false}
-  pauseOnFocusLoss
-  draggable
-  pauseOnHover
-  theme="light"
-/>
+
 
     </div>
   )
