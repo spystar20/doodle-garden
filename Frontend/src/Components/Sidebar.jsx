@@ -53,10 +53,10 @@ const Sidebar = () => {
 
         <ul className='space-y-2'>
 
-          <li className='flex items-center gap-3 hover:bg-black hover:text-biege rounded-xl px-4 py-3 cursor-pointer duration-300'>
+          <NavLink to='/admin/reservation' className={ ({isActive})=>{return `flex items-center gap-3 hover:bg-black/60 hover:text-biege rounded-xl px-4 py-3 cursor-pointer duration-300 ${isActive?'bg-black text-biege':''}`}}>
             <FaCalendar size={20} />
             Reservations
-          </li>
+         </NavLink>
 
           <li className='flex items-center gap-3 hover:bg-black hover:text-biege rounded-xl px-4 py-3 cursor-pointer duration-300'>
             <IoSettings size={20} />

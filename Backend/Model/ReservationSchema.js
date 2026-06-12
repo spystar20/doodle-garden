@@ -5,7 +5,7 @@ const reservation = new mongoose.Schema({
     },phone:{
         type:Number,required:true
     },guest:{
-        type:Number,required:true
+        type:String,required:true
     },date:{
         type:Date,required:true
     },time:{

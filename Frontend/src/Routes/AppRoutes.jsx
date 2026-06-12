@@ -12,6 +12,7 @@ import Dashboardadmin from '../admin/Dashboard'
 import ManageMenu from '../admin/ManageMenu'
 import AddMenu from '../admin/AddMenu'
 import EditMenu from '../admin/EditMenu'
+import ReservationTable from '../admin/Reservation/ReservationTable'
 const AppRoutes = () => {
   return (
     
@@ -29,6 +30,7 @@ const AppRoutes = () => {
  <Route path='/admin/manage-menu' element={<ManageMenu />}/>
          <Route path='/admin/add-item' element={<AddMenu />}/>
          <Route path='/admin/manage-menu/:itemId/edit' element={<EditMenu/>}/>
+         <Route path='/admin/reservation' element={<ReservationTable/>}/>
 </Route>
         </Routes>
     

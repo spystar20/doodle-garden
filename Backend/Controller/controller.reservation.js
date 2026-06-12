@@ -15,3 +15,11 @@ return res.status(200).json({message:'table reserved successfully '})
 
     }
 }
+export const getReservation = async(req,res)=>{
+    try{
+        const reservation = await ReservationSchema.find()
+        return res.status(200).json({message:'reservation sent',reservation})
+    }catch(err){
+        console.log(err)
+    }
+}

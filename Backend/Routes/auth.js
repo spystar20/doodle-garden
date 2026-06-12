@@ -8,7 +8,7 @@ import {sendEmailLink, sendOtp, sendPasswordLink} from '../Controller/otpControl
 import {emailverify, otpVerify, verifypassword } from '../Verify/otpVerify.js'
 import { CreateMenu, DeleteMenuByID, EditMenu, getMenu, getMenuById } from '../Controller/controller.dish.js'
 import { upload } from '../Middleware/multer.js'
-import { createReservation } from '../Controller/controller.reservation.js'
+import { createReservation, getReservation } from '../Controller/controller.reservation.js'
 router.post('/sign',async (req,res)=>{
     console.log("signup hit")
     try{
@@ -74,4 +74,5 @@ router.put('/menu/:itemId/edit',upload.single('image'),EditMenu)
 router.delete('/menu/:itemId/delete',DeleteMenuByID)
 router.get('/menu',getMenu)
 router.post('/reservation',createReservation)
+router.get('/admin/reservation/',getReservation)
 export default router
