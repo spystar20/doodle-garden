@@ -22,14 +22,28 @@ const Footer = ({ className }) => {
           </ul>
           </div>
           <div className='flex flex-col justify-center items-center gap-5 mx-0.5' >
-            <div className='border-[#fffff0]  border w-full md:w-3/5 pl-4  rounded-full justify-between flex'><input type="text" placeholder='Enter Your Email'  className='  text-[#fffff0fb] placeholder:text-[#fffff0fb] text-lg  outline-none bg-transparent' /><button className='bg-[#fffff0] hover:bg-[#fffff0e0] md:px-[2.32rem] px-3 text-lg font-medium font-outfit py-1 rounded-full text-black'>subscribe now!</button></div>
+           
+            <div className='border-[#fffff0] hidden border w-full flex-col  md:flex-row md:w-3/5 pl-4  rounded-full justify-between md:flex'><input type="text" placeholder='Enter Your Email'  className='  text-[#fffff0fb] placeholder:text-[#fffff0fb] text-lg  outline-none bg-transparent' /><button className='bg-[#fffff0] hover:bg-[#fffff0e0] md:px-[2.32rem] px-3 text-lg font-medium font-outfit py-1 rounded-full text-black'>subscribe now!</button></div>
+            <div className="flex flex-col md:hidden gap-3 w-full md:w-3/5">
+  <input
+    type="text"
+    placeholder="Enter Your Email"
+    className="border border-[#fffff0] rounded-full px-5 py-3 bg-transparent text-[#fffff0] placeholder:text-[#fffff0fb] outline-none w-full"
+  />
+
+  <button className="bg-[#fffff0] hover:bg-[#fffff0e0] px-6 py-3 rounded-full text-black font-medium font-[Outfit] transition duration-300">
+    Subscribe Now!
+  </button>
+</div>
+
             <div className='text-[#fffff0] flex gap-3 justify-center items-center text-xl'><MdOutlinePhonePaused className='text-[#fffff0] ' /><p>798245050</p>  </div>
             <div className='text-[#fffff0] flex gap-3 justify-center items-center text-xl'> <HiLocationMarker/><p>DELHI</p> </div>
           </div>
           </div>
           <div>
           <div className='h-[.1rem] my-8 bg-[#fffff0c7] w-full'></div>
-          <p className='text-sm font-[Kalam] text-center text-[#fffff0c7]'>Copyright ©2025 created by SANTOSHI. All rights reserved.</p>
+          <p className='text-sm font-[Kalam] text-center text-[#fffff0c7]'>© {new Date().getFullYear()} created by SANTOSHI. All rights reserved.</p>
+          
           </div>
         </div>
     </div>

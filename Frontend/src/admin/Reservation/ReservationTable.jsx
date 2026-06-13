@@ -6,6 +6,10 @@ import { FaSearch, FaCheck, FaTimes, FaEye } from "react-icons/fa";
 import { api } from '../../../axios/api';
 const ReservationTable = () => {
     const [data,setData] = useState([])
+    const [Statusopt,setStatusOpt] = useState(false)
+    const handleStatusToggle =()=>{
+setStatusOpt(!Statusopt)
+    }
      const fetchData = async()=>{
             try{
 const res = await api.get('/auth/admin/reservation')
@@ -90,11 +94,17 @@ console.log(res)
               <td className="px-6 py-4">{new Date(data.time).toLocaleTimeString('en-IN')}</td>
               <td className="px-6 py-4">{data.guest}</td>
 
-              <td className="px-6 py-4">
-
-                <span className={`${getStatusStyle(data.status)} px-3 py-1 rounded-full text-sm`}>
+              <td className="px-6 py-4 relative flex flex-col items-center">
+                <span onClick={handleStatusToggle} className={`${getStatusStyle(data.status)} px-3 py-1 rounded-full text-sm`}>
                 {data.status}
                 </span>
+                {Statusopt &&(
+                <span className='bg-black z-10 rounded-sm p-2 flex flex-col text-biege absolute -bottom-10 '>
+                  <span className='  text-sm'>confirmed</span>
+                                    <span className='  text-sm'>cancelled</span>
+
+                </span>
+                )}
               </td>
 
               <td className="px-6 py-4">

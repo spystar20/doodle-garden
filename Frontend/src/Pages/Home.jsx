@@ -16,17 +16,17 @@ const images = [{
   img: "https://i.pinimg.com/736x/bd/6f/2b/bd6f2b46c588799618ef3053fbe1fe4e.jpg"
 }, {
   index: 2,
-  img: 'https://i.pinimg.com/736x/28/a6/1b/28a61bd7d68143c518d71de1c4570935.jpg'
+  img: 'https://i.pinimg.com/736x/08/32/08/08320833e15e4755a761435d9aab01d3.jpg'
 },
 {
   index: 3,
-  img: 'https://i.pinimg.com/736x/47/dd/ed/47dded0cb3b367dd7d9b95f103c7d54a.jpg'
+  img: 'https://i.pinimg.com/736x/44/b1/65/44b165012b22b69d00e68e55b36e5d57.jpg'
 }, {
   index: 4,
-  img: 'https://i.pinimg.com/736x/13/d0/39/13d039ee54747ced62cad64b9d53a306.jpg'
+  img: 'https://i.pinimg.com/736x/5a/f9/22/5af9222483813429fac5d86e740dfeee.jpg'
 }, {
   index: 5,
-  img: 'https://i.pinimg.com/736x/9d/64/fe/9d64fe0a023da6bf904e21a3127b6a84.jpg'
+  img: 'https://i.pinimg.com/736x/eb/76/36/eb76360911f6e9a283f370854e613005.jpg'
 }
 ]
 const showcaseImg = [{
@@ -39,6 +39,7 @@ const showcaseImg = [{
   id:4,img:'https://i.pinimg.com/474x/d2/3e/5e/d23e5e0b68e5247ac7bc538e61422c61.jpg'
 }]
 const Home = () => {
+
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()])
    useEffect(()=>{
       Aos.init({duration:1500})
@@ -47,27 +48,34 @@ const Home = () => {
 
     <div className='overflow-x-hidden  max-w-[100vw]'>
      
-      <div  className="embla  w-full " ref={emblaRef}>
-        <div className="embla__container">
-          <div className="embla__slide">   <div className="embla__slide_1"></div></div>
-          <div className="embla__slide">   <div className="embla__slide_2"></div></div>
-          <div className="embla__slide">   <div className="embla__slide_3"></div></div>
-          <div className="embla__slide">   <div className="embla__slide_4"></div></div>
-          <div className="embla__slide">   <div className="embla__slide_5"></div></div>
+      <div  className="embla overflow-hidden w-full min-h-screen " ref={emblaRef}>
+         
+        <div className="embla__container flex ">
+         {images.map((img)=>(
+ <div key={img.index} className="embla__slide w-full flex-[0_0_100%]">
+    <img
+      src={img.img}
+      alt=""
+      className="w-full h-screen object-cover object-center"
+    />
+  </div>          ))}
         </div>
+        
+
       </div>
 
-      <div  className='absolute top-[4rem]   flex justify-center opacity-35  items-center  md:top-[0.4rem] lg:top-0 md:opacity-40 bg-white w-full min-h-[calc(100vh-60px)] md:min-h-full'>
-        <div data-aos="fade-up" className='text-center '>
+      <div  className='absolute top-[4rem]   flex justify-center   items-center  md:top-[0.4rem] lg:top-0 
+       bg-gradient-to-bl from-black/30 to-biege/20 w-full min-h-[calc(100vh-60px)] md:min-h-full'>
+        <div data-aos="fade-up" className='text-center text-biege'>
           <h2 className='font-[Imperial_Script] md:text-8xl text-6xl '>Doodle’s Garden</h2>
           <ul className='flex justify-center items-center py-7 gap-10 list-disc  text-pretty  uppercase md:text-2xl'>
             <li >drink</li>
             <li >drool</li>
             <li>dine</li>
           </ul>
-          <div className='flex justify-center items-center gap-5'>
-         <Link to='/Booking'><div><button className=' border-black border-2 bg-transparent hover:bg-black hover:text-white text-xl uppercase font-antonio text-black px-3 py-2 rounded-xl'>reserve a table</button></div></Link>
-          <div><button className=' border-black border-2  bg-transparent hover:bg-black hover:text-white text-xl uppercase font-antonio text-black px-3 py-2 rounded-xl'>order online</button></div>
+          <div className='flex justify-center items-center gap-5 font-[Outfit]'>
+         <Link to='/Booking'><div><button className='capitalize bg-gradient-to-bl from-biege to-black/10 hover:bg-biege  text-xl  font-antonio text-black px-3 py-2 rounded-lg cursor-pointer'>reserve a table</button></div></Link>
+          <div><button className=' bg-gradient-to-tl from-black/5 to-biege hover:bg-biege  text-xl  capitalize text-black px-3 py-2 rounded-lg cursor-pointer'>order online</button></div>
           </div>
         </div>
       </div>
