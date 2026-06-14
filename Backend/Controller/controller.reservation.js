@@ -23,3 +23,22 @@ export const getReservation = async(req,res)=>{
         console.log(err)
     }
 }
+export const ReservationStatus = async(req,res)=>{
+    try{
+        const {reservationId} = req.params
+        const {status} = req.body
+        const reservation = await ReservationSchema.findById(reservationId)
+        if(!reservation){
+            return res.status(404).json({message:'reservation not found'})
+        }
+        reservation.status = status
+        await reservation.save()
+        return res.status(200).json({message:'status updated'})
+        
+    }catch(err){
+                console.log(err)
+
+                return res.status(500).json({message:'internal server error',err})
+
+    }
+}
