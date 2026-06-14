@@ -6,10 +6,10 @@ import { FaSearch, FaCheck, FaTimes, FaEye } from "react-icons/fa";
 import { api } from '../../../axios/api';
 const ReservationTable = () => {
     const [data,setData] = useState([])
-    const [Statusopt,setStatusOpt] = useState(false)
-    const handleStatusToggle =()=>{
-setStatusOpt(!Statusopt)
-    }
+    const [Statusopt,setStatusOpt] = useState(null)
+    const[status,setStatus] = useState('pending')
+    const handleStatusToggle =(id)=>{
+setStatusOpt(prev=> prev ===id ? null:id)}
      const fetchData = async()=>{
             try{
 const res = await api.get('/auth/admin/reservation')
@@ -17,8 +17,7 @@ setData(res?.data?.reservation)
 console.log(res)
             }catch(Err){
                 console.log(Err)
-            }
-        }
+            }}
     useEffect(()=>{
        fetchData()
     },[])
@@ -94,14 +93,14 @@ console.log(res)
               <td className="px-6 py-4">{new Date(data.time).toLocaleTimeString('en-IN')}</td>
               <td className="px-6 py-4">{data.guest}</td>
 
-              <td className="px-6 py-4 relative flex flex-col items-center">
-                <span onClick={handleStatusToggle} className={`${getStatusStyle(data.status)} px-3 py-1 rounded-full text-sm`}>
-                {data.status}
+              <td className="justify-center py-4 relative flex flex-col items-center">
+                <span onClick={()=>handleStatusToggle(data._id)} className={`${getStatusStyle(status)} px-4 py-1 rounded-full text-sm`}>
+               {status}
                 </span>
-                {Statusopt &&(
-                <span className='bg-black z-10 rounded-sm p-2 flex flex-col text-biege absolute -bottom-10 '>
-                  <span className='  text-sm'>confirmed</span>
-                                    <span className='  text-sm'>cancelled</span>
+                {Statusopt === data._id &&(
+                <span  className='bg-biege shadow-2xl z-10 rounded-lg border-black/20  min-w-[100px] flex items-center justify-center gap-2 flex-col text-black border absolute -bottom-10 '>
+                  <span onClick={()=>{setStatus('confirmed'),handleStatusToggle(data._id)}} className='px-3  py-1 w-full text-sm hover:bg-green-100/50'>confirmed</span>
+                                    <span onClick={()=>{setStatus('cancelled'),handleStatusToggle(data._id)}} className=' px-3 py-1 w-full  hover:bg-red-100/50 text-sm'>cancelled</span>
 
                 </span>
                 )}
@@ -126,8 +125,6 @@ console.log(res)
               </td>
             </tr>
 ))}
-        
-
           </tbody>
 
         </table>
