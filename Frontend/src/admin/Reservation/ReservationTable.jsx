@@ -107,10 +107,14 @@ console.log(res)
               <td className="justify-center py-4 relative flex flex-col items-center">
                 <span onClick={()=>handleStatusToggle(data._id)} className={`${getStatusStyle(data.status)} px-4 py-1 rounded-full text-sm`}>
 {data.status}                </span>
-                {Statusopt === data._id &&(
+                {Statusopt === data._id  && (
                 <span  className='bg-biege shadow-2xl z-10 rounded-lg border-black/20  min-w-[100px] flex items-center justify-center gap-2 flex-col text-black border absolute -bottom-10 '>
+{data.status !== 'confirmed' &&(
                   <span onClick={()=>{handleStatus(data._id,'confirmed'),handleStatusToggle(data._id)}} className='px-3  py-1 w-full text-sm hover:bg-green-100/50'>confirmed</span>
+)}
+{data.status !== 'cancelled'&&(
                                     <span onClick={()=>{handleStatus(data._id,'cancelled'),handleStatusToggle(data._id)}} className=' px-3 py-1 w-full  hover:bg-red-100/50 text-sm'>cancelled</span>
+                                    )}
 
                 </span>
                 )}

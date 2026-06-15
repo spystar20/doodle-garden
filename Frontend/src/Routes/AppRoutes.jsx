@@ -13,6 +13,9 @@ import ManageMenu from '../admin/ManageMenu'
 import AddMenu from '../admin/AddMenu'
 import EditMenu from '../admin/EditMenu'
 import ReservationTable from '../admin/Reservation/ReservationTable'
+import AuthenticationLayout from '../Layout/AuthenticationLayout'
+import Login from '../Auth/Login'
+import Signup from '../Auth/Signup'
 const AppRoutes = () => {
   return (
     
@@ -24,6 +27,10 @@ const AppRoutes = () => {
       <Route path='/Contact' element={<Contact/>}/>
       <Route path='/About' element={<About/>}/>
       <Route path='/Booking' element={<Booking/>}/>
+</Route>
+<Route element={<AuthenticationLayout/>}>
+<Route path='/Login' element={<Login/>}/>
+<Route path='/sign-in' element={<Signup/>}/>
 </Route>
 <Route element={<Dashboard/>}>
       <Route path='/admin/dashboard' element={<Dashboardadmin/>}/>

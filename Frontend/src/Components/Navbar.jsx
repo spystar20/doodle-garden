@@ -32,7 +32,7 @@ const Navbar = () => {
         <div className='flex items-center justify-end gap-4 text-lg'>
           <div><Link to='/login' className='rounded-xl border-2 shadow-2xl hover:bg-black hover:text-white py-2 px-10  border-black hover:scale-75 scale-100 font-[Outfit] text-base' ><button>Login</button></Link></div>
           <div>
-            <Link to='/sign'><button className='rounded-xl border-2 shadow-2xl bg-black text-white py-2 px-10 hover:scale-95 scale-100 font-[Outfit] text-base'>Signup</button></Link></div></div>
+            <Link to='/sign-in'><button className='rounded-xl border-2 shadow-2xl bg-black text-white py-2 px-10 hover:scale-95 scale-100 font-[Outfit] text-base'>Signup</button></Link></div></div>
       </div>
       
       {/* navbar in mobile */}
