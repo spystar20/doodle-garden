@@ -1,6 +1,9 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from 'react-router';
 const Signup = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className='w-full min-h-screen bg-biege flex items-center justify-center'>
     
@@ -14,17 +17,13 @@ const Signup = () => {
     
     <div className="w-full max-w-md flex flex-col gap-6">
 
-      <div>
-        <h1 className="text-5xl font-[Imperial_Script]">
-          doodle's garden
-        </h1>
-
+      <div className=' flex flex-col items-center justify-center'>
         <h2 className="text-3xl font-semibold mt-4 font-[Outfit]">
           Create Account
         </h2>
-
-        <p className="text-black/60 mt-2">
-          Join us and start exploring delicious dishes.
+        <p className="text-biege/60 mt-2 text-center max-w-2xl">
+Join Doodle's Garden and enjoy seamless reservations,
+faster ordering, and exclusive dining experiences.
         </p>
       </div>
 
@@ -53,28 +52,34 @@ placeholder:text-biege/70
 text-biege
 outline-none"      />
 
-      <input
-        type="password"
-        placeholder="Password"
- className="w-full
-px-4 py-3
-rounded-xl
-bg-white/10
-border border-white/20
-placeholder:text-biege/70
-text-biege
-outline-none"      />
+      <div className="relative">
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Create a secure password"
+    className="w-full px-4 py-3 pr-12 rounded-xl bg-white/10 border placeholder:text-biege/70 border-white/20 outline-none"
+  />
 
-      <button className=" py-3 rounded-xl bg-biege
+  <button
+    type="button"
+    onClick={() => setShowPassword(prev => !prev)}
+    className="absolute right-4 top-1/2 -translate-y-1/2"
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </button>
+</div>
+
+      <button className=" py-3 rounded-xl bg-biege/70
 text-black
 hover:bg-biege/90 font-medium hover:scale-95 duration-300">
         Create Account
       </button>
-
-      <p className="text-center text-black/70">
-        Already have an account? Login
+<span>
+      <p className="text-center ">
+        Already have an account? <Link to='/login'><span className='italic hover:underline cursor-pointer'> Login</span></Link>
       </p>
-
+ <Link to='/'> <span className='flex gap-1 items-center justify-center mt-1 text-biege/40 cursor-pointer'><FaArrowLeft className='text-sm' />
+ back to home</span></Link>   
+</span>
     </div>
 
   </div>
