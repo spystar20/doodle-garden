@@ -33,11 +33,12 @@ const handleMenu = async()=>{
     form.append('category',formData.category)
     form.append('isVeg',isVeg)
     form.append('image',image)
-const res = await axios.post('http://localhost:3000/auth/create-menu',form,{withCredentials:true})
-console.log(res)
+const res = await api.post('/admin/create-menu',form,{withCredentials:true})
 toast.success('New Dish Added')
 setFormData({title:'',desc:'',price:'',category:''})
 setIsveg(null)
+setImage('')
+setPreview('')
   }catch(err){
 
   }

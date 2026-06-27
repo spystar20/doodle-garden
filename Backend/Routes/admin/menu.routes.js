@@ -1,7 +1,7 @@
 import express, { Router } from 'express'
 const router = express.Router()
-import { CreateMenu, DeleteMenuByID, EditMenu, getMenu, getMenuById } from '../Controller/controller.dish.js'
-import { upload } from '../Middleware/multer.js'
+import { CreateMenu, DeleteMenuByID, EditMenu, getMenu, getMenuById } from '../../Controller/dish.controller.js'
+import { upload } from '../../Middleware/multer.js'
 
 router.post('/create-menu',upload.single('image'), CreateMenu)
 router.get('/get-menu/:itemId',getMenuById)
