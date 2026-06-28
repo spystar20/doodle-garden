@@ -11,5 +11,8 @@ if(newUser){
     return res.status(403).json({message:'user already exist please Login'})
 }
 const hashPassword = bcrypt.hash(password,10)
-cons
+await userSchema.create({
+    name,email,password:hashPassword
+ })
+return res.status(200).json({message:'user created successfully'})
 })
