@@ -1,9 +1,24 @@
 import React, { useState } from 'react'
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { api } from '../../axios/api';
+import { toast } from 'sonner';
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+const [formData,setFormdata]= useState({name:'',email:'',password:''})
+const navigate = useNavigate()
+const handleSubmit = async()=>{
+try{
+await api.post('/auth/sign',formData)
+toast.success('welcome to doodle garden')
+setTimeout(() => {
+  navigate('/')
+}, 1000);
+setFormdata({name:'',email:'',password:''})
+}catch(err){
+console.log(err)
+}
+}
   return (
     <div className='w-full min-h-screen bg-biege flex items-center justify-center'>
     
@@ -28,6 +43,8 @@ faster ordering, and exclusive dining experiences.
       </div>
 
       <input
+      onChange={(e)=>setFormdata((prev)=>({...prev,name:e.target.value}))}
+      value={formData.name}
         type="text"
         placeholder="Full Name"
         className="w-full
@@ -41,6 +58,8 @@ outline-none"
       />
 
       <input
+          onChange={(e)=>setFormdata((prev)=>({...prev,email:e.target.value}))}
+      value={formData.email}
         type="email"
         placeholder="Email Address"
  className="w-full
@@ -54,6 +73,8 @@ outline-none"      />
 
       <div className="relative">
   <input
+      onChange={(e)=>setFormdata((prev)=>({...prev,password:e.target.value}))}
+      value={formData.password}
     type={showPassword ? "text" : "password"}
     placeholder="Create a secure password"
     className="w-full px-4 py-3 pr-12 rounded-xl bg-white/10 border placeholder:text-biege/70 border-white/20 outline-none"
@@ -68,7 +89,7 @@ outline-none"      />
   </button>
 </div>
 
-      <button className=" py-3 rounded-xl bg-biege/70
+      <button onClick={handleSubmit}  className=" py-3 rounded-xl bg-biege/70
 text-black
 hover:bg-biege/90 font-medium hover:scale-95 duration-300">
         Create Account
