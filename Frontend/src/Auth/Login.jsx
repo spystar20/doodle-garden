@@ -1,9 +1,26 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router';
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
+import { api } from '../../axios/api';
+import { toast } from 'sonner';
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
- 
+ const [ formData,setFormData]=useState({email:'',password:''})
+ const handleSubmit = async()=>{
+  try{
+    if(!formData.email){
+      return toast.error('email is required')
+    }
+    if(!formData.password){
+      return toast.error('password is required')
+    }
+const res = await api.post('/auth/login',formData)
+toast.success(`welcome back ${res?.name}`)
+
+  }catch(err){
+console.log(err)
+  }
+ }
    return (
      <div className='w-full min-h-screen bg-biege flex items-center justify-center'>
      
@@ -26,6 +43,9 @@ Sign in to manage your reservations, track your orders, and enjoy the Doodle's G
        </div>
  
        <input
+       value={formData.email}
+          onChange={(e)=>(setFormData((prev)=>({...prev,email:e.target.value})))}
+
          type="email"
          placeholder="Email Address"
   className="w-full
@@ -39,6 +59,8 @@ Sign in to manage your reservations, track your orders, and enjoy the Doodle's G
  
        <div className="relative">
    <input
+   value={formData.password}
+   onChange={(e)=>(setFormData((prev)=>({...prev,password:e.target.value})))}
      type={showPassword ? "text" : "password"}
      placeholder="Create a secure password"
      className="w-full px-4 py-3 pr-12 rounded-xl bg-white/10 border placeholder:text-biege/70 border-white/20 outline-none"
@@ -53,7 +75,7 @@ Sign in to manage your reservations, track your orders, and enjoy the Doodle's G
    </button>
  </div>
  
-       <button className=" py-3 rounded-xl bg-biege/70
+       <button onClick={handleSubmit} className=" py-3 rounded-xl bg-biege/70
  text-black
  hover:bg-biege/90 font-medium hover:scale-95 duration-300">
 Login       </button>

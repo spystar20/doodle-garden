@@ -10,7 +10,7 @@ const navigate = useNavigate()
 const handleSubmit = async()=>{
 try{
 await api.post('/auth/sign',formData)
-toast.success('welcome to doodle garden')
+toast.success(`welcome ${formData.name}`)
 setTimeout(() => {
   navigate('/')
 }, 1000);

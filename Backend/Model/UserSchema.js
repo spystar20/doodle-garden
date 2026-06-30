@@ -9,5 +9,5 @@ name:{
 }
 })
 
-const authSchema= mongoose.model("authschema",userSchema)
-export default authSchema
+const restaurantUser= mongoose.model("restaurantUser",userSchema)
+export default restaurantUser
