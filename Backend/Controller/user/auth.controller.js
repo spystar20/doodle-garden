@@ -40,16 +40,22 @@ const refreshToken = createRefreshToken({userId:existingUser._id})
 })
 
 export const me = asynHandler(async(req,res)=>{
+    console.log(req.cookies);
+console.log(req.user);
 const {accessToken,refreshToken} =req.cookies
+let payload
+
 if(accessToken){
-   try{payload = verifyAccessToken(accessToken)
+   try{
+    payload = verifyAccessToken(accessToken)
     const existingUser = await userSchema.findById(payload.userId)
 return res.json({accessToken,existingUser})
    }catch(err){
+      console.log(err);
+
 return res.status(403).json({message:'access token expired'})
    }
 }
-let payload
 try{
 payload = verifyRefreshToken(refreshToken)
 
