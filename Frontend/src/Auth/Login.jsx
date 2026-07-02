@@ -22,7 +22,7 @@ toast.success(`welcome back `)
 navigate('/')
 
   }catch(err){
-    toast.error(err)
+    toast.error(`${err}`)
 console.log(err)
   }
  }
