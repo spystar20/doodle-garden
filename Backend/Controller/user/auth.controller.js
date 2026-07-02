@@ -59,7 +59,9 @@ return res.status(403).json({message:'access token expired'})
 try{
 payload = verifyRefreshToken(refreshToken)
 
-}catch(err){   return res.status(401).json({
+}catch(err){
+      console.log(err)
+     return res.status(401).json({
       message: "invalid or expired refresh token"
    })
 
