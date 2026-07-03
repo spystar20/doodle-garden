@@ -8,6 +8,8 @@ import { IoMenu } from "react-icons/io5";
 import { MdMenu, MdOutlineRestaurantMenu } from "react-icons/md";
 import { useContext } from 'react'
 import { Authorized } from '../AuthContext/AuthContext'
+import { FaUserCircle } from "react-icons/fa";
+
 const Navbar = () => {
   useEffect(() => {
     Aos.init({ duration: 1500 })
@@ -33,7 +35,11 @@ const Navbar = () => {
         <div className='items-center justify-center flex'><img className='hidden md:block md:w-[12vw] lg:w-[255px] ' src={logo} alt="" /></div>
        
        {user? (<div className='flex justify-end'>
-<div> <Link to="/Booking"><button className='rounded-xl border-2 border-black shadow-2xl bg-black text-white py-2 px-10 hover:scale-95 scale-100 font-[Outfit] text-base'>book a table</button></Link></div>
+<div className='flex items-center gap-2'> 
+ <FaUserCircle className='text-3xl text-black/80 cursor-pointer'/>
+
+  <Link to="/Booking"><button className='rounded-xl border-2 border-black shadow-2xl bg-black text-white py-1 px-6 hover:scale-95 scale-100 font-[Outfit] text-base'>book a table</button></Link>
+</div>
        </div>):(
         <div className='flex items-center justify-end gap-4 text-lg'>
           <div>
