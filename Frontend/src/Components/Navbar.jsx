@@ -9,6 +9,7 @@ import { MdMenu, MdOutlineRestaurantMenu } from "react-icons/md";
 import { useContext } from 'react'
 import { Authorized } from '../AuthContext/AuthContext'
 import { FaUserCircle } from "react-icons/fa";
+import { BsBoxSeam } from "react-icons/bs";
 
 const Navbar = () => {
   useEffect(() => {
@@ -22,7 +23,7 @@ const Navbar = () => {
     setShowMenu(!showMenu)
   }
   return (
-    <div data-aos="fade-in" className='w-full bg-[#FFFFF0] shadow-lg md:px-4 p-2 md:py-5 fixed top-0  z-[999] capitalize '>
+    <div data-aos="fade-in" className='w-full font-[Outfit] bg-[#FFFFF0] shadow-lg md:px-4 p-2 md:py-5 fixed top-0  z-[999] capitalize '>
 
       <div className=' hidden lg:grid grid-cols-3  items-start justify-between lg:items-center py-6 px-4 lg:py-0 md:px-20 '>
         <ul className='lg:flex grid grid-cols-2 justify-between gap-5 lg:gap-10 capitalize text-base  font-[Outfit] md:hidden'>
@@ -34,12 +35,25 @@ const Navbar = () => {
         </ul>
         <div className='items-center justify-center flex'><img className='hidden md:block md:w-[12vw] lg:w-[255px] ' src={logo} alt="" /></div>
        
-       {user? (<div className='flex justify-end'>
+       {user? (<div className='flex justify-end relative'>
 <div className='flex items-center gap-2'> 
+  <span className='relative '>
  <FaUserCircle className='text-3xl text-black/80 cursor-pointer'/>
-
+<span className='absolute top-10 -translate-x-1/2 max-w-4xl px-4 py-5 border border-black/10 shadow-lg rounded-lg   bg-biege z-[99]'>
+<span className='flex flex-col text-base  border-b border-black/30 pb-1'>
+ <h5 className=' font-medium'>Hello {user?.name}</h5>
+<span className='lowercase text-black/70'>{user?.email}</span>
+</span>
+<ul>
+  <li className='flex gap-1 items-center'>
+  <BsBoxSeam className='text-sm'/>  <span>Orders</span>
+  </li>
+</ul>
+</span>
+</span>
   <Link to="/Booking"><button className='rounded-xl border-2 border-black shadow-2xl bg-black text-white py-1 px-6 hover:scale-95 scale-100 font-[Outfit] text-base'>book a table</button></Link>
 </div>
+
        </div>):(
         <div className='flex items-center justify-end gap-4 text-lg'>
           <div>
