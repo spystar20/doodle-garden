@@ -8,17 +8,22 @@ import { IoMenu } from "react-icons/io5";
 import { MdMenu, MdOutlineRestaurantMenu } from "react-icons/md";
 import { useContext } from 'react'
 import { Authorized } from '../AuthContext/AuthContext'
-import { FaUserCircle } from "react-icons/fa";
-import { BsBoxSeam } from "react-icons/bs";
-
+import { FaUserCircle ,FaCalendarAlt,FaHeart,
+} from "react-icons/fa";
+import {FaUserPen} from 'react-icons/fa6'
+import { BsBoxSeamFill } from "react-icons/bs";
+import {ImExit} from 'react-icons/im'
 const Navbar = () => {
   useEffect(() => {
     Aos.init({ duration: 1500 })
   }, [])
-
+const [showOptions , setShowOptions]=useState(false)
   const [showMenu, setShowMenu] = useState(false)
   const {user} = useContext(Authorized)
   console.log(user)
+  const toggleOptions=()=>{
+    setShowOptions(!showOptions)
+  }
   const toggleMenu = () => {
     setShowMenu(!showMenu)
   }
@@ -37,16 +42,31 @@ const Navbar = () => {
        
        {user? (<div className='flex justify-end relative'>
 <div className='flex items-center gap-2'> 
-  <span className='relative '>
- <FaUserCircle className='text-3xl text-black/80 cursor-pointer'/>
-<span className='absolute top-10 -translate-x-1/2 max-w-4xl px-4 py-5 border border-black/10 shadow-lg rounded-lg   bg-biege z-[99]'>
-<span className='flex flex-col text-base  border-b border-black/30 pb-1'>
+  <span className='relative  '>
+ <FaUserCircle className='text-3xl text-black/80 cursor-pointer' onClick={toggleOptions}/>
+<span className={`absolute top-12  -translate-x-1/2 w-64 px-4 py-5 border border-black/10 shadow-lg rounded-lg   bg-biege z-[99] duration-300 ease-in transition-all ${showOptions? 'opacity-100 translate-y-1 ':'opacity-0  translate-y-8'}`}>
+<span className='flex flex-col text-base  border-b border-black/20 pb-3'>
  <h5 className=' font-medium'>Hello {user?.name}</h5>
 <span className='lowercase text-black/70'>{user?.email}</span>
 </span>
-<ul>
-  <li className='flex gap-1 items-center'>
-  <BsBoxSeam className='text-sm'/>  <span>Orders</span>
+<ul className='text-base py-3 gap-1.5 flex flex-col border-black/20 border-b'>
+  <li className='flex gap-x-1.5 items-center hover:translate-x-1 duration-200 ease-in transition-all cursor-pointer hover:font-medium'>
+  <BsBoxSeamFill  />  <span>Orders</span>
+  </li>
+   <li className='flex gap-x-1.5 items-center hover:translate-x-1 duration-200 ease-in transition-all cursor-pointer hover:font-medium'>
+ <FaCalendarAlt />
+<span>Reservations</span>
+  </li>
+   <li className='flex gap-x-1.5 items-center hover:translate-x-1 duration-200 ease-in transition-all cursor-pointer hover:font-medium'>
+  <FaHeart />  <span>Favorites</span>
+  </li>
+</ul>
+<ul className='text-base py-3 gap-1.5 flex flex-col'>
+   <li className='flex gap-x-1.5 items-center hover:translate-x-1 duration-200 ease-in transition-all cursor-pointer hover:font-medium'>
+  <FaUserPen  />  <span>Edit Profile</span>
+  </li>
+   <li className='flex gap-x-1.5 items-center hover:translate-x-1 duration-200 ease-in transition-all cursor-pointer hover:font-medium'>
+  <ImExit  />  <span>Logout</span>
   </li>
 </ul>
 </span>
