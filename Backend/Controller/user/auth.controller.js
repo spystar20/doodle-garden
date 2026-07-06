@@ -35,13 +35,17 @@ export const Login = asynHandler(async(req,res)=>{
     }
 const accessToken = createAccessToken({userId:existingUser._id})
 const refreshToken = createRefreshToken({userId:existingUser._id})
- 
+
     return res.cookie("accessToken",accessToken,getAccessCookieOptions()).cookie("refreshToken",refreshToken,getRefreshCookieOptions()).status(200).json({message:'login successfull',existingUser})
 })
 
+export const LogOut = asynHandler(async(req,res)=>{
+    
+
+})
+
 export const me = asynHandler(async(req,res)=>{
-    console.log(req.cookies);
-console.log(req.user);
+   
 const {accessToken,refreshToken} =req.cookies
 let payload
 
