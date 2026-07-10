@@ -4,7 +4,9 @@ export const api = axios.create({
 })
 
 // api.interceptors.response({
-//    return (response)=>{
 
-//     }
+//      response = ()=>{
+// return response
+//     },
+
 // })

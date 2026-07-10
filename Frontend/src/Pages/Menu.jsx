@@ -12,6 +12,7 @@ import { Link } from 'react-router';
 import { api } from '../../axios/api';
 import DishCard from '../Components/DishCard';
 import {AnimatePresence, motion} from 'motion/react'
+import {Slider} from '@mui/material'
 const menuData = {
   salads: [
     { name: "Bistro Salad", price: "$12", description: "Candied walnuts mixed greens, goat cheese, craisins, white balsamic dressing" },
@@ -53,14 +54,23 @@ const menuData = {
 const Menu = () => {
     const [selectedCategory, setSelectedCategory] = useState("salads");
     const [menu,setMenu] = useState([])
+    const [ categories,setCategories]=useState([])
+    const [priceRange, setPriceRange] = useState([200, 1500]);
     useEffect(()=>{
         Aos.init({duration:1500})
         },[])
-
+const fetchCategories = async()=>{
+    try{
+const res = await api.get('user/menu/categories')
+console.log(res)
+setCategories(res?.data?.categories)
+    }catch(err){
+        console.log(err)
+    }
+}
         const fetchMenu = async()=>{
     try{
-const res = await api.get('auth/menu')
-console.log(res)
+const res = await api.get('user/menu')
 setMenu(res.data.menu)
     }catch(err){
 console.log(err)
@@ -68,11 +78,12 @@ console.log(err)
 }
 useEffect(()=>{
     fetchMenu()
+    fetchCategories()
 },[])
     return (
-<div className='bg-[#fffff0]'>
-             <Parallax  className='w-[100%] h-[40vh] md:h-[46vh] lg:h-[100vh]' bgImageSizes='cover'  bgImage='https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg' strength={300} >     
-             </Parallax>
+<div className='bg-[#fffff0] mt-20'>
+             {/* <Parallax  className='w-[100%] h-[40vh] md:h-[46vh] lg:h-[100vh]' bgImageSizes='cover'  bgImage='https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg' strength={300} >     
+             </Parallax> */}
              
             <div className='md:py-14 py-7 px-6 md:px-20 flex flex-col gap-6'>
                 <div className='flex justify-center items-center gap-5'>
@@ -80,6 +91,119 @@ useEffect(()=>{
                     <h1 className='text-4xl md:text-6xl font-[Imperial_Script] text-center'>The Menu</h1>
                     <p className=' w-2 h-2 bg-black rounded-full'></p>
                 </div>
+                <div className="space-y-4 mb-6">
+
+  {/* Categories */}
+  <div className="flex flex-wrap justify-center gap-2">
+    {categories?.map((category) => (
+      <button
+        key={category}
+        onClick={() => setSelectedCategory(category)}
+        className={`px-4 py-1.5 text-sm rounded-full transition-all duration-300 ${
+          selectedCategory === category
+            ? "bg-black text-[#FFFFF0]"
+            : "border border-black/20 hover:bg-black hover:text-[#FFFFF0]"
+        }`}
+      >
+        {category.toUpperCase()}
+      </button>
+    ))}
+  </div>
+
+  {/* Filters */}
+  <div className="flex flex-wrap items-center justify-between gap-3 border-y border-black/10 py-3">
+
+    {/* Left */}
+    <div className="flex flex-wrap gap-2">
+
+      <button className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
+        All
+      </button>
+
+      <button className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
+        🌱 Veg
+      </button>
+
+      <button className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
+        🍗 Non Veg
+      </button>
+
+      <select className="rounded-full border border-black/20 px-3 py-1.5 text-sm bg-transparent outline-none">
+        <option>Rating</option>
+        <option>4★ & Above</option>
+        <option>4.5★ & Above</option>
+      </select>
+
+      <select className="rounded-full border border-black/20 px-3 py-1.5 text-sm bg-transparent outline-none">
+        <option>Sort By</option>
+        <option>Popular</option>
+        <option>Newest</option>
+        <option>Price ↑</option>
+        <option>Price ↓</option>
+      </select>
+    </div>
+ {/* Price Slider */}
+  <div className="  min-w-[300px] max-w-[380px] flex-1">
+
+    <div className="flex justify-between items-center mb-1">
+
+      <h3 className="text-sm font-semibold uppercase tracking-wide">
+        Price Range
+      </h3>
+
+      <span className="text-xs bg-black text-[#FFFFF0] px-3 py-1 rounded-full">
+        ₹{priceRange[0]} - ₹{priceRange[1]}
+      </span>
+
+    </div>
+
+    <Slider
+      value={priceRange}
+      onChange={(e, value) => setPriceRange(value)}
+      min={0}
+      max={2000}
+      step={50}
+      valueLabelDisplay="off"
+      sx={{
+        color: "#000",
+
+        height: 3,
+
+        "& .MuiSlider-track": {
+          border: "none",
+          height: 3,
+        },
+
+        "& .MuiSlider-rail": {
+          backgroundColor: "#000",
+          opacity: 0.2,
+          height: 3,
+        },
+
+        "& .MuiSlider-thumb": {
+          width: 14,
+          height: 14,
+          backgroundColor: "#FFFFF0",
+          border: "2px solid black",
+
+          "&:hover": {
+            boxShadow: "0 0 0 6px rgba(0,0,0,.08)",
+          },
+
+          "&.Mui-active": {
+            boxShadow: "0 0 0 8px rgba(0,0,0,.12)",
+          },
+        },
+      }}
+    />
+
+
+  </div>
+  </div>
+
+ 
+
+</div>
                 <div className='grid grid-cols-4 gap-3'>
 {menu?.map((i)=>(
 
@@ -211,22 +335,10 @@ useEffect(()=>{
                 </div>
                 <div className="max-w-3xl mx-auto p-6">
       {/* Navigation Buttons */}
-      <div className="md:flex grid grid-cols-2 items-center gap-5 justify-center md:space-x-4 mb-6">
-        {Object.keys(menuData).map((category) => (
-          <button
-            key={category}
-            onClick={() => setSelectedCategory(category)}
-            className={`px-4 py-2 rounded-xl transition  ${
-              selectedCategory === category ? "bg-black text-[#FFFFF0]" : "bg-transparent border border-black text-black"
-            }`}
-          >
-            {category.toUpperCase()}
-          </button>
-        ))}
-      </div>
+     
 
       {/* Display Selected Menu */}
-      <AnimatePresence mode='wait'>
+      {/* <AnimatePresence mode='wait'>
       <motion.div key={selectedCategory} initial={{opacity:0,y:20,filter:'blur(10px)'}} animate={{opacity:1,y:0,filter:'blur(0px)'}}  
           transition={{ duration: 0.5 }}>
       <div className="space-y-6 border border-black md:px-10 py-14 rounded-xl">
@@ -241,7 +353,7 @@ useEffect(()=>{
         ))}
       </div>
       </motion.div>
-      </AnimatePresence>
+      </AnimatePresence> */}
       </div>
       <div className='flex justify-center items-center gap-5'>
          <Link to="/Booking"><div><button data-aos="zoom-in" data-aos-delay="100" className=' border-black border bg-transparent hover:bg-black hover:text-white text-xl uppercase font-antonio text-black px-3 py-2 rounded-xl'>reserve a table</button></div></Link>
