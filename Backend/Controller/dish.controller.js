@@ -21,7 +21,14 @@ console.log(err)
 }
 export const getMenu = async(req,res)=>{
     try{
-const menu = await MenuSchema.find()
+        const {category}= req.query
+const filter = {}
+if(category){
+   return filter.category=category
+}
+console.log(filter)
+    const menu = await MenuSchema.find({filter})
+
 return res.status(200).json({message:'dish served',menu})
 
     }catch(err){

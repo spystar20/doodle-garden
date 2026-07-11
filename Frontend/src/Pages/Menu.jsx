@@ -56,6 +56,7 @@ const Menu = () => {
     const [menu,setMenu] = useState([])
     const [ categories,setCategories]=useState([])
     const [priceRange, setPriceRange] = useState([200, 1500]);
+    const [filter,setFilter]=useState({category:''})
     useEffect(()=>{
         Aos.init({duration:1500})
         },[])
@@ -70,7 +71,7 @@ setCategories(res?.data?.categories)
 }
         const fetchMenu = async()=>{
     try{
-const res = await api.get('user/menu')
+const res = await api.get('user/menu',filter)
 setMenu(res.data.menu)
     }catch(err){
 console.log(err)
@@ -79,7 +80,8 @@ console.log(err)
 useEffect(()=>{
     fetchMenu()
     fetchCategories()
-},[])
+},[filter])
+
     return (
 <div className='bg-[#fffff0] mt-20'>
              {/* <Parallax  className='w-[100%] h-[40vh] md:h-[46vh] lg:h-[100vh]' bgImageSizes='cover'  bgImage='https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg' strength={300} >     
@@ -98,7 +100,7 @@ useEffect(()=>{
     {categories?.map((category) => (
       <button
         key={category}
-        onClick={() => setSelectedCategory(category)}
+        onClick={(e) => {setSelectedCategory(category),setFilter((prev)=>({...prev,category:category}))}}
         className={`px-4 py-1.5 text-sm rounded-full transition-all duration-300 ${
           selectedCategory === category
             ? "bg-black text-[#FFFFF0]"
