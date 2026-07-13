@@ -21,13 +21,18 @@ console.log(err)
 }
 export const getMenu = async(req,res)=>{
     try{
-        const {category}= req.query
+        const {category,isVeg}= req.query
 const filter = {}
 if(category){
-   return filter.category=category
+    filter.category={
+    $regex:`^${category}$`,
+    $options:'i'
+   }
 }
-console.log(filter)
-    const menu = await MenuSchema.find({filter})
+if(isVeg){
+    filter.isVeg = isVeg
+}
+    const menu = await MenuSchema.find(filter)
 
 return res.status(200).json({message:'dish served',menu})
 

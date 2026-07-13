@@ -56,7 +56,18 @@ const Menu = () => {
     const [menu,setMenu] = useState([])
     const [ categories,setCategories]=useState([])
     const [priceRange, setPriceRange] = useState([200, 1500]);
-    const [filter,setFilter]=useState({category:''})
+    const [filter,setFilter]=useState({category:'',isVeg:Boolean})
+
+    const params = {}
+    if(filter.category){
+      params.category = filter.category
+    }
+    if(filter.isVeg=== false){
+      params.isVeg= false
+    }else{
+params.isVeg =true
+    }
+
     useEffect(()=>{
         Aos.init({duration:1500})
         },[])
@@ -71,7 +82,7 @@ setCategories(res?.data?.categories)
 }
         const fetchMenu = async()=>{
     try{
-const res = await api.get('user/menu',filter)
+const res = await api.get('user/menu',{params})
 setMenu(res.data.menu)
     }catch(err){
 console.log(err)
@@ -122,11 +133,11 @@ useEffect(()=>{
         All
       </button>
 
-      <button className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
+      <button onClick={()=>(setFilter((prev)=>({...prev,isVeg:true})))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
         🌱 Veg
       </button>
 
-      <button className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
+      <button onClick={()=>(setFilter((prev)=>({...prev,isVeg:false})))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
         🍗 Non Veg
       </button>
 
