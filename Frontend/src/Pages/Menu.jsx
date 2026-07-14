@@ -13,6 +13,7 @@ import { api } from '../../axios/api';
 import DishCard from '../Components/DishCard';
 import {AnimatePresence, motion} from 'motion/react'
 import {Slider} from '@mui/material'
+import DropDown from '../utils/DropDown';
 const menuData = {
   salads: [
     { name: "Bistro Salad", price: "$12", description: "Candied walnuts mixed greens, goat cheese, craisins, white balsamic dressing" },
@@ -140,20 +141,13 @@ useEffect(()=>{
       <button onClick={()=>(setFilter((prev)=>({...prev,isVeg:false})))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
         🍗 Non Veg
       </button>
-
+<DropDown title='sort by' className='w-[120px]' array={['Popular','Newest','Price ↑','Price ↓']}/>
       <select className="rounded-full border border-black/20 px-3 py-1.5 text-sm bg-transparent outline-none">
         <option>Rating</option>
         <option>4★ & Above</option>
         <option>4.5★ & Above</option>
       </select>
 
-      <select className="rounded-full border border-black/20 px-3 py-1.5 text-sm bg-transparent outline-none">
-        <option>Sort By</option>
-        <option>Popular</option>
-        <option>Newest</option>
-        <option>Price ↑</option>
-        <option>Price ↓</option>
-      </select>
     </div>
  {/* Price Slider */}
   <div className="  min-w-[300px] max-w-[380px] flex-1">
@@ -218,10 +212,18 @@ useEffect(()=>{
 
 </div>
                 <div className='grid grid-cols-4 gap-3'>
+               
+               
 {menu?.map((i)=>(
 
+   <AnimatePresence mode='wait'>
+   <motion.div key={filter} initial={{opacity:0,y:20,filter:'blur(10px)'}}   transition={{ duration: 0.5 }} animate={{opacity:1,y:0,filter:'blur(0px)'}}>
 <DishCard key={i._id} rating={4} category={i.category} image={i.image} title={i.title} desc={i.desc} price={i.price} Isveg={i.isVeg}/>
+</motion.div>
+</AnimatePresence>
+
 ))}
+
                     {/* <div className='py-8'>
                         <h1 className='md:text-3xl text-2xl font-[Imperial_Script] underline text-center capitalize underline-offset-3 px-8 pb-6 md:py-3'>shisha menu</h1>
                         <div data-aos="fade-down" data-aos-delay="100" className='border border-black rounded-xl md:p-10 grid-cols-1 grid md:grid-cols-2'>
