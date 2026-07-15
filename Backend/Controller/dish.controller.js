@@ -21,8 +21,9 @@ console.log(err)
 }
 export const getMenu = async(req,res)=>{
     try{
-        const {category,isVeg}= req.query
+        const {category,isVeg,sort}= req.query
 const filter = {}
+let sortOpt ;
 if(category){
     filter.category={
     $regex:`^${category}$`,
@@ -32,7 +33,19 @@ if(category){
 if(isVeg){
     filter.isVeg = isVeg
 }
-    const menu = await MenuSchema.find(filter)
+
+if(sort==='Newest'){
+sortOpt={
+    createdAt:-1
+}
+
+}
+if(sort ==='Oldest'){
+    sortOpt={
+createdAt:1
+    }
+}
+    const menu = await MenuSchema.find(filter).sort(sortOpt)
 
 return res.status(200).json({message:'dish served',menu})
 
@@ -93,10 +106,11 @@ return res.status(200).json({message:"dish updated",dish})
 }
 export const DeleteMenuByID = async(req,res)=>{
     try{
+        console.log('hitttt')
     const {itemId} = req.params
 
     const dish =await MenuSchema.findByIdAndDelete(itemId)
-
+console.log(dish)
     return res.status(200).json({message:'dish deleted'})
     }
     catch(err){

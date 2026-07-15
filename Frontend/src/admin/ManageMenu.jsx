@@ -13,7 +13,7 @@ const [openModal,setOpenModal] = useState(false)
 const [selected,setSelected]= useState(null)
 const handleDelete  = async(itemId)=>{
     try{
-const res = await api.delete(`/auth/menu/${itemId}/delete`)
+const res = await api.delete(`admin/menu/${itemId}/delete`)
 console.log(res)
 fetchMenu()
 toast.success('dish deleted')
@@ -24,7 +24,7 @@ console.log(err)
 }
     const fetchMenu = async () => {
         try {
-            const res = await api.get('auth/menu')
+            const res = await api.get('user/menu')
             console.log(res)
             setMenu(res.data.menu)
         } catch (err) {

@@ -57,17 +57,22 @@ const Menu = () => {
     const [menu,setMenu] = useState([])
     const [ categories,setCategories]=useState([])
     const [priceRange, setPriceRange] = useState([200, 1500]);
-    const [filter,setFilter]=useState({category:'',isVeg:Boolean})
+    const [filter,setFilter]=useState({category:'',isVeg:Boolean,sort:''})
 
     const params = {}
     if(filter.category){
       params.category = filter.category
     }
-    if(filter.isVeg=== false){
-      params.isVeg= false
-    }else{
-params.isVeg =true
+    if(filter.isVeg){
+      if(filter.isVeg===true){
+        params.isVeg= true
+      }else{
+        params.isVeg = false
+      }
     }
+if(filter.sort){
+  params.sort = filter.sort
+}
 
     useEffect(()=>{
         Aos.init({duration:1500})
@@ -77,14 +82,17 @@ const fetchCategories = async()=>{
 const res = await api.get('user/menu/categories')
 console.log(res)
 setCategories(res?.data?.categories)
+
     }catch(err){
         console.log(err)
     }
 }
         const fetchMenu = async()=>{
     try{
+      console.log(filter.sort)
 const res = await api.get('user/menu',{params})
 setMenu(res.data.menu)
+params={}
     }catch(err){
 console.log(err)
     }
@@ -130,7 +138,7 @@ useEffect(()=>{
     {/* Left */}
     <div className="flex flex-wrap gap-2">
 
-      <button className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
+      <button onClick={fetchMenu} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
         All
       </button>
 
@@ -141,12 +149,9 @@ useEffect(()=>{
       <button onClick={()=>(setFilter((prev)=>({...prev,isVeg:false})))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
         🍗 Non Veg
       </button>
-<DropDown title='sort by' className='w-[120px]' array={['Popular','Newest','Price ↑','Price ↓']}/>
-      <select className="rounded-full border border-black/20 px-3 py-1.5 text-sm bg-transparent outline-none">
-        <option>Rating</option>
-        <option>4★ & Above</option>
-        <option>4.5★ & Above</option>
-      </select>
+<DropDown title='sort by' setState={setFilter} FilterKey='sort' className='w-[120px]' array={['Popular','Newest','Oldest','Price ↑','Price ↓']}/>
+<DropDown title='Rating' className='w-[120px]' array={['4★ & Above','4.5★ & Above']}/>
+      
 
     </div>
  {/* Price Slider */}
