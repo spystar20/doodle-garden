@@ -57,19 +57,15 @@ const Menu = () => {
     const [menu,setMenu] = useState([])
     const [ categories,setCategories]=useState([])
     const [priceRange, setPriceRange] = useState([200, 1500]);
-    const [filter,setFilter]=useState({category:'',isVeg:Boolean,sort:''})
+    const [filter,setFilter]=useState({category:'',isVeg:null,sort:''})
 
     const params = {}
     if(filter.category){
       params.category = filter.category
     }
-    if(filter.isVeg){
-      if(filter.isVeg===true){
-        params.isVeg= true
-      }else{
-        params.isVeg = false
-      }
-    }
+   if (filter.isVeg !== null) {
+  params.isVeg = filter.isVeg;
+}
 if(filter.sort){
   params.sort = filter.sort
 }
@@ -92,7 +88,7 @@ setCategories(res?.data?.categories)
       console.log(filter.sort)
 const res = await api.get('user/menu',{params})
 setMenu(res.data.menu)
-params={}
+
     }catch(err){
 console.log(err)
     }
@@ -138,18 +134,21 @@ useEffect(()=>{
     {/* Left */}
     <div className="flex flex-wrap gap-2">
 
-      <button onClick={fetchMenu} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
+      <button onClick={()=>setFilter((prev)=>({...prev,isVeg:null}))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
         All
       </button>
 
-      <button onClick={()=>(setFilter((prev)=>({...prev,isVeg:true})))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
-        🌱 Veg
+      <button onClick={()=>(setFilter((prev)=>({...prev,isVeg:true})))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition flex gap-2 items-center">
+       <div className="flex h-4 w-4 items-center justify-center border border-green-600">
+  <div className="h-2 w-2 rounded-full bg-green-600"></div></div> Veg
       </button>
 
-      <button onClick={()=>(setFilter((prev)=>({...prev,isVeg:false})))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
-        🍗 Non Veg
+      <button onClick={()=>(setFilter((prev)=>({...prev,isVeg:false})))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition flex gap-2 items-center">
+       <div className="flex h-4 w-4 items-center justify-center border border-red-600">
+  <div className="h-2 w-2 rounded-full bg-red-600"></div>
+</div> Non Veg
       </button>
-<DropDown title='sort by' setState={setFilter} FilterKey='sort' className='w-[120px]' array={['Popular','Newest','Oldest','Price ↑','Price ↓']}/>
+<DropDown title='sort by' setState={setFilter} FilterKey='sort' className='w-[120px]' array={['Popular','Newest','Oldest','Price-high','Price-low']}/>
 <DropDown title='Rating' className='w-[120px]' array={['4★ & Above','4.5★ & Above']}/>
       
 
@@ -218,16 +217,18 @@ useEffect(()=>{
 </div>
                 <div className='grid grid-cols-4 gap-3'>
                
-               
+               <AnimatePresence mode="popLayout">
+
 {menu?.map((i)=>(
 
-   <AnimatePresence mode='wait'>
-   <motion.div key={filter} initial={{opacity:0,y:20,filter:'blur(10px)'}}   transition={{ duration: 0.5 }} animate={{opacity:1,y:0,filter:'blur(0px)'}}>
+   <motion.div key={i._id} initial={{opacity:0,y:20,filter:'blur(10px)'}}        exit={{ opacity: 0, y: -20 }}
+ transition={{ duration: 0.5 }} animate={{opacity:1,y:0,filter:'blur(0px)'}}>
 <DishCard key={i._id} rating={4} category={i.category} image={i.image} title={i.title} desc={i.desc} price={i.price} Isveg={i.isVeg}/>
 </motion.div>
-</AnimatePresence>
 
 ))}
+</AnimatePresence>
+
 
                     {/* <div className='py-8'>
                         <h1 className='md:text-3xl text-2xl font-[Imperial_Script] underline text-center capitalize underline-offset-3 px-8 pb-6 md:py-3'>shisha menu</h1>

@@ -12,7 +12,9 @@ const handleToggle = ()=>{
         {open &&(
         <ul className={`bg-black absolute top-10 ${className} z-[5666666] text-biege  p-2 items-center flex flex-col gap-2 justify-center font-medium text-sm rounded-lg`}> 
             {array?.map((option,index)=>(
-         <li key={index}  onClick={()=>setState((prev)=>({...prev,[FilterKey]:option}))} className=' hover:text-biege/80 cursor-pointer  '>{option}</li>
+         <li key={index}  onClick={()=>{setState((prev)=>({...prev,[FilterKey]:option}))
+         setOpen(false)
+        }} className=' hover:text-biege/80 cursor-pointer  '>{option}</li>
          ))}
         </ul>
         )}

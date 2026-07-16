@@ -21,9 +21,9 @@ console.log(err)
 }
 export const getMenu = async(req,res)=>{
     try{
-        const {category,isVeg,sort}= req.query
+        const {category,isVeg,sort,minPrice,maxPrice}= req.query
 const filter = {}
-let sortOpt ;
+const sortOptions={}
 if(category){
     filter.category={
     $regex:`^${category}$`,
@@ -35,19 +35,28 @@ if(isVeg){
 }
 
 if(sort==='Newest'){
-sortOpt={
-    createdAt:-1
-}
+sortOptions.createdAt=-1
 
 }
 if(sort ==='Oldest'){
-    sortOpt={
-createdAt:1
-    }
+ sortOptions.createdAt=1
 }
-    const menu = await MenuSchema.find(filter).sort(sortOpt)
-
-return res.status(200).json({message:'dish served',menu})
+if(sort ==='Price-low'){
+    sortOptions.price=1
+}
+if(sortOptions==='Price-high'){
+    sortOptions.price=-1
+}
+    const menu = await MenuSchema.find(filter).sort(sortOptions)
+const priceRange = await MenuSchema.aggregate([
+    {$group:{
+        _id:'price',
+     minprice:{
+        $sort
+     }
+    }}
+])
+return res.status(200).json({message:'dish served',menu,priceRange})
 
     }catch(err){
         console.log(err)
