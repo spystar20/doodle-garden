@@ -56,9 +56,11 @@ const Menu = () => {
     const [selectedCategory, setSelectedCategory] = useState("salads");
     const [menu,setMenu] = useState([])
     const [ categories,setCategories]=useState([])
-    const [priceRange, setPriceRange] = useState([200, 1500]);
-    const [filter,setFilter]=useState({category:'',isVeg:null,sort:''})
+    // const [priceRange, setPriceRange] = useState([200, 1500]);
+      const [priceRange,setPriceRange]=useState({min:0,max:0})
 
+    const [filter,setFilter]=useState({category:'',isVeg:null,sort:'',minPrice:0,maxPrice:0})
+  
     const params = {}
     if(filter.category){
       params.category = filter.category
@@ -69,14 +71,20 @@ const Menu = () => {
 if(filter.sort){
   params.sort = filter.sort
 }
-
+if (
+    filter.minPrice !== priceRange.min ||
+    filter.maxPrice !== priceRange.max
+) {
+    params.minPrice = filter.minPrice;
+    params.maxPrice = filter.maxPrice;
+}
     useEffect(()=>{
         Aos.init({duration:1500})
+        
         },[])
 const fetchCategories = async()=>{
     try{
 const res = await api.get('user/menu/categories')
-console.log(res)
 setCategories(res?.data?.categories)
 
     }catch(err){
@@ -87,17 +95,33 @@ setCategories(res?.data?.categories)
     try{
       console.log(filter.sort)
 const res = await api.get('user/menu',{params})
+        const range = res.data.priceRange[0];
+
 setMenu(res.data.menu)
 
+  setPriceRange({
+            min: range.minPrice,
+            max: range.maxPrice,
+        });
+
+        if (filter.minPrice === 0 && filter.maxPrice === 0) {
+            setFilter(prev => ({
+                ...prev,
+                minPrice: range.minPrice,
+                maxPrice: range.maxPrice,
+            }));
+        }
+console.log(res)
     }catch(err){
 console.log(err)
     }
 }
 useEffect(()=>{
     fetchMenu()
-    fetchCategories()
 },[filter])
-
+useEffect(()=>{
+  fetchCategories()
+},[])
     return (
 <div className='bg-[#fffff0] mt-20'>
              {/* <Parallax  className='w-[100%] h-[40vh] md:h-[46vh] lg:h-[100vh]' bgImageSizes='cover'  bgImage='https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg' strength={300} >     
@@ -163,50 +187,25 @@ useEffect(()=>{
       </h3>
 
       <span className="text-xs bg-black text-[#FFFFF0] px-3 py-1 rounded-full">
-        ₹{priceRange[0]} - ₹{priceRange[1]}
+      ₹{filter.minPrice} - ₹{filter.maxPrice}
       </span>
 
     </div>
 
+  {priceRange.max > 0 && (
     <Slider
-      value={priceRange}
-      onChange={(e, value) => setPriceRange(value)}
-      min={0}
-      max={2000}
-      step={50}
-      valueLabelDisplay="off"
-      sx={{
-        color: "#000",
-
-        height: 3,
-
-        "& .MuiSlider-track": {
-          border: "none",
-          height: 3,
-        },
-
-        "& .MuiSlider-rail": {
-          backgroundColor: "#000",
-          opacity: 0.2,
-          height: 3,
-        },
-
-        "& .MuiSlider-thumb": {
-          width: 14,
-          height: 14,
-          backgroundColor: "#FFFFF0",
-          border: "2px solid black",
-
-          "&:hover": {
-            boxShadow: "0 0 0 6px rgba(0,0,0,.08)",
-          },
-
-          "&.Mui-active": {
-            boxShadow: "0 0 0 8px rgba(0,0,0,.12)",
-          },
-        },
-      }}
+        value={[filter.minPrice, filter.maxPrice]}
+        min={priceRange.min}
+        max={priceRange.max}
+        onChange={(e, value) =>
+            setFilter(prev => ({
+                ...prev,
+                minPrice: value[0],
+                maxPrice: value[1],
+            }))
+        }
     />
+)}
 
 
   </div>

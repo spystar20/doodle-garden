@@ -47,13 +47,24 @@ if(sort ==='Price-low'){
 if(sortOptions==='Price-high'){
     sortOptions.price=-1
 }
+if(minPrice && maxPrice){
+  filter.price={
+$gte:Number(minPrice),
+$lte:Number(maxPrice)
+  }
+  
+}
+console.log(filter.price)
     const menu = await MenuSchema.find(filter).sort(sortOptions)
 const priceRange = await MenuSchema.aggregate([
     {$group:{
-        _id:'price',
-     minprice:{
-        $sort
-     }
+        _id:'null',
+      minPrice:{
+        $min:'$price'
+      },
+      maxPrice:{
+        $max:'$price'
+      }
     }}
 ])
 return res.status(200).json({message:'dish served',menu,priceRange})
