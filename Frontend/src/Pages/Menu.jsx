@@ -119,6 +119,7 @@ console.log(err)
 useEffect(()=>{
     fetchMenu()
 },[filter])
+
 useEffect(()=>{
   fetchCategories()
 },[])
@@ -192,20 +193,54 @@ useEffect(()=>{
 
     </div>
 
-  {priceRange.max > 0 && (
-    <Slider
-        value={[filter.minPrice, filter.maxPrice]}
-        min={priceRange.min}
-        max={priceRange.max}
-        onChange={(e, value) =>
-            setFilter(prev => ({
-                ...prev,
-                minPrice: value[0],
-                maxPrice: value[1],
-            }))
-        }
-    />
+ 
+{priceRange.max > 0 && (
+  <Slider
+    value={[filter.minPrice, filter.maxPrice]}
+    min={priceRange.min}
+    max={priceRange.max}
+    step={50}
+    onChange={(e, value) => {
+      setFilter((prev) => ({
+        ...prev,
+        minPrice: value[0],
+        maxPrice: value[1],
+      }));
+    }}
+    valueLabelDisplay="off"
+    sx={{
+      color: "#000",
+      height: 3,
+
+      "& .MuiSlider-track": {
+        border: "none",
+        height: 3,
+      },
+
+      "& .MuiSlider-rail": {
+        backgroundColor: "#000",
+        opacity: 0.2,
+        height: 3,
+      },
+
+      "& .MuiSlider-thumb": {
+        width: 14,
+        height: 14,
+        backgroundColor: "#FFFFF0",
+        border: "2px solid black",
+
+        "&:hover": {
+          boxShadow: "0 0 0 6px rgba(0,0,0,.08)",
+        },
+
+        "&.Mui-active": {
+          boxShadow: "0 0 0 8px rgba(0,0,0,.12)",
+        },
+      },
+    }}
+  />
 )}
+
 
 
   </div>
@@ -353,28 +388,7 @@ useEffect(()=>{
                         </div>
                     </div> */}
                 </div>
-                <div className="max-w-3xl mx-auto p-6">
-      {/* Navigation Buttons */}
-     
-
-      {/* Display Selected Menu */}
-      {/* <AnimatePresence mode='wait'>
-      <motion.div key={selectedCategory} initial={{opacity:0,y:20,filter:'blur(10px)'}} animate={{opacity:1,y:0,filter:'blur(0px)'}}  
-          transition={{ duration: 0.5 }}>
-      <div className="space-y-6 border border-black md:px-10 py-14 rounded-xl">
-        {menuData[selectedCategory].map((item, index) => (
-          <div key={index} className="flex justify-between rounded-xl hover:bg-[#fff8c944] px-5  pb-2">
-            <div>
-              <h3 className="font-semibold text-lg">{item.name}</h3>
-              <p className="text-gray-600">{item.description}</p>
-            </div>
-            <span className="font-bold">{item.price}</span>
-          </div>
-        ))}
-      </div>
-      </motion.div>
-      </AnimatePresence> */}
-      </div>
+             
       <div className='flex justify-center items-center gap-5'>
          <Link to="/Booking"><div><button data-aos="zoom-in" data-aos-delay="100" className=' border-black border bg-transparent hover:bg-black hover:text-white text-xl uppercase font-antonio text-black px-3 py-2 rounded-xl'>reserve a table</button></div></Link>
           <Link to="/Order"><div><button data-aos="zoom-in" data-aos-delay="100" className=' border-black border  bg-transparent hover:bg-black hover:text-white text-xl uppercase font-antonio text-black px-3 py-2 rounded-xl'>order online</button></div></Link>
