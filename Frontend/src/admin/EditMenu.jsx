@@ -68,7 +68,7 @@ setPreview(URL.createObjectURL(file))
     }
     const fetchMenu = async()=>{
            try{
-        const res = await api.get(`auth/get-menu/${itemId}`)
+        const res = await api.get(`/user/get-menu/${itemId}`)
         const selectedCategory = categoryOptions.find( item=> item.value === res?.data.category )
         setCategory(selectedCategory)
         console.log(res)

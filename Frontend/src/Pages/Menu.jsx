@@ -257,7 +257,7 @@ useEffect(()=>{
 
    <motion.div key={i._id} initial={{opacity:0,y:20,filter:'blur(10px)'}}        exit={{ opacity: 0, y: -20 }}
  transition={{ duration: 0.5 }} animate={{opacity:1,y:0,filter:'blur(0px)'}}>
-<DishCard key={i._id} rating={4} category={i.category} image={i.image} title={i.title} desc={i.desc} price={i.price} Isveg={i.isVeg}/>
+<DishCard key={i._id} rating={4} category={i.category} image={i.image} title={i.title} desc={i.desc} price={i.price} Isveg={i.isVeg} link={`/menu/product/${i._id}`}/>
 </motion.div>
 
 ))}

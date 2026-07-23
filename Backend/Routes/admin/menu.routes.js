@@ -4,7 +4,6 @@ import { CreateMenu, DeleteMenuByID, EditMenu, getMenu, getMenuById } from '../.
 import { upload } from '../../Middleware/multer.js'
 
 router.post('/create-menu',upload.single('image'), CreateMenu)
-router.get('/get-menu/:itemId',getMenuById)
 router.put('/menu/:itemId/edit',upload.single('image'),EditMenu)
 router.delete('/menu/:itemId/delete',DeleteMenuByID)
 

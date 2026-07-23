@@ -19,6 +19,7 @@ const AuthenticationLayout = lazy(() => import('../Layout/AuthenticationLayout')
 const Login = lazy(() => import('../Auth/Login'))
 const Signup = lazy(() => import('../Auth/Signup'))
 import Loader from '../utils/Loader'
+const  FoodDetail= lazy( ()=>import( '../Pages/FoodDetail'))
 const AppRoutes = () => {
       return (
             <Suspense fallback={<Loader />}>
@@ -30,6 +31,7 @@ const AppRoutes = () => {
                               <Route path='/Contact' element={<Contact />} />
                               <Route path='/About' element={<About />} />
                               <Route path='/Booking' element={<Booking />} />
+                              <Route path='/menu/product/:itemId' element={<FoodDetail/>}/>
                         </Route>
                         <Route element={<AuthenticationLayout />}>
                               <Route path='/Login' element={<Login />} />

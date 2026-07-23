@@ -3,11 +3,12 @@ import { IoRadioButtonOff, IoStar } from 'react-icons/io5'
 import { MdOutline18UpRating } from 'react-icons/md'
 import { ImSpoonKnife } from "react-icons/im";
 import { FaCartPlus, FaHeart, FaRegHeart } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 
-const DishCard = ({image , category,price,title,desc,rating,Isveg}) => {
+const DishCard = ({image ,link, category,price,title,desc,rating,Isveg}) => {
   return (
     <div className="flex flex-col group w-[300px] overflow-hidden rounded-xl border bg-biege border-black backdrop-blur-2xl p-1 ">
-
+<Link to={link}>
   <div className="relative">
     <img
       src={image}
@@ -75,6 +76,7 @@ $ {price}    </span>
     </div> */}
 
   </div>
+  </Link>
 </div>
   )
 }
