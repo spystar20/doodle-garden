@@ -6,7 +6,6 @@ import { api } from "../../axios/api";
 import Loader from '../utils/Loader'
 const FoodDetail = () => {
   const { itemId } = useParams();
-
   const [dish, setDish] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -14,7 +13,8 @@ const FoodDetail = () => {
   const fetchDish = async () => {
     try {
       const res = await api.get(`/user/get-menu/${itemId}`);
-      setDish(res?.data?.menu);
+      console.log(res)
+      setDish(res?.data);
     } catch (error) {
       console.log(error);
     } finally {

@@ -10,77 +10,132 @@ import { isDragActive } from 'motion/react'
 
 const Sidebar = () => {
   return (
-    <aside className='w-72 min-h-screen bg-biege rounded-2xl p-4 font-[Outfit]'>
+  <aside className="w-72 min-h-screen rounded-2xl bg-brand p-4 font-body">
 
-      {/* Logo */}
-      <div className='border-b border-black/10 pb-4'>
-        <img
-          src={logo}
-          className='w-[220px] mx-auto'
-          alt="Doodle Garden"
-        />
-      </div>
+  {/* Logo */}
+  <div className="border-b border-primary/10 pb-4">
+    <img
+      src={logo}
+      className="mx-auto w-[220px]"
+      alt="Doodle Garden"
+    />
+  </div>
 
-      {/* Navigation */}
-      <div className='mt-6'>
+  {/* Navigation */}
+  <div className="mt-6">
 
-        <p className='text-xs uppercase tracking-widest text-black/50 px-3 mb-3'>
-          Main
-        </p>
+    {/* Main Section */}
+    <p className="mb-3 px-3 font-heading text-xs uppercase tracking-[0.2em] text-primary/50">
+      Main
+    </p>
 
-        <ul className='space-y-2'>
+    <ul className="space-y-2">
 
-      <NavLink to='/admin/dashboard' className={ ({isActive})=>{return `flex items-center gap-3 hover:bg-black/60 hover:text-biege rounded-xl px-4 py-3 cursor-pointer duration-300 ${isActive?'bg-black text-biege':''}`}}> 
-            <FaUtensils size={20} />
-            <MdDashboard size={20} />
+      {/* Dashboard */}
+      <NavLink
+        to="/admin/dashboard"
+        className={({ isActive }) =>
+          `flex items-center gap-3 rounded-xl px-4 py-3 cursor-pointer
+          transition-all duration-300
+          ${
+            isActive
+              ? "bg-primary text-brand shadow-md"
+              : "text-primary hover:bg-primary/10"
+          }`
+        }
+      >
+        <MdDashboard size={20} />
+        <span>Dashboard</span>
+      </NavLink>
 
-            Dashboard
-          </NavLink>
+      {/* Manage Menu */}
+      <NavLink
+        to="/admin/manage-menu"
+        className={({ isActive }) =>
+          `flex items-center gap-3 rounded-xl px-4 py-3 cursor-pointer
+          transition-all duration-300
+          ${
+            isActive
+              ? "bg-primary text-brand shadow-md"
+              : "text-primary hover:bg-primary/10"
+          }`
+        }
+      >
+        <FaUtensils size={20} />
+        <span>Manage Menu</span>
+      </NavLink>
 
-  <NavLink to='/admin/manage-menu' className={ ({isActive})=>{return `flex items-center gap-3 hover:bg-black/60 hover:text-biege rounded-xl px-4 py-3 cursor-pointer duration-300 ${isActive?'bg-black text-biege':''}`}}> 
-            <FaUtensils size={20} />
-            Manage Menu
-</NavLink>
-           <NavLink to='/admin/add-item' className={ ({isActive})=>{return `flex items-center gap-3 hover:bg-black/60 hover:text-biege rounded-xl px-4 py-3 cursor-pointer duration-300 ${isActive?'bg-black text-biege':''}`}}> <HiPlusCircle size={20} />
-            Add Dish
-          </NavLink>
+      {/* Add Dish */}
+      <NavLink
+        to="/admin/add-item"
+        className={({ isActive }) =>
+          `flex items-center gap-3 rounded-xl px-4 py-3 cursor-pointer
+          transition-all duration-300
+          ${
+            isActive
+              ? "bg-primary text-brand shadow-md"
+              : "text-primary hover:bg-primary/10"
+          }`
+        }
+      >
+        <HiPlusCircle size={20} />
+        <span>Add Dish</span>
+      </NavLink>
 
-        </ul>
+    </ul>
 
-        <p className='text-xs uppercase tracking-widest text-black/50 px-3 mt-8 mb-3'>
-          Restaurant
-        </p>
 
-        <ul className='space-y-2'>
+    {/* Restaurant Section */}
+    <p className="mb-3 mt-8 px-3 font-heading text-xs uppercase tracking-[0.2em] text-primary/50">
+      Restaurant
+    </p>
 
-          <NavLink to='/admin/reservation' className={ ({isActive})=>{return `flex items-center gap-3 hover:bg-black/60 hover:text-biege rounded-xl px-4 py-3 cursor-pointer duration-300 ${isActive?'bg-black text-biege':''}`}}>
-            <FaCalendar size={20} />
-            Reservations
-         </NavLink>
+    <ul className="space-y-2">
 
-          <li className='flex items-center gap-3 hover:bg-black hover:text-biege rounded-xl px-4 py-3 cursor-pointer duration-300'>
-            <IoSettings size={20} />
-            Settings
-          </li>
+      {/* Reservations */}
+      <NavLink
+        to="/admin/reservation"
+        className={({ isActive }) =>
+          `flex items-center gap-3 rounded-xl px-4 py-3 cursor-pointer
+          transition-all duration-300
+          ${
+            isActive
+              ? "bg-primary text-brand shadow-md"
+              : "text-primary hover:bg-primary/10"
+          }`
+        }
+      >
+        <FaCalendar size={20} />
+        <span>Reservations</span>
+      </NavLink>
 
-        </ul>
+      {/* Settings */}
+      <li className="flex items-center gap-3 rounded-xl px-4 py-3 cursor-pointer text-primary transition-all duration-300 hover:bg-primary/10">
+        <IoSettings size={20} />
+        <span>Settings</span>
+      </li>
 
-      </div>
+    </ul>
 
-      {/* Bottom Card */}
-      <div className='mt-auto pt-10'>
-        <div className='bg-black text-biege rounded-2xl p-4'>
-          <h3 className='font-semibold text-lg'>
-            Doodle Garden
-          </h3>
+  </div>
 
-          <p className='text-sm text-biege/70 mt-1'>
-            Restaurant Admin Dashboard
-          </p>
-        </div>
-      </div>
 
-    </aside>
+  {/* Bottom Card */}
+  <div className="mt-10">
+    <div className="rounded-2xl bg-primary p-4 text-brand">
+
+      <h3 className="font-heading text-lg font-semibold">
+        Doodle Garden
+      </h3>
+
+      <p className="mt-1 font-body text-sm text-brand/70">
+        Restaurant Admin Dashboard
+      </p>
+
+    </div>
+  </div>
+
+</aside>
   )
 }
 

@@ -46,131 +46,307 @@ const Home = () => {
       },[])
   return (
 
-    <div className='overflow-x-hidden  max-w-[100vw]'>
-     
-      <div  className="embla overflow-hidden w-full min-h-screen " ref={emblaRef}>
-         
-        <div className="embla__container flex ">
-         {images.map((img)=>(
- <div key={img.index} className="embla__slide w-full flex-[0_0_100%]">
-    <img
-      src={img.img}
-      alt=""
-      className="w-full h-screen object-cover object-center"
-    />
-  </div>          ))}
-        </div>
-        
-
-      </div>
-
-      <div  className='absolute top-[4rem]   flex justify-center   items-center  md:top-[0.4rem] lg:top-0 
-       bg-gradient-to-bl from-black/30 to-biege/20 w-full min-h-[calc(100vh-60px)] md:min-h-full'>
-        <div data-aos="fade-up" className='text-center text-biege'>
-          <h2 className='font-[Imperial_Script] md:text-8xl text-6xl '>Doodle’s Garden</h2>
-          <ul className='flex justify-center items-center py-7 gap-10 list-disc  text-pretty  uppercase md:text-2xl'>
-            <li >drink</li>
-            <li >drool</li>
-            <li>dine</li>
-          </ul>
-          <div className='flex justify-center items-center gap-5 font-[Outfit]'>
-         <Link to='/Booking'><div><button className='capitalize bg-gradient-to-bl from-biege to-black/10 hover:bg-biege  text-xl  font-antonio text-black px-3 py-2 rounded-lg cursor-pointer'>reserve a table</button></div></Link>
-          <div><button className=' bg-gradient-to-tl from-black/5 to-biege hover:bg-biege  text-xl  capitalize text-black px-3 py-2 rounded-lg cursor-pointer'>order online</button></div>
-          </div>
-        </div>
-      </div>
-       {/* INTRO */}
-      <div  className='bg-black py-10 px-5  md:p-20'>
-        <div data-aos="fade-down" className='text-center py-20 '>
-          <h2 className='text-[rgb(255,255,240)] text-2xl uppercase font-[Outfit] font-bold'>Spend the Perfect Time with your Loved-Ones</h2>
-          <p className='text-[#fffff0eb] font-thin pt-4 lg:px-24 text-base'>Welcome to Doodle’s Garden, where every meal is a family affair! Situated in the heart of our community, Doodle’s Garden is more than just a diner – it’s a gathering place for friends, families along with their pets to come together and create lasting memories over delicious food and warm hospitality.</p></div>
-          <ul className='grid grid-cols-2 lg:grid-cols-4 justify-center polaroid  items-center gap-6 md:gap-12'>
-            {showcaseImg.map((img,index)=>(
-<li key={img.id} data-aos="fade-up" data-aos-delay="900" className='bg-[#FFFFF0] flex justify-center items-start p-2 w-full md:pt-10 h-[230px] lg:w-[18vw] lg:h-[56vh]  rounded-sm'>
-<img src={img.img} className='w-[230px] h-[180px] lg:w-[240px] rounded-sm md:h-[280px] object-cover'  alt="" />
-</li>
-))}
-          </ul>
-      </div>
-
-        {/* MENU */}
-      <div className=' bg-[#FFFFF0] px-5 lg:py-10 lg:pt-4 lg:px-20'>
-      <div className='flex justify-center items-center gap-3 '> <div className='w-[88vw] bg-black h-2' data-aos="fade-right"></div>  <h2 data-aos="fade-left" className='text-center font-antonio font-bold text-4xl uppercase py-6'>menu</h2> </div>
-        <div className='flex justify-between items-center flex-col gap-4 py-7 lg:flex-row lg:px-24'>
-          <div><img data-aos="zoom-out"  className='w-[45vw] lg:w-[25vw] rounded-full' src="https://i.pinimg.com/736x/a1/9a/ac/a19aac9048cae3f00e47324f1b691fea.jpg"  alt="" /></div>
-        
-          <div data-aos="zoom-out" data-aos-delay="100" className=' bg-black text-[#FFFFF0] px-7 py-6 lg:py-12 w-[85vw] lg:w-[45vw]   rounded-tl-3xl rounded-br-3xl'>
-            <ul className='flex flex-col gap-4'><li className='flex justify-between  gap-10 '>
-              <div><div className='font-semibold font-[Outfit] text-xl'>Mackossa Mango</div>
-              <div className='text-[#fffff0dc]'>Raw mango, Lime with a pinch of spices</div></div>
-              <div className='font-semibold font-[Outfit] text-xl'>
-              ₹325</div>
-              </li>
-              <li className='flex justify-between  gap-10'>
-              <div><div className='font-semibold font-[Outfit] text-xl'>Mackossa Mango</div>
-              <div className='text-[#fffff0dc]'>Raw mango, Lime with a pinch of spices</div></div>
-              <div className='font-semibold font-[Outfit] text-xl'>
-              ₹325</div>
-              </li>
-              <li className='flex justify-between  gap-10'>
-              <div><div className='font-semibold font-[Outfit] text-xl'>Pina Colada
-              </div>
-              <div className='text-[#fffff0dc]'>Pineapple and coconut with vanilla overtones</div></div>
-              <div className='font-semibold font-[Outfit] text-xl'>
-              ₹325</div>
-              </li>
-              <li className='flex justify-between gap-10 '>
-              <div><div className='font-semibold font-[Outfit] text-xl'>Kiwi Slider
-              </div>
-              <div className='text-[#fffff0dc]'>Fresh Kiwi, Lime with a pinch of spices</div></div>
-              <div className='font-semibold font-[Outfit] text-xl'>
-              ₹325</div>
-              </li>
-              <li className='flex justify-between gap-10'>
-              <div><div className='font-semibold font-[Outfit] text-xl'>Irish Peach</div>
-              <div className='text-[#fffff0dc]'>Peach with notes of creamy, citrus and spice</div></div>
-              <div className='font-semibold font-[Outfit] text-xl'>
-              ₹325</div>
-              </li>
-              </ul>
-          </div>
-        </div>
-      </div>
-
-        {/* PET-SECTION */}
-<div className='bg-black py-9'>
-  <div className='grid grid-cols-3 justify-center items-center '>
-  <img data-aos="fade-right" className=' w-full rounded-r-full' src="https://i.pinimg.com/736x/66/2b/1e/662b1ebfa89964f71cf536675e71891c.jpg" alt="" />
   
-  <h2 data-aos="zoom-in" className='text-[#FFFFF0] text-xl md:text-4xl font-bold text-center  font-[Antonio]'>A Pet-Friendly Family Diner Experience</h2>
-  
-  <img data-aos="fade-left" className='w-full rounded-s-full' src="https://i.pinimg.com/474x/eb/0f/20/eb0f20e41e87a24755cdb8bc9f83851d.jpg" alt="" />
+<div className='overflow-x-hidden max-w-[100vw]'>
 
-  </div>
+  <div className="embla overflow-hidden w-full min-h-screen" ref={emblaRef}>
 
-
-
-
-</div>
-
-        {/* ABOUT-SECTION */}
-
-<div className='bg-[#FFFFF0]  py-8 px-6 lg:px-20'>
-  <div  >
-<h2 className='text-center  font-[Antonio] font-bold text-3xl underline md:text-4xl uppercase py-6'>about us</h2>
-<div className='grid grid-cols-1 md:grid-cols-2 py-5 gap-8 lg:gap-14 items-center justify-center'>
-  <div data-aos="fade-in" className='text-center flex flex-col gap-6 '>
-    <h2 className='text-2xl font-medium font-[Imperial_Script] md:text-4xl'>Truly Relaxing and Authentic Environment</h2>
-  <p className='text-sm  font-[Outfit] md:text-xl'>Welcome to Doodle’s Garden, where every meal is a family affair! Situated in the heart of our community, Doodle’s Garden is more than just a diner – it’s a gathering place for friends, families along with their pets to come together and create lasting memories over delicious food and warm hospitality.</p>
-  <div><button data-aos="zoom-out" className=' border-black border-2 text-xl uppercase hover:bg-black hover:text-[#FFFFF0] font-[Antonio] text-black px-3 py-2 rounded-xl'>reserve a table</button></div>
-  </div>
- <div className='flex justify-center items-center'> <img data-aos="fade-in" className='rounded-t-full w-[19rem]   outline-black outline-2 outline  outline-offset-8' src="https://i.pinimg.com/474x/b0/db/97/b0db97aa653821549856f7444b9d8c65.jpg" alt="" /></div>
-</div>
-</div>
-
-</div>
-  
+    <div className="embla__container flex">
+      {images.map((img) => (
+        <div key={img.index} className="embla__slide w-full flex-[0_0_100%]">
+          <img
+            src={img.img}
+            alt=""
+            className="w-full h-screen object-cover object-center"
+          />
+        </div>
+      ))}
     </div>
+
+  </div>
+
+  <div className='absolute top-[4rem] flex justify-center items-center md:top-[0.4rem] lg:top-0 
+    bg-gradient-to-bl from-primary/30 to-brand/20 w-full min-h-[calc(100vh-60px)] md:min-h-full'>
+
+    <div data-aos="fade-up" className='text-center text-brand'>
+
+      <h2 className='font-brand md:text-8xl text-6xl'>
+        Doodle’s Garden
+      </h2>
+
+      <ul className='flex justify-center items-center py-7 gap-10 list-disc text-pretty uppercase md:text-2xl'>
+        <li>drink</li>
+        <li>drool</li>
+        <li>dine</li>
+      </ul>
+
+      <div className='flex justify-center items-center gap-5 font-body'>
+
+        <Link to='/Booking'>
+          <div>
+            <button className='capitalize bg-gradient-to-bl from-brand to-primary/10 hover:bg-brand text-xl font text-primary px-3 py-2 rounded-lg cursor-pointer'>
+              reserve a table
+            </button>
+          </div>
+        </Link>
+
+        <div>
+          <button className='bg-gradient-to-tl from-primary/5 to-brand hover:bg-brand text-xl capitalize text-primary px-3 py-2 rounded-lg cursor-pointer'>
+            order online
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  {/* INTRO */}
+
+  <div className='bg-primary py-10 px-5 md:p-20'>
+
+    <div data-aos="fade-down" className='text-center py-20'>
+
+      <h2 className='text-brand text-2xl uppercase font-body font-bold'>
+        Spend the Perfect Time with your Loved-Ones
+      </h2>
+
+      <p className='text-brand/90 font-thin pt-4 lg:px-24 text-base'>
+        Welcome to Doodle’s Garden, where every meal is a family affair! Situated in the heart of our community, Doodle’s Garden is more than just a diner – it’s a gathering place for friends, families along with their pets to come together and create lasting memories over delicious food and warm hospitality.
+      </p>
+
+    </div>
+
+    <ul className='grid grid-cols-2 lg:grid-cols-4 justify-center polaroid items-center gap-6 md:gap-12'>
+
+      {showcaseImg.map((img, index) => (
+
+        <li
+          key={img.id}
+          data-aos="fade-up"
+          data-aos-delay="900"
+          className='bg-brand flex justify-center items-start p-2 w-full md:pt-10 h-[230px] lg:w-[18vw] lg:h-[56vh] rounded-sm'
+        >
+          <img
+            src={img.img}
+            className='w-[230px] h-[180px] lg:w-[240px] rounded-sm md:h-[280px] object-cover'
+            alt=""
+          />
+        </li>
+
+      ))}
+
+    </ul>
+
+  </div>
+
+
+  {/* MENU */}
+
+  <div className='bg-brand px-5 lg:py-10 lg:pt-4 lg:px-20'>
+
+    <div className='flex justify-center items-center gap-3'>
+
+      <div
+        className='w-[88vw] bg-primary h-2'
+        data-aos="fade-right"
+      ></div>
+
+      <h2
+        data-aos="fade-left"
+        className='text-center font-heading font-bold text-4xl uppercase py-6'
+      >
+        menu
+      </h2>
+
+    </div>
+
+    <div className='flex justify-between items-center flex-col gap-4 py-7 lg:flex-row lg:px-24'>
+
+      <div>
+        <img
+          data-aos="zoom-out"
+          className='w-[45vw] lg:w-[25vw] rounded-full'
+          src="https://i.pinimg.com/736x/a1/9a/ac/a19aac9048cae3f00e47324f1b691fea.jpg"
+          alt=""
+        />
+      </div>
+
+      <div
+        data-aos="zoom-out"
+        data-aos-delay="100"
+        className='bg-primary text-brand px-7 py-6 lg:py-12 w-[85vw] lg:w-[45vw] rounded-tl-3xl rounded-br-3xl'
+      >
+
+        <ul className='flex flex-col gap-4'>
+
+          <li className='flex justify-between gap-10'>
+            <div>
+              <div className='font-semibold font-body text-xl'>
+                Mackossa Mango
+              </div>
+              <div className='text-brand/85'>
+                Raw mango, Lime with a pinch of spices
+              </div>
+            </div>
+
+            <div className='font-semibold font-body text-xl'>
+              ₹325
+            </div>
+          </li>
+
+          <li className='flex justify-between gap-10'>
+            <div>
+              <div className='font-semibold font-body text-xl'>
+                Mackossa Mango
+              </div>
+              <div className='text-brand/85'>
+                Raw mango, Lime with a pinch of spices
+              </div>
+            </div>
+
+            <div className='font-semibold font-body text-xl'>
+              ₹325
+            </div>
+          </li>
+
+          <li className='flex justify-between gap-10'>
+            <div>
+              <div className='font-semibold font-body text-xl'>
+                Pina Colada
+              </div>
+              <div className='text-brand/85'>
+                Pineapple and coconut with vanilla overtones
+              </div>
+            </div>
+
+            <div className='font-semibold font-body text-xl'>
+              ₹325
+            </div>
+          </li>
+
+          <li className='flex justify-between gap-10'>
+            <div>
+              <div className='font-semibold font-body text-xl'>
+                Kiwi Slider
+              </div>
+              <div className='text-brand/85'>
+                Fresh Kiwi, Lime with a pinch of spices
+              </div>
+            </div>
+
+            <div className='font-semibold font-body text-xl'>
+              ₹325
+            </div>
+          </li>
+
+          <li className='flex justify-between gap-10'>
+            <div>
+              <div className='font-semibold font-body text-xl'>
+                Irish Peach
+              </div>
+              <div className='text-brand/85'>
+                Peach with notes of creamy, citrus and spice
+              </div>
+            </div>
+
+            <div className='font-semibold font-body text-xl'>
+              ₹325
+            </div>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  {/* PET-SECTION */}
+
+  <div className='bg-primary py-9'>
+
+    <div className='grid grid-cols-3 justify-center items-center'>
+
+      <img
+        data-aos="fade-right"
+        className='w-full rounded-r-full'
+        src="https://i.pinimg.com/736x/66/2b/1e/662b1ebfa89964f71cf536675e71891c.jpg"
+        alt=""
+      />
+
+      <h2
+        data-aos="zoom-in"
+        className='text-brand text-xl md:text-4xl font-bold text-center font-heading'
+      >
+        A Pet-Friendly Family Diner Experience
+      </h2>
+
+      <img
+        data-aos="fade-left"
+        className='w-full rounded-s-full'
+        src="https://i.pinimg.com/474x/eb/0f/20/eb0f20e41e87a24755cdb8bc9f83851d.jpg"
+        alt=""
+      />
+
+    </div>
+
+  </div>
+
+
+  {/* ABOUT-SECTION */}
+
+  <div className='bg-brand py-8 px-6 lg:px-20'>
+
+    <div>
+
+      <h2 className='text-center font-heading font-bold text-3xl underline md:text-4xl uppercase py-6'>
+        about us
+      </h2>
+
+      <div className='grid grid-cols-1 md:grid-cols-2 py-5 gap-8 lg:gap-14 items-center justify-center'>
+
+        <div data-aos="fade-in" className='text-center flex flex-col gap-6'>
+
+          <h2 className='text-2xl font-medium font-brand md:text-4xl'>
+            Truly Relaxing and Authentic Environment
+          </h2>
+
+          <p className='text-sm font-body md:text-xl'>
+            Welcome to Doodle’s Garden, where every meal is a family affair! Situated in the heart of our community, Doodle’s Garden is more than just a diner – it’s a gathering place for friends, families along with their pets to come together and create lasting memories over delicious food and warm hospitality.
+          </p>
+
+          <div>
+            <button
+              data-aos="zoom-out"
+              className='border-primary border-2 text-xl uppercase hover:bg-primary hover:text-brand font-heading text-primary px-3 py-2 rounded-xl'
+            >
+              reserve a table
+            </button>
+          </div>
+
+        </div>
+
+        <div className='flex justify-center items-center'>
+          <img
+            data-aos="fade-in"
+            className='rounded-t-full w-[19rem] outline-primary outline-2 outline outline-offset-8'
+            src="https://i.pinimg.com/474x/b0/db/97/b0db97aa653821549856f7444b9d8c65.jpg"
+            alt=""
+          />
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
   )
 }
 

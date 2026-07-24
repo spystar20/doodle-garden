@@ -35,44 +35,112 @@ console.log(err)
         fetchMenu()
     }, [])
     return (
-        <div className='w-full min-h-screen mx-4 relative rounded-lg text-biege px-4 py-5 flex flex-col gap-4 overflow-hidden '>
-            <div className='flex flex-col gap-1  w-full '>
-                <h2 className='text-3xl font-semibold font-[Outfit]'>Menu Management</h2>
-                <p>Manage dishes, prices and availability</p>
-            </div>
+       <div className="w-full min-h-screen mx-4 relative rounded-lg text-brand px-4 py-5 flex flex-col gap-4 overflow-hidden">
 
-            <div className='grid grid-cols-3 gap-6'>
-                {menu?.map((i) => (
+  {/* Header */}
+  <div className="flex flex-col gap-1 w-full">
+    <h2 className="text-3xl font-semibold font-heading">
+      Menu Management
+    </h2>
 
-                    <AdminDishCard setOpenModal={()=>{setOpenModal(true),setSelected(i._id)}}  link_edit={`/admin/manage-menu/${i._id}/edit`} key={i._id} rating={4} category={i.category} image={i.image} title={i.title} desc={i.desc} price={i.price} Isveg={i.isVeg} />
-                ))}      </div>
-               
-            <div className={`absolute -translate-y-1/2 self-center top-1/2 bg-black/30 backdrop-blur-sm w-full min-h-screen flex items-center justify-center ${openModal ? 'flex':'hidden'}`}>
-       <div className="w-full max-w-md rounded-3xl border border-biege/20 bg-[#111] p-6 shadow-2xl">
-                     <div className="flex flex-col gap-2">
+    <p className="font-body text-brand/70">
+      Manage dishes, prices and availability
+    </p>
+  </div>
 
-          <span className="text-red-400 text-sm font-medium uppercase tracking-wider">
-            Delete Item
-          </span>
+  {/* Menu Grid */}
+  <div className="grid grid-cols-3 gap-6">
+    {menu?.map((i) => (
+      <AdminDishCard
+        setOpenModal={() => {
+          setOpenModal(true);
+          setSelected(i._id);
+        }}
+        link_edit={`/admin/manage-menu/${i._id}/edit`}
+        key={i._id}
+        rating={4}
+        category={i.category}
+        image={i.image}
+        title={i.title}
+        desc={i.desc}
+        price={i.price}
+        Isveg={i.isVeg}
+      />
+    ))}
+  </div>
 
-          <h2 className="font-[Outfit] text-2xl font-semibold text-biege">
-            Are you sure?
-          </h2>
+  {/* Delete Confirmation Modal */}
+  <div
+    className={`absolute -translate-y-1/2 self-center top-1/2
+    bg-primary/30 backdrop-blur-sm
+    w-full min-h-screen
+    flex items-center justify-center
+    ${openModal ? "flex" : "hidden"}`}
+  >
 
-          <p className="text-biege/70 text-sm">
-            This action will permanently remove this dish from your menu.
-            This cannot be undone.
-          </p>
+    <div className="w-full max-w-md rounded-3xl border border-brand/20 bg-primary p-6 shadow-2xl">
 
-        </div>
-                    <div className='flex gap-3 px-4 mt-4'>
-                        <button onClick={()=>handleDelete(selected)} className="w-full cursor-pointer border-red-400 hover:scale-95  text-biege rounded-full bg-red-400 py-1 text-sm font-medium font-[Outfit]">
-                            Yes    </button><button onClick={()=>setOpenModal(false)} className="w-full cursor-pointer hover:scale-95  border-biege  text-black rounded-full bg-biege py-1 text-sm font-medium font-[Outfit]">
-                            No    </button>
-                            </div> 
-                             </div>    </div>
+      <div className="flex flex-col gap-2">
 
-        </div>
+        <span className="text-red-400 text-sm font-medium uppercase tracking-wider font-body">
+          Delete Item
+        </span>
+
+        <h2 className="font-heading text-2xl font-semibold text-brand">
+          Are you sure?
+        </h2>
+
+        <p className="text-brand/70 text-sm font-body">
+          This action will permanently remove this dish from your menu.
+          This cannot be undone.
+        </p>
+
+      </div>
+
+      {/* Actions */}
+      <div className="flex gap-3 px-4 mt-4">
+
+        <button
+          onClick={() => handleDelete(selected)}
+          className="w-full cursor-pointer
+          border-red-400
+          hover:scale-95
+          text-brand
+          rounded-full
+          bg-red-400
+          py-1
+          text-sm
+          font-medium
+          font-body
+          transition-transform"
+        >
+          Yes
+        </button>
+
+        <button
+          onClick={() => setOpenModal(false)}
+          className="w-full cursor-pointer
+          hover:scale-95
+          border-brand
+          text-primary
+          rounded-full
+          bg-brand
+          py-1
+          text-sm
+          font-medium
+          font-body
+          transition-transform"
+        >
+          No
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
     )
 }
 

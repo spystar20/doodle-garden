@@ -124,278 +124,262 @@ useEffect(()=>{
   fetchCategories()
 },[])
     return (
-<div className='bg-[#fffff0] mt-20'>
-             {/* <Parallax  className='w-[100%] h-[40vh] md:h-[46vh] lg:h-[100vh]' bgImageSizes='cover'  bgImage='https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg' strength={300} >     
-             </Parallax> */}
-             
-            <div className='md:py-14 py-7 px-6 md:px-20 flex flex-col gap-6'>
-                <div className='flex justify-center items-center gap-5'>
-                    <p className='w-2 h-2 bg-black rounded-full'></p>
-                    <h1 className='text-4xl md:text-6xl font-[Imperial_Script] text-center'>The Menu</h1>
-                    <p className=' w-2 h-2 bg-black rounded-full'></p>
-                </div>
-                <div className="space-y-4 mb-6">
+<div className="bg-brand mt-20">
+  {/* <Parallax
+    className="w-[100%] h-[40vh] md:h-[46vh] lg:h-[100vh]"
+    bgImageSizes="cover"
+    bgImage="https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg"
+    strength={300}
+  >
+  </Parallax> */}
 
-  {/* Categories */}
-  <div className="flex flex-wrap justify-center gap-2">
-    {categories?.map((category) => (
-      <button
-        key={category}
-        onClick={(e) => {setSelectedCategory(category),setFilter((prev)=>({...prev,category:category}))}}
-        className={`px-4 py-1.5 text-sm rounded-full transition-all duration-300 ${
-          selectedCategory === category
-            ? "bg-black text-[#FFFFF0]"
-            : "border border-black/20 hover:bg-black hover:text-[#FFFFF0]"
-        }`}
-      >
-        {category.toUpperCase()}
-      </button>
-    ))}
-  </div>
+  <div className="md:py-14 py-7 px-6 md:px-20 flex flex-col gap-6">
 
-  {/* Filters */}
-  <div className="flex flex-wrap items-center justify-between gap-3 border-y border-black/10 py-3">
+    <div className="flex justify-center items-center gap-5">
+      <p className="w-2 h-2 bg-primary rounded-full"></p>
 
-    {/* Left */}
-    <div className="flex flex-wrap gap-2">
+      <h1 className="text-4xl md:text-6xl font-brand text-center">
+        The Menu
+      </h1>
 
-      <button onClick={()=>setFilter((prev)=>({...prev,isVeg:null}))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition">
-        All
-      </button>
-
-      <button onClick={()=>(setFilter((prev)=>({...prev,isVeg:true})))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition flex gap-2 items-center">
-       <div className="flex h-4 w-4 items-center justify-center border border-green-600">
-  <div className="h-2 w-2 rounded-full bg-green-600"></div></div> Veg
-      </button>
-
-      <button onClick={()=>(setFilter((prev)=>({...prev,isVeg:false})))} className="px-3 py-1.5 text-sm rounded-full border border-black/20 hover:bg-black hover:text-[#FFFFF0] transition flex gap-2 items-center">
-       <div className="flex h-4 w-4 items-center justify-center border border-red-600">
-  <div className="h-2 w-2 rounded-full bg-red-600"></div>
-</div> Non Veg
-      </button>
-<DropDown title='sort by' setState={setFilter} FilterKey='sort' className='w-[120px]' array={['Popular','Newest','Oldest','Price-high','Price-low']}/>
-<DropDown title='Rating' className='w-[120px]' array={['4★ & Above','4.5★ & Above']}/>
-      
-
-    </div>
- {/* Price Slider */}
-  <div className="  min-w-[300px] max-w-[380px] flex-1">
-
-    <div className="flex justify-between items-center mb-1">
-
-      <h3 className="text-sm font-semibold uppercase tracking-wide">
-        Price Range
-      </h3>
-
-      <span className="text-xs bg-black text-[#FFFFF0] px-3 py-1 rounded-full">
-      ₹{filter.minPrice} - ₹{filter.maxPrice}
-      </span>
-
+      <p className="w-2 h-2 bg-primary rounded-full"></p>
     </div>
 
- 
-{priceRange.max > 0 && (
-  <Slider
-    value={[filter.minPrice, filter.maxPrice]}
-    min={priceRange.min}
-    max={priceRange.max}
-    step={50}
-    onChange={(e, value) => {
-      setFilter((prev) => ({
-        ...prev,
-        minPrice: value[0],
-        maxPrice: value[1],
-      }));
-    }}
-    valueLabelDisplay="off"
-    sx={{
-      color: "#000",
-      height: 3,
+    <div className="space-y-4 mb-6">
 
-      "& .MuiSlider-track": {
-        border: "none",
-        height: 3,
-      },
-
-      "& .MuiSlider-rail": {
-        backgroundColor: "#000",
-        opacity: 0.2,
-        height: 3,
-      },
-
-      "& .MuiSlider-thumb": {
-        width: 14,
-        height: 14,
-        backgroundColor: "#FFFFF0",
-        border: "2px solid black",
-
-        "&:hover": {
-          boxShadow: "0 0 0 6px rgba(0,0,0,.08)",
-        },
-
-        "&.Mui-active": {
-          boxShadow: "0 0 0 8px rgba(0,0,0,.12)",
-        },
-      },
-    }}
-  />
-)}
-
-
-
-  </div>
-  </div>
-
- 
-
-</div>
-                <div className='grid grid-cols-4 gap-3'>
-               
-               <AnimatePresence mode="popLayout">
-
-{menu?.map((i)=>(
-
-   <motion.div key={i._id} initial={{opacity:0,y:20,filter:'blur(10px)'}}        exit={{ opacity: 0, y: -20 }}
- transition={{ duration: 0.5 }} animate={{opacity:1,y:0,filter:'blur(0px)'}}>
-<DishCard key={i._id} rating={4} category={i.category} image={i.image} title={i.title} desc={i.desc} price={i.price} Isveg={i.isVeg} link={`/menu/product/${i._id}`}/>
-</motion.div>
-
-))}
-</AnimatePresence>
-
-
-                    {/* <div className='py-8'>
-                        <h1 className='md:text-3xl text-2xl font-[Imperial_Script] underline text-center capitalize underline-offset-3 px-8 pb-6 md:py-3'>shisha menu</h1>
-                        <div data-aos="fade-down" data-aos-delay="100" className='border border-black rounded-xl md:p-10 grid-cols-1 grid md:grid-cols-2'>
-                            <ul>
-                            <li  className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col  '>
-                                    <div>Irish Peach</div>
-                                    <div className='text-base text-[#000000e4]'>Peach with notes of creamy, citrus and spice</div>
-                                    </div>
-                                <div>$22.00</div>
-                            </li>
-                            <li  className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Tropicool
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>A Pineapple & Mixed Fruit Blend
-                                    </div>
-                                    </div>
-                                <div>$23.00</div>
-                            </li>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Blue Dew
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>A blend of blueberry and honeydew melon</div>
-                                    </div>
-                                <div>$25.00</div>
-                            </li>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Tropicool
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>A Pineapple & Mixed Fruit Blend
-                                    </div>
-                                    </div>
-                                <div>$23.00</div>
-                            </li>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Blue Dew
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>A blend of blueberry and honeydew melon</div>
-                                    </div>
-                                <div>$25.00</div>
-                            </li>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Pina Colada
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>Pineapple and coconut with vanilla overtones</div>
-                                    </div>
-                                <div>$25.00</div>
-                            </li>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Geisha
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>Smooth notes of peach with a hint of minty “mist”</div>
-                                    </div>
-                                <div>$24.00</div>
-                            </li>
-                            </ul>
-                            <ul>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Irish Peach</div>
-                                    <div className='text-base text-[#000000e4]'>Peach with notes of creamy, citrus and spice</div>
-                                    </div>
-                                <div>$22.00</div>
-                            </li>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Tropicool
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>A Pineapple & Mixed Fruit Blend
-                                    </div>
-                                    </div>
-                                <div>$23.00</div>
-                            </li>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Blue Dew
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>A blend of blueberry and honeydew melon</div>
-                                    </div>
-                                <div>$25.00</div>
-                            </li>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Pina Colada
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>Pineapple and coconut with vanilla overtones</div>
-                                    </div>
-                                <div>$25.00</div>
-                            </li>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Tropicool
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>A Pineapple & Mixed Fruit Blend
-                                    </div>
-                                    </div>
-                                <div>$23.00</div>
-                            </li>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Blue Dew
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>A blend of blueberry and honeydew melon</div>
-                                    </div>
-                                <div>$25.00</div>
-                            </li>
-                            <li className='flex justify-between items-center text-lg font-[Outfit] bg-transparent border-b-2 rounded-2xl px-7 hover:bg-[#fff8c944] border-[#fffff0ac] py-3'>
-                                <div className='flex flex-col '>
-                                    <div>Geisha
-                                    </div>
-                                    <div className='text-base text-[#000000e4]'>Smooth notes of peach with a hint of minty “mist”</div>
-                                    </div>
-                                <div>$24.00</div>
-                            </li>
-                        </ul>
-                        </div>
-                    </div> */}
-                </div>
-             
-      <div className='flex justify-center items-center gap-5'>
-         <Link to="/Booking"><div><button data-aos="zoom-in" data-aos-delay="100" className=' border-black border bg-transparent hover:bg-black hover:text-white text-xl uppercase font-antonio text-black px-3 py-2 rounded-xl'>reserve a table</button></div></Link>
-          <Link to="/Order"><div><button data-aos="zoom-in" data-aos-delay="100" className=' border-black border  bg-transparent hover:bg-black hover:text-white text-xl uppercase font-antonio text-black px-3 py-2 rounded-xl'>order online</button></div></Link>
+      {/* Categories */}
+      <div className="flex flex-wrap justify-center gap-2">
+        {categories?.map((category) => (
+          <button
+            key={category}
+            onClick={(e) => {
+              setSelectedCategory(category),
+              setFilter((prev) => ({
+                ...prev,
+                category: category
+              }))
+            }}
+            className={`px-4 py-1.5 text-sm font-body rounded-full transition-all duration-300 ${
+              selectedCategory === category
+                ? "bg-primary text-brand"
+                : "border border-primary/20 hover:bg-primary hover:text-brand"
+            }`}
+          >
+            {category.toUpperCase()}
+          </button>
+        ))}
       </div>
-      </div>
-   
+
+      {/* Filters */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-y border-primary/10 py-3">
+
+        {/* Left */}
+        <div className="flex flex-wrap gap-2">
+
+          <button
+            onClick={() =>
+              setFilter((prev) => ({
+                ...prev,
+                isVeg: null
+              }))
+            }
+            className="px-3 py-1.5 text-sm font-body rounded-full border border-primary/20 hover:bg-primary hover:text-brand transition"
+          >
+            All
+          </button>
+
+          <button
+            onClick={() =>
+              setFilter((prev) => ({
+                ...prev,
+                isVeg: true
+              }))
+            }
+            className="px-3 py-1.5 text-sm font-body rounded-full border border-primary/20 hover:bg-primary hover:text-brand transition flex gap-2 items-center"
+          >
+            <div className="flex h-4 w-4 items-center justify-center border border-green-600">
+              <div className="h-2 w-2 rounded-full bg-green-600"></div>
+            </div>
+
+            Veg
+          </button>
+
+          <button
+            onClick={() =>
+              setFilter((prev) => ({
+                ...prev,
+                isVeg: false
+              }))
+            }
+            className="px-3 py-1.5 text-sm font-body rounded-full border border-primary/20 hover:bg-primary hover:text-brand transition flex gap-2 items-center"
+          >
+            <div className="flex h-4 w-4 items-center justify-center border border-red-600">
+              <div className="h-2 w-2 rounded-full bg-red-600"></div>
+            </div>
+
+            Non Veg
+          </button>
+
+          <DropDown
+            title="sort by"
+            setState={setFilter}
+            FilterKey="sort"
+            className="w-[120px]"
+            array={["Popular", "Newest", "Oldest", "Price-high", "Price-low"]}
+          />
+
+          <DropDown
+            title="Rating"
+            className="w-[120px]"
+            array={["4★ & Above", "4.5★ & Above"]}
+          />
+
         </div>
+
+        {/* Price Slider */}
+        <div className="min-w-[300px] max-w-[380px] flex-1">
+
+          <div className="flex justify-between items-center mb-1">
+
+            <h3 className="text-sm font-display font-semibold uppercase tracking-wide">
+              Price Range
+            </h3>
+
+            <span className="text-xs font-body bg-primary text-brand px-3 py-1 rounded-full">
+              ₹{filter.minPrice} - ₹{filter.maxPrice}
+            </span>
+
+          </div>
+
+          {priceRange.max > 0 && (
+            <Slider
+              value={[filter.minPrice, filter.maxPrice]}
+              min={priceRange.min}
+              max={priceRange.max}
+              step={50}
+              onChange={(e, value) => {
+                setFilter((prev) => ({
+                  ...prev,
+                  minPrice: value[0],
+                  maxPrice: value[1],
+                }));
+              }}
+              valueLabelDisplay="off"
+              sx={{
+                color: "#000",
+                height: 3,
+
+                "& .MuiSlider-track": {
+                  border: "none",
+                  height: 3,
+                },
+
+                "& .MuiSlider-rail": {
+                  backgroundColor: "#000",
+                  opacity: 0.2,
+                  height: 3,
+                },
+
+                "& .MuiSlider-thumb": {
+                  width: 14,
+                  height: 14,
+                  backgroundColor: "#FFFFF0",
+                  border: "2px solid black",
+
+                  "&:hover": {
+                    boxShadow: "0 0 0 6px rgba(0,0,0,.08)",
+                  },
+
+                  "&.Mui-active": {
+                    boxShadow: "0 0 0 8px rgba(0,0,0,.12)",
+                  },
+                },
+              }}
+            />
+          )}
+
+        </div>
+      </div>
+
+    </div>
+
+    {/* MENU GRID */}
+    <div className="grid grid-cols-4 gap-3">
+
+      <AnimatePresence mode="popLayout">
+
+        {menu?.map((i) => (
+
+          <motion.div
+            key={i._id}
+            initial={{
+              opacity: 0,
+              y: 20,
+              filter: "blur(10px)"
+            }}
+            exit={{
+              opacity: 0,
+              y: -20
+            }}
+            transition={{
+              duration: 0.5
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)"
+            }}
+          >
+            <DishCard
+              key={i._id}
+              rating={4}
+              category={i.category}
+              image={i.image}
+              title={i.title}
+              desc={i.desc}
+              price={i.price}
+              Isveg={i.isVeg}
+              link={`/menu/product/${i._id}`}
+            />
+          </motion.div>
+
+        ))}
+
+      </AnimatePresence>
+
+    </div>
+
+    {/* ACTION BUTTONS */}
+    <div className="flex justify-center items-center gap-5">
+
+      <Link to="/Booking">
+        <div>
+          <button
+            data-aos="zoom-in"
+            data-aos-delay="100"
+            className="border-primary border bg-transparent hover:bg-primary hover:text-brand text-xl uppercase font-display text-primary px-3 py-2 rounded-xl"
+          >
+            reserve a table
+          </button>
+        </div>
+      </Link>
+
+      <Link to="/Order">
+        <div>
+          <button
+            data-aos="zoom-in"
+            data-aos-delay="100"
+            className="border-primary border bg-transparent hover:bg-primary hover:text-brand text-xl uppercase font-display text-primary px-3 py-2 rounded-xl"
+          >
+            order online
+          </button>
+        </div>
+      </Link>
+
+    </div>
+
+  </div>
+</div>
     )
 }
 

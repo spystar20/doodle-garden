@@ -59,113 +59,235 @@ setImage(file)
 setPreview(URL.createObjectURL(file))
     }
   return (
-    <div className='text-biege px-12 py-5 w-full font-[Outfit]'>
-      <div className='flex flex-col gap-2'>
-        <h2 className='text-4xl font-semibold font-[Outfit]'>Add New Dish
-</h2>
-<p className='text-sm font-medium'>Create and publish a new menu item for Doodle Garden.</p>
-    </div>
-    <div className='flex flex-col gap-5 py-6'>
-    <h5 className='text-xl font-medium'>Dish Information</h5>
-    <div className='grid grid-cols-2 gap-5 bg-biege max-w-9/12 rounded-2xl p-5'>
-    <form className='  flex flex-col gap-2  text-black/80' action="">
-      <div className='border-2 border-black/40  hover:border-black rounded-lg p-1.5 pl-5'>
-        <input value={formData.title} onChange={(e)=>setFormData(prev=>({...prev,title:e.target.value}))} className='border-none outline-none w-full placeholder:text-black/70' placeholder='Enter Your Dish Name' type="text" />
-      </div>
-       <div className='border-2 border-black/40  hover:border-black rounded-lg p-1.5 pl-5'>
-    
-        <textarea value={formData.desc} onChange={(e)=>setFormData(prev=>({...prev,desc:e.target.value}))}  className='border-none outline-none w-full placeholder:text-black/70' placeholder='Write a short description of the dish...'  name="" id=""></textarea>
-      </div>
-  <div className="relative">
+   <div className="w-full px-6 py-6 font-body text-brand md:px-12">
 
-  <div
-    onClick={() => setOpen(!open)}
-    className="flex cursor-pointer items-center justify-between rounded-lg border-2 border-black/40 p-3 hover:border-black"
-  >
-    <span>
-      {category?.label || "Select Category"}
-    </span>
+  {/* Page Header */}
+  <div className="flex flex-col gap-2">
+    <h2 className="font-heading text-4xl font-semibold">
+      Add New Dish
+    </h2>
 
-   <IoChevronDown
-  className={`transition duration-300 ${
-    open ? "rotate-180" : ""
-  }`}
-/>
+    <p className="text-sm text-brand/60">
+      Create and publish a new menu item for Doodle Garden.
+    </p>
   </div>
 
-  {open && (
-    <div className="absolute left-0 top-full z-50 mt-2 w-full overflow-x-hidden overflow-y-scroll max-h-60 rounded-lg border border-biege/20 bg-black shadow-lg ">
 
-      {categoryOptions.map((item) => (
-        <div 
-          key={item.value}
-          onClick={() => {
-            setCategory(item);
-            setFormData(prev =>({
-              ...prev,category:item.value
-            }))
-            setOpen(false);
-          }}
-          className={`  cursor-pointer px-4 py-3 transition
-${
-  category?.value === item.value
-    ? "bg-biege text-black"
-    : "hover:bg-biege/10 text-biege"
-}`}
-        >
-          {item.label}
+  {/* Dish Information Section */}
+  <div className="flex flex-col gap-5 py-8">
+
+    <h5 className="font-heading text-2xl font-medium">
+      Dish Information
+    </h5>
+
+
+    {/* Main Form Card */}
+    <div className="grid w-full max-w-5xl grid-cols-1 gap-8 rounded-2xl bg-brand p-6 text-primary shadow-xl lg:grid-cols-2">
+
+      {/* Left: Form */}
+      <form className="flex flex-col gap-4">
+
+        {/* Dish Name */}
+        <div className="rounded-xl border border-primary/20 p-3 transition-all duration-300 focus-within:border-primary hover:border-primary/60">
+          <input
+            value={formData.title}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                title: e.target.value,
+              }))
+            }
+            className="w-full border-none bg-transparent font-body outline-none placeholder:text-primary/50"
+            placeholder="Enter your dish name"
+            type="text"
+          />
         </div>
-      ))}
 
-    </div>
-  )}
 
-</div>
-      <div className='border-2 border-black/40  hover:border-black rounded-lg p-1.5 pl-5'>
- <input value={formData.price} onChange={(e)=>setFormData(prev=>({...prev,price:e.target.value}))}  className='border-none outline-none w-full placeholder:text-black/70' placeholder='Enter price' type="number" />
+        {/* Description */}
+        <div className="rounded-xl border border-primary/20 p-3 transition-all duration-300 focus-within:border-primary hover:border-primary/60">
+          <textarea
+            value={formData.desc}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                desc: e.target.value,
+              }))
+            }
+            className="min-h-[100px] w-full resize-none border-none bg-transparent font-body outline-none placeholder:text-primary/50"
+            placeholder="Write a short description of the dish..."
+          />
+        </div>
+
+
+        {/* Category Dropdown */}
+        <div className="relative">
+
+          <div
+            onClick={() => setOpen(!open)}
+            className="flex cursor-pointer items-center justify-between rounded-xl border border-primary/20 p-3 transition-all duration-300 hover:border-primary"
+          >
+            <span className="font-body">
+              {category?.label || "Select Category"}
+            </span>
+
+            <IoChevronDown
+              className={`transition duration-300 ${
+                open ? "rotate-180" : ""
+              }`}
+            />
+          </div>
+
+
+          {open && (
+            <div className="absolute left-0 top-full z-50 mt-2 max-h-60 w-full overflow-y-auto rounded-xl border border-primary/20 bg-primary p-2 shadow-xl">
+
+              {categoryOptions.map((item) => (
+                <div
+                  key={item.value}
+                  onClick={() => {
+                    setCategory(item);
+
+                    setFormData((prev) => ({
+                      ...prev,
+                      category: item.value,
+                    }));
+
+                    setOpen(false);
+                  }}
+                  className={`cursor-pointer rounded-lg px-4 py-3 font-body transition
+                  ${
+                    category?.value === item.value
+                      ? "bg-brand text-primary"
+                      : "text-brand hover:bg-brand/10"
+                  }`}
+                >
+                  {item.label}
+                </div>
+              ))}
+
+            </div>
+          )}
+
+        </div>
+
+
+        {/* Price */}
+        <div className="rounded-xl border border-primary/20 p-3 transition-all duration-300 focus-within:border-primary hover:border-primary/60">
+          <input
+            value={formData.price}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                price: e.target.value,
+              }))
+            }
+            className="w-full border-none bg-transparent font-body outline-none placeholder:text-primary/50"
+            placeholder="Enter price"
+            type="number"
+          />
+        </div>
+
+
+        {/* Food Type */}
+        <div className="flex flex-col gap-3 py-2">
+
+          <h2 className="font-heading text-lg font-medium">
+            Food Type
+          </h2>
+
+          <div className="flex gap-3">
+
+            {/* Veg */}
+            <button
+              type="button"
+              onClick={() => setIsveg(true)}
+              className={`rounded-full border px-6 py-2 font-heading text-sm transition-all duration-300 ${
+                isVeg === true
+                  ? "border-green-500 bg-green-500 text-white"
+                  : "border-primary/20 hover:border-green-500 hover:bg-green-500 hover:text-white"
+              }`}
+            >
+              Veg
+            </button>
+
+
+            {/* Non Veg */}
+            <button
+              type="button"
+              onClick={() => setIsveg(false)}
+              className={`rounded-full border px-5 py-2 font-heading text-sm transition-all duration-300 ${
+                isVeg === false
+                  ? "border-red-500 bg-red-500 text-white"
+                  : "border-primary/20 hover:border-red-500 hover:bg-red-500 hover:text-white"
+              }`}
+            >
+              Non-Veg
+            </button>
+
+          </div>
+
+        </div>
+
+
+        {/* Submit */}
+        <button
+          type="button"
+          onClick={handleMenu}
+          className="mt-4 w-full rounded-full bg-primary py-3 font-heading text-lg uppercase tracking-wide text-brand transition-all duration-300 hover:scale-[0.98]"
+        >
+          Add Dish
+        </button>
+
+      </form>
+
+
+      {/* Right: Image Upload */}
+      <div className="flex flex-col gap-4">
+
+        <h2 className="font-heading text-2xl font-medium">
+          Dish Image
+        </h2>
+
+        <div className="relative flex min-h-[320px] items-center justify-center rounded-xl border-2 border-dashed border-primary/30 p-2">
+
+          {preview ? (
+            <>
+              <img
+                className="h-[300px] w-full rounded-xl object-cover"
+                src={preview}
+                alt="Dish preview"
+              />
+
+              <button
+                type="button"
+                onClick={() => setPreview("")}
+                className="absolute right-3 top-3 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-primary text-brand transition-all duration-300 hover:scale-95"
+              >
+                <ImCross className="text-xs" />
+              </button>
+            </>
+          ) : (
+            <label className="cursor-pointer rounded-full bg-primary px-8 py-3 font-heading text-sm uppercase tracking-wide text-brand transition-all duration-300 hover:scale-95">
+              Upload Image
+
+              <input
+                onChange={handleImage}
+                className="hidden"
+                type="file"
+              />
+            </label>
+          )}
+
+        </div>
+
       </div>
-      <div className='grid grid-cols-2'>
-      <div className='flex flex-col py-2  gap-2'>
-        <h2 className='text-lg'>Food Type</h2>
-      <div className="flex gap-3 ">
-  <button type='button' onClick={()=>setIsveg(true)}
-    className={`rounded-full border px-6 py-1 duration-300 ease-in hover:bg-green-500 hover:border-green-500 ${isVeg===true?'bg-green-500':'bg-none'}`}
-  >
-    Veg
-  </button>
 
-  <button type='button'
-  onClick={()=>setIsveg(false)}
-    className={`rounded-full border px-4 py-1 duration-300 ease-in hover:bg-red-500 hover:border-red-500 ${isVeg === false ? 'bg-red-500':'bg-none'}`}
-  >
-    Non-Veg
-  </button>
-</div>
-</div>
-
-</div>
-
-<button type='button' onClick={handleMenu} className='bg-black rounded-full text-biege py-1.5 hover:scale-95 duration-300  text-lg mt-6'>Add Dish</button>
-    </form> 
-    <div className='flex flex-col  gap-4 text-black/80'>
-          <h2 className='text-2xl font-medium '>Dish Image</h2>
-<div className='p-2 border-dashed border-2  h-[300px] rounded-lg flex items-center justify-center relative'>
- 
-{
-  preview ? (
-    <>
-    <img className='w-full  h-[280px] object-cover rounded-2xl ' src={preview} alt="" />
-  <span onClick={()=>setPreview('')} className='bg-black text-biege w-8 h-8 rounded-full flex items-center justify-center p-2 absolute top-1 right-2 cursor-pointer '><ImCross className='text-xs'/></span>  
-    </>
-  ):(
-    <label  className='bg-black text-biege px-6 py-1 rounded-lg text-lg z-10'>Upload<input onChange={handleImage} className='hidden' type="file" name="" id="" /></label>
-  )
-}
-</div>
-</div> 
-</div>
     </div>
-    </div>
+
+  </div>
+
+</div>
   )
 }
 
