@@ -6,6 +6,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { ImCross } from 'react-icons/im';
 import { useNavigate, useParams } from 'react-router-dom';
+import useMenu from '../hooks/useMenu';
 
 const EditMenu = () => {
       const [open,setOpen]= useState(false)
@@ -14,6 +15,8 @@ const EditMenu = () => {
   const [image,setImage] = useState('')
   const {itemId} = useParams()
   const navigate = useNavigate()
+     const {isLoading,isError,data:menu} =useMenu(itemId)
+
    const categoryOptions = [
   { value: "appetizer", label: "Appetizer" },
   { value: "salad", label: "Salad" },
@@ -38,7 +41,6 @@ const handleMenu = async()=>{
     form.append('isVeg',isVeg)
     form.append('image',image)
 const res = await axios.put(`http://localhost:3000/auth/menu/${itemId}/edit`,form,{withCredentials:true})
-console.log(res)
 toast.success('Dish updated')
 setFormData({title:'',desc:'',price:'',category:''})
 setIsveg(null)
@@ -66,22 +68,27 @@ const allowedTypes= [ "image/jpeg",
 setImage(file)
 setPreview(URL.createObjectURL(file))
     }
-    const fetchMenu = async()=>{
-           try{
-        const res = await api.get(`/user/get-menu/${itemId}`)
-        const selectedCategory = categoryOptions.find( item=> item.value === res?.data.category )
-        setCategory(selectedCategory)
-        console.log(res)
-        setFormData(res?.data)
-        setPreview(res?.data.image)
-        setIsveg(res?.data.isVeg)
-            }catch(err){
-        console.log(err)
-            }
-    }
-    useEffect(()=>{
-        fetchMenu()
-    },[])
+useEffect(() => {
+  if (!menu) return;
+
+  const selectedCategory = categoryOptions.find(
+    (item) => item.value === menu.category
+  );
+
+  setCategory(selectedCategory || null);
+
+  setFormData({
+    title: menu.title || "",
+    desc: menu.desc || "",
+    price: menu.price || "",
+    category: menu.category || "",
+  });
+
+  setPreview(menu.image || "");
+
+  setIsveg(menu.isVeg);
+}, [menu]);
+ 
   return (
  <div className="text-brand px-12 py-5 w-full font-body">
 
