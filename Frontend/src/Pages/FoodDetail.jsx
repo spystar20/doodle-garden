@@ -4,50 +4,18 @@ import { motion } from "motion/react";
 import { FaArrowLeft, FaStar, FaMinus, FaPlus } from "react-icons/fa6";
 import { api } from "../../axios/api";
 import Loader from '../utils/Loader'
+import {  useMenuById } from "../hooks/menuHooks";
 const FoodDetail = () => {
   const { itemId } = useParams();
   const [dish, setDish] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(true);
+const {isLoading,isError,data}=useMenuById(itemId)
 
-  const fetchDish = async () => {
-    try {
-      const res = await api.get(`/user/get-menu/${itemId}`);
-      console.log(res)
-      setDish(res?.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchDish();
-  }, [itemId]);
-
-  if (loading) {
+  if (isLoading) {
     return (
   <Loader/>
     );
   }
-
-  // if (!dish) {
-  //   return (
-  //     <div className="min-h-screen bg-[#fffff0] flex flex-col items-center justify-center gap-4">
-  //       <h1 className="text-3xl font-[Imperial_Script]">
-  //         Dish not found
-  //       </h1>
-
-  //       <Link
-  //         to="/Menu"
-  //         className="border border-black px-5 py-2 rounded-full hover:bg-black hover:text-white transition"
-  //       >
-  //         Back to Menu
-  //       </Link>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="min-h-screen bg-[#fffff0] pt-24 pb-16 px-5 md:px-10 lg:px-20">

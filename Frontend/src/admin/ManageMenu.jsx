@@ -6,11 +6,12 @@ import DishCard from '../Components/DishCard';
 import { api } from '../../axios/api';
 import AdminDishCard from '../Components/AdminDishCard';
 import { toast, Toaster } from 'sonner';
+import { useMenu } from '../hooks/menuHooks';
 
 const ManageMenu = () => {
-    const [menu, setMenu] = useState([])
 const [openModal,setOpenModal] = useState(false)
 const [selected,setSelected]= useState(null)
+const {isLoading,isError,data:menu}=useMenu()
 const handleDelete  = async(itemId)=>{
     try{
 const res = await api.delete(`admin/menu/${itemId}/delete`)
@@ -22,18 +23,7 @@ setOpenModal(false)
 console.log(err)
     }
 }
-    const fetchMenu = async () => {
-        try {
-            const res = await api.get('user/menu')
-            console.log(res)
-            setMenu(res.data.menu)
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    useEffect(() => {
-        fetchMenu()
-    }, [])
+
     return (
        <div className="w-full min-h-screen mx-4 relative rounded-lg text-brand px-4 py-5 flex flex-col gap-4 overflow-hidden">
 

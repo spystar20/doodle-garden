@@ -6,7 +6,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { ImCross } from 'react-icons/im';
 import { useNavigate, useParams } from 'react-router-dom';
-import useMenu from '../hooks/useMenu';
+import { useMenuById } from '../hooks/menuHooks';
 
 const EditMenu = () => {
       const [open,setOpen]= useState(false)
@@ -15,7 +15,7 @@ const EditMenu = () => {
   const [image,setImage] = useState('')
   const {itemId} = useParams()
   const navigate = useNavigate()
-     const {isLoading,isError,data:menu} =useMenu(itemId)
+     const {isLoading,isError,data:menu} =useMenuById(itemId)
 
    const categoryOptions = [
   { value: "appetizer", label: "Appetizer" },
