@@ -5,6 +5,7 @@ import { api } from '../../axios/api';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { ImCross } from 'react-icons/im';
+import { useAddDish } from '../hooks/adminMutation/menuMuation';
 export const AddMenu = () => {
   const [open,setOpen]= useState(false)
   const [category, setCategory] = useState(null);
@@ -24,24 +25,17 @@ export const AddMenu = () => {
 ]
 const [formData ,setFormData] = useState({title:'',desc:'',price:'',category:''})
 const [isVeg,setIsveg] = useState(null)
-const handleMenu = async()=>{
-  try{
-    const form = new FormData()
-    form.append('title',formData.title)
-    form.append('desc',formData.desc)
-    form.append('price',Number(formData.price))
-    form.append('category',formData.category)
-    form.append('isVeg',isVeg)
-    form.append('image',image)
-const res = await api.post('/admin/create-menu',form,{withCredentials:true})
+const {mutate:addNew}=useAddDish()
+const handleMenu = ()=>{
+  addNew({formData,isVeg,image},{
+    onSuccess:()=>{
 toast.success('New Dish Added')
 setFormData({title:'',desc:'',price:'',category:''})
 setIsveg(null)
 setImage('')
 setPreview('')
-  }catch(err){
-
-  }
+    }
+  })
 }
 const handleImage = (e)=>{
 const file = e.target.files[0]

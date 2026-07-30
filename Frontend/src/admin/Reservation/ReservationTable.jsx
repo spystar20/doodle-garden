@@ -11,6 +11,7 @@ const ReservationTable = () => {
     
     const handleStatusToggle =(id)=>{
 setStatusOpt(prev=> prev ===id ? null:id)}
+
 const handleStatus = async(reservationId,status)=>{
   try{
 const res = await api.put(`/auth/admin/reservation/${reservationId}/status`,{status})

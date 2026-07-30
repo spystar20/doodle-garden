@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { ImCross } from 'react-icons/im';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMenuById } from '../hooks/menuHooks';
+import { useEditDish } from '../hooks/adminMutation/menuMuation';
 
 const EditMenu = () => {
       const [open,setOpen]= useState(false)
@@ -16,7 +17,7 @@ const EditMenu = () => {
   const {itemId} = useParams()
   const navigate = useNavigate()
      const {isLoading,isError,data:menu} =useMenuById(itemId)
-
+const {mutate:editDish }=useEditDish()
    const categoryOptions = [
   { value: "appetizer", label: "Appetizer" },
   { value: "salad", label: "Salad" },
@@ -31,17 +32,12 @@ const EditMenu = () => {
 ]
 const [formData ,setFormData] = useState({title:'',desc:'',price:'',category:''})
 const [isVeg,setIsveg] = useState(null)
-const handleMenu = async()=>{
-  try{
-    const form = new FormData()
-    form.append('title',formData.title)
-    form.append('desc',formData.desc)
-    form.append('price',Number(formData.price))
-    form.append('category',formData.category)
-    form.append('isVeg',isVeg)
-    form.append('image',image)
-const res = await axios.put(`http://localhost:3000/auth/menu/${itemId}/edit`,form,{withCredentials:true})
-toast.success('Dish updated')
+const handleMenu = ()=>{
+editDish({
+  formData,isVeg,image,itemId
+},{
+  onSuccess:()=>{
+    toast.success('Dish updated')
 setFormData({title:'',desc:'',price:'',category:''})
 setIsveg(null)
 setPreview('')
@@ -49,9 +45,8 @@ setCategory('')
 setTimeout(() => {
   navigate('/admin/manage-menu')
 }, 1500);
-  }catch(err){
-
   }
+})  
 }
 const handleImage = (e)=>{
 const file = e.target.files[0]

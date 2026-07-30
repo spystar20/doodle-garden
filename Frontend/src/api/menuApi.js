@@ -18,4 +18,5 @@ import { api } from "../../axios/api"
     }
     export const editMenu = async({data,itemId})=>{
         const res = await axios.put(`http://localhost:3000/auth/menu/${itemId}/edit`,data)
+        return res.data
     }
