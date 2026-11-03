@@ -1,75 +1,32 @@
-import { useEffect } from 'react';
-import 'aos/dist/aos.css'
-import Aos from 'aos';
-import React from 'react';
-import Footer from '../Components/Footer';
-import { Parallax } from 'react-parallax';
-import { useState } from "react";
-import { FaInstagram, FaFacebook, FaSquareXTwitter } from 'react-icons/fa6';
-import { HiLocationMarker } from 'react-icons/hi';
-import { MdOutlinePhonePaused } from 'react-icons/md';
-import { Link } from 'react-router';
-import { api } from '../../axios/api';
-import DishCard from '../Components/DishCard';
-import { AnimatePresence, motion } from 'motion/react'
-import { Slider } from '@mui/material'
-import DropDown from '../utils/DropDown';
-import { useCategories, usefilteredMenu } from '../hooks/menuHooks';
-const menuData = {
-  salads: [
-    { name: "Bistro Salad", price: "$12", description: "Candied walnuts mixed greens, goat cheese, craisins, white balsamic dressing" },
-    { name: "Bookers Salad", price: "$14", description: "roasted corn, and jumbo shrimp tossed with white balsamic vinaigrette on the side" },
-    { name: "Strawberry Fields Salad", price: "$12", description: "candied walnuts, and fresh strawberries with a white balsamic vinaigrette" },
-    { name: "Arugula Salad", price: "$12", description: "Fresh arugula, tangy goat cheese, mandarin oranges, red onions, and cherry tomatoes" },
 
-  ],
-  burger: [
-    { name: "Black Bean Veggie Burger", price: "$12", description: "Candied walnuts mixed greens, goat cheese, craisins, white balsamic dressing" },
-    { name: "Turkey Burger", price: "$14", description: "roasted corn, and jumbo shrimp tossed with white balsamic vinaigrette on the side" },
-    { name: "Booker’s Burger", price: "$12", description: "candied walnuts, and fresh strawberries with a white balsamic vinaigrette" },
-    { name: "Salmon Burger", price: "$12", description: "Fresh arugula, tangy goat cheese, mandarin oranges, red onions, and cherry tomatoes" },
-  ],
-  dinner: [
-    { name: "Creole Vegan Jambalaya", price: "$28", description: "Creole spiced yellow rice, black beans, sweet peppers and onions, spicy mushroom tarragon red sauce (v, gfo)" },
-    { name: "Basket of Fried Shrimp", price: "$25", description: "6 pieces of breaded shrimp served with sweet and spicy Thai sauce with hand-cut fries" },
-    { name: "Southern Fried Chicken Filet", price: "$28", description: "skinless, crispy hand breaded breast strips with garlic butter mashed potatoes, collard greens with smoked turkey" },
-    { name: "Fish & Chips", price: "$25", description: "Golden crisp white fish and hand-cut fries with house-made tartar sauce" },
-    { name: "Blackened Catfish", price: "$28", description: "Topped with sriracha aioli, collard greens with smoked turkey, garlic butter mashed potatoes" },
-    { name: "Short Ribs", price: "$25", description: "8 oz of tender, boneless, braised short ribs served with a  jus on a bed of mashed potatoes and a side of sautéed haricot vert" },
-  ],
-  drinks: [
-    { name: "Mimosa", price: "$10", description: "Sparkling wine, fresh orange juice" },
-    { name: "Cold Brew", price: "$6", description: "Smooth, slow-steeped iced coffee" },
-    { name: "Mango Cart", price: "$10", description: "Sparkling wine, fresh orange juice" },
-    { name: "Pony Boi Lager", price: "$6", description: "Smooth, slow-steeped iced coffee" },
-    { name: "Sycamore Lane", price: "$10", description: "Sparkling wine, fresh orange juice" },
-    { name: "sprite", price: "$6", description: "Smooth, slow-steeped iced coffee" },
-  ],
-  sweets: [
-    { name: "Chocolate Cake", price: "$10", description: "Layered fudge chocolate cake" },
-    { name: "Carrot Cake", price: "$6", description: "Triple layered with cream cheese, sliced walnuts, and golden raisins" },
-    { name: "Limoncello Cake", price: "$10", description: "Lemon mascarpone, layered sponge cake topped with vanilla shavings" },
-    { name: "Bread Pudding", price: "$6", description: "Smooth, slow-steeped iced coffee" },
-  ]
-};
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router";
+import { AnimatePresence, motion } from "motion/react";
+import { Slider } from "@mui/material";
+import { FaArrowRight } from "react-icons/fa6";
+import DishCard from "../Components/DishCard";
+import DropDown from "../utils/DropDown";
+import Loader from "../utils/Loader";
+import { useCategories, useFilteredMenu } from "../hooks/menuHooks";
 
 const Menu = () => {
-  const [selectedCategory, setSelectedCategory] = useState("salads");
-  const { data: categories } = useCategories()
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 0 })
+  const { data: categories = [] } = useCategories();
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
 
-  const [filter, setFilter] = useState({ category: '', isVeg: null, sort: '', minPrice: 0, maxPrice: 0 })
+  const [filter, setFilter] = useState({
+    category: "",
+    isVeg: null,
+    sort: "",
+    minPrice: 0,
+    maxPrice: 0
+  });
 
-  const params = {}
-  if (filter.category) {
-    params.category = filter.category
-  }
-  if (filter.isVeg !== null) {
-    params.isVeg = filter.isVeg;
-  }
-  if (filter.sort) {
-    params.sort = filter.sort
-  }
+  const params = {};
+
+  if (filter.category) params.category = filter.category;
+  if (filter.isVeg !== null) params.isVeg = filter.isVeg;
+  if (filter.sort) params.sort = filter.sort;
+
   if (
     filter.minPrice !== priceRange.min ||
     filter.maxPrice !== priceRange.max
@@ -78,280 +35,290 @@ const Menu = () => {
     params.maxPrice = filter.maxPrice;
   }
 
-  const { isLoading, isError, data } = usefilteredMenu(params)
-useEffect(() => {
-  const range = data?.priceRange?.[0]
+  const { isLoading, isError, data } = useFilteredMenu(params);
 
-  if (!range) return
+  const menu = data?.menu ?? [];
+  const range = data?.priceRange?.[0];
 
-  setPriceRange({
-    min: range.minPrice,
-    max: range.maxPrice,
-  })
+  useEffect(() => {
+    if (!range) return;
 
-  setFilter((prev) => {
-    if (prev.minPrice === 0 && prev.maxPrice === 0) {
-      return {
-        ...prev,
-        minPrice: range.minPrice,
-        maxPrice: range.maxPrice,
+    setPriceRange({
+      min: range.minPrice,
+      max: range.maxPrice
+    });
+
+    setFilter(prev => {
+      if (prev.minPrice === 0 && prev.maxPrice === 0) {
+        return {
+          ...prev,
+          minPrice: range.minPrice,
+          maxPrice: range.maxPrice
+        };
       }
-    }
+      return prev;
+    });
+  }, [range?.minPrice, range?.maxPrice]);
 
-    return prev
-  })
-}, [data])
+  const filterButton = (label, value, active) => (
+    <button
+      onClick={() => setFilter(prev => ({ ...prev, isVeg: value }))}
+      className={`px-5 py-2.5 rounded-full text-xs uppercase tracking-wider transition-all duration-300 ${
+        active
+          ? "bg-primary text-brand"
+          : "border border-primary/20 text-primary hover:bg-primary hover:text-brand"
+      }`}
+    >
+      {label}
+    </button>
+  );
 
   return (
-    <div className="bg-brand mt-20">
+    <div className="min-h-screen bg-brand text-primary font-body mt-20">
 
-      <div className="md:py-14 py-7 px-6 md:px-20 flex flex-col gap-6">
+      <div className="max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-16 py-12 md:py-16">
 
-        <div className="flex justify-center items-center gap-5">
-          <p className="w-2 h-2 bg-primary rounded-full"></p>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-14"
+        >
+          <p className="text-xs uppercase tracking-[0.35em] text-primary/50 mb-5">
+            Freshly prepared, thoughtfully served
+          </p>
 
-          <h1 className="text-4xl md:text-6xl font-brand text-center">
-            The Menu
-          </h1>
+          <div className="flex items-center justify-center gap-5">
+            <span className="w-2 h-2 rounded-full bg-primary" />
+            <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl">
+              The Menu
+            </h1>
+            <span className="w-2 h-2 rounded-full bg-primary" />
+          </div>
 
-          <p className="w-2 h-2 bg-primary rounded-full"></p>
-        </div>
+          <p className="text-primary/55 text-sm mt-5 max-w-lg mx-auto leading-7">
+            Explore our collection of carefully crafted dishes, made to
+            bring a little something special to your table.
+          </p>
+        </motion.div>
 
-        <div className="space-y-4 mb-6">
+        {/* Categories */}
+        <div className="mb-10">
+          <div className="flex flex-wrap justify-center gap-3">
+            <button
+              onClick={() => setFilter(prev => ({ ...prev, category: "" }))}
+              className={`px-5 py-2.5 rounded-full text-xs uppercase tracking-wider transition ${
+                !filter.category
+                  ? "bg-primary text-brand"
+                  : "border border-primary/20 hover:bg-primary hover:text-brand"
+              }`}
+            >
+              All dishes
+            </button>
 
-          {/* Categories */}
-          <div className="flex flex-wrap justify-center gap-2">
-            {categories?.map((category) => (
+            {categories.map(category => (
               <button
                 key={category}
-                onClick={(e) => {
-                  setSelectedCategory(category),
-                    setFilter((prev) => ({
-                      ...prev,
-                      category: category
-                    }))
-                }}
-                className={`px-4 py-1.5 text-sm font-body rounded-full transition-all duration-300 ${selectedCategory === category
+                onClick={() =>
+                  setFilter(prev => ({ ...prev, category }))
+                }
+                className={`px-5 py-2.5 rounded-full text-xs uppercase tracking-wider transition ${
+                  filter.category === category
                     ? "bg-primary text-brand"
                     : "border border-primary/20 hover:bg-primary hover:text-brand"
-                  }`}
+                }`}
               >
-                {category.toUpperCase()}
+                {category}
               </button>
             ))}
           </div>
+        </div>
 
-          {/* Filters */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-y border-primary/10 py-3">
+        {/* Filter bar */}
+        <div className="border-y border-primary/15 py-6 mb-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-7">
 
-            {/* Left */}
-            <div className="flex flex-wrap gap-2">
+          {/* Dietary and sorting filters */}
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-xs uppercase tracking-[0.2em] text-primary/50 mr-1">
+              Filter:
+            </span>
 
-              <button
-                onClick={() =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    isVeg: null
-                  }))
-                }
-                className="px-3 py-1.5 text-sm font-body rounded-full border border-primary/20 hover:bg-primary hover:text-brand transition"
-              >
-                All
-              </button>
+            {filterButton("All", null, filter.isVeg === null)}
+            {filterButton("Veg", true, filter.isVeg === true)}
+            {filterButton("Non Veg", false, filter.isVeg === false)}
 
-              <button
-                onClick={() =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    isVeg: true
-                  }))
-                }
-                className="px-3 py-1.5 text-sm font-body rounded-full border border-primary/20 hover:bg-primary hover:text-brand transition flex gap-2 items-center"
-              >
-                <div className="flex h-4 w-4 items-center justify-center border border-green-600">
-                  <div className="h-2 w-2 rounded-full bg-green-600"></div>
-                </div>
-
-                Veg
-              </button>
-
-              <button
-                onClick={() =>
-                  setFilter((prev) => ({
-                    ...prev,
-                    isVeg: false
-                  }))
-                }
-                className="px-3 py-1.5 text-sm font-body rounded-full border border-primary/20 hover:bg-primary hover:text-brand transition flex gap-2 items-center"
-              >
-                <div className="flex h-4 w-4 items-center justify-center border border-red-600">
-                  <div className="h-2 w-2 rounded-full bg-red-600"></div>
-                </div>
-
-                Non Veg
-              </button>
-
+            <div className="w-[150px]">
               <DropDown
-                title="sort by"
+                title="Sort by"
                 setState={setFilter}
                 FilterKey="sort"
-                className="w-[120px]"
+                className="w-full"
                 array={["Popular", "Newest", "Oldest", "Price-high", "Price-low"]}
               />
-
-              <DropDown
-                title="Rating"
-                className="w-[120px]"
-                array={["4★ & Above", "4.5★ & Above"]}
-              />
-
-            </div>
-
-            {/* Price Slider */}
-            <div className="min-w-[300px] max-w-[380px] flex-1">
-
-              <div className="flex justify-between items-center mb-1">
-
-                <h3 className="text-sm font-display font-semibold uppercase tracking-wide">
-                  Price Range
-                </h3>
-
-                <span className="text-xs font-body bg-primary text-brand px-3 py-1 rounded-full">
-                  ₹{filter.minPrice} - ₹{filter.maxPrice}
-                </span>
-
-              </div>
-
-              {priceRange.max > 0 && (
-                <Slider
-                  value={[filter.minPrice, filter.maxPrice]}
-                  min={priceRange.min}
-                  max={priceRange.max}
-                  step={50}
-                  onChange={(e, value) => {
-                    setFilter((prev) => ({
-                      ...prev,
-                      minPrice: value[0],
-                      maxPrice: value[1],
-                    }));
-                  }}
-                  valueLabelDisplay="off"
-                  sx={{
-                    color: "#000",
-                    height: 3,
-
-                    "& .MuiSlider-track": {
-                      border: "none",
-                      height: 3,
-                    },
-
-                    "& .MuiSlider-rail": {
-                      backgroundColor: "#000",
-                      opacity: 0.2,
-                      height: 3,
-                    },
-
-                    "& .MuiSlider-thumb": {
-                      width: 14,
-                      height: 14,
-                      backgroundColor: "#FFFFF0",
-                      border: "2px solid black",
-
-                      "&:hover": {
-                        boxShadow: "0 0 0 6px rgba(0,0,0,.08)",
-                      },
-
-                      "&.Mui-active": {
-                        boxShadow: "0 0 0 8px rgba(0,0,0,.12)",
-                      },
-                    },
-                  }}
-                />
-              )}
-
             </div>
           </div>
 
+          {/* Price range */}
+          <div className="w-full xl:max-w-[350px]">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-xs uppercase tracking-[0.2em] font-heading">
+                Price range
+              </h3>
+
+              <span className="text-xs font-medium">
+                ₹{filter.minPrice} — ₹{filter.maxPrice}
+              </span>
+            </div>
+
+            {priceRange.max > 0 && (
+              <Slider
+                value={[filter.minPrice, filter.maxPrice]}
+                min={priceRange.min}
+                max={priceRange.max}
+                step={50}
+                onChange={(e, value) =>
+                  setFilter(prev => ({
+                    ...prev,
+                    minPrice: value[0],
+                    maxPrice: value[1]
+                  }))
+                }
+                valueLabelDisplay="auto"
+                sx={{
+                  color: "#000",
+                  height: 3,
+                  "& .MuiSlider-track": {
+                    border: "none",
+                    height: 3
+                  },
+                  "& .MuiSlider-rail": {
+                    backgroundColor: "#000",
+                    opacity: 0.2,
+                    height: 3
+                  },
+                  "& .MuiSlider-thumb": {
+                    width: 14,
+                    height: 14,
+                    backgroundColor: "#FFFFF0",
+                    border: "2px solid black",
+                    "&:hover": {
+                      boxShadow: "0 0 0 6px rgba(0,0,0,.08)"
+                    }
+                  }
+                }}
+              />
+            )}
+          </div>
         </div>
 
-        {/* MENU GRID */}
-        <div className="grid grid-cols-4 gap-3">
+        {/* Result count */}
+        {!isLoading && !isError && (
+          <div className="flex justify-between items-center mb-7">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary/50">
+              Our selection
+            </p>
+            <p className="text-xs text-primary/50">
+              {menu.length} {menu.length === 1 ? "dish" : "dishes"}
+            </p>
+          </div>
+        )}
 
-          <AnimatePresence mode="popLayout">
+        {/* Menu grid */}
+        {isLoading ? (
+          <div className="py-20 flex justify-center">
+            <Loader  />
+          </div>
+        ) : isError ? (
+          <div className="py-20 text-center">
+            <h2 className="font-heading text-2xl">Something went wrong</h2>
+            <p className="text-primary/55 mt-3 text-sm">
+              We couldn't load the menu. Please try again.
+            </p>
+          </div>
+        ) : menu.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
+     <AnimatePresence mode="popLayout">
+  {menu.map((i) => (
+    <motion.div
+      key={i._id}
+      initial={{
+        opacity: 0,
+        y: 20,
+        filter: "blur(10px)"
+      }}
+      exit={{
+        opacity: 0,
+        y: -20
+      }}
+      transition={{
+        duration: 0.5
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)"
+      }}
+    >
+      <DishCard
+        rating={4}
+        category={i.category}
+        image={i.image}
+        title={i.title}
+        desc={i.desc}
+        price={i.price}
+        Isveg={i.isVeg}
+        link={`/menu/product/${i._id}`}
+      />
+    </motion.div>
+  ))}
+</AnimatePresence>
+          </div>
+        ) : (
+          <div className="py-24 text-center">
+            <h2 className="font-[Imperial_Script] text-5xl sm:text-6xl">
+              Nothing on the menu just yet
+            </h2>
+            <p className="text-primary/55 text-sm mt-4">
+              Try changing your filters to discover more dishes.
+            </p>
+            <button
+              onClick={() => setFilter({
+                category: "",
+                isVeg: null,
+                sort: "",
+                minPrice: priceRange.min,
+                maxPrice: priceRange.max
+              })}
+              className="mt-7 px-6 py-3 bg-primary text-brand rounded-full text-xs uppercase tracking-wider"
+            >
+              Clear filters
+            </button>
+          </div>
+        )}
 
-            {data?.menu?.map((i) => (
-
-              <motion.div
-                key={i._id}
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                  filter: "blur(10px)"
-                }}
-                exit={{
-                  opacity: 0,
-                  y: -20
-                }}
-                transition={{
-                  duration: 0.5
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  filter: "blur(0px)"
-                }}
-              >
-                <DishCard
-                  key={i._id}
-                  rating={4}
-                  category={i.category}
-                  image={i.image}
-                  title={i.title}
-                  desc={i.desc}
-                  price={i.price}
-                  Isveg={i.isVeg}
-                  link={`/menu/product/${i._id}`}
-                />
-              </motion.div>
-
-            ))}
-
-          </AnimatePresence>
-
-        </div>
-
-        {/* ACTION BUTTONS */}
-        <div className="flex justify-center items-center gap-5">
-
-          <Link to="/Booking">
-            <div>
-              <button
-                data-aos="zoom-in"
-                data-aos-delay="100"
-                className="border-primary border bg-transparent hover:bg-primary hover:text-brand text-xl uppercase font-display text-primary px-3 py-2 rounded-xl"
-              >
-                reserve a table
-              </button>
-            </div>
+        {/* Bottom actions */}
+        <div className="mt-24 pt-12 border-t border-primary/15 flex flex-col sm:flex-row justify-center items-center gap-5">
+          <Link
+            to="/Booking"
+            className="group flex items-center justify-center gap-3 border border-primary px-8 py-4 rounded-full text-xs uppercase tracking-[0.15em] hover:bg-primary hover:text-brand transition duration-300"
+          >
+            Reserve a table
+            <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
           </Link>
 
-          <Link to="/Order">
-            <div>
-              <button
-                data-aos="zoom-in"
-                data-aos-delay="100"
-                className="border-primary border bg-transparent hover:bg-primary hover:text-brand text-xl uppercase font-display text-primary px-3 py-2 rounded-xl"
-              >
-                order online
-              </button>
-            </div>
+          <Link
+            to="/Order"
+            className="group flex items-center justify-center gap-3 bg-primary text-brand px-8 py-4 rounded-full text-xs uppercase tracking-[0.15em] hover:bg-primary/85 transition duration-300"
+          >
+            Order online
+            <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
           </Link>
-
         </div>
 
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;

@@ -19,7 +19,7 @@ const AuthenticationLayout = lazy(() => import('../Layout/AuthenticationLayout')
 const Login = lazy(() => import('../Auth/Login'))
 const Signup = lazy(() => import('../Auth/Signup'))
 import Loader from '../utils/Loader'
-const  FoodDetail= lazy( ()=>import( '../Pages/FoodDetail'))
+const  FoodDetail= lazy( ()=>import( '../features/productDetail/pages/FoodDetail'))
 const AppRoutes = () => {
       return (
             <Suspense fallback={<Loader />}>
