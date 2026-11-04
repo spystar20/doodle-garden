@@ -1,12 +1,13 @@
 
 import React, { useState } from "react";
 import { Link, useParams } from "react-router";
-import { motion } from "motion/react";
-import { FaArrowLeft, FaStar, FaMinus, FaPlus } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa6";
 import Loader from "../../../utils/Loader";
 import { useMenuById } from "../../../hooks/menuHooks";
 import ProductImage from "../components/ProductImage";
 import ProductInformation from "../components/ProductInformation";
+import ProductAbout from "../components/ProductAbout";
+import RelatedProduct from "../components/RelatedProduct";
 
 const FoodDetail = () => {
   const { itemId } = useParams();
@@ -52,42 +53,10 @@ const FoodDetail = () => {
       </div>
 
       {/* About section */}
-      <section className="max-w-7xl mx-auto mt-28 pt-16 border-t border-primary/15">
-        <p className="text-xs uppercase tracking-[0.3em] text-primary/45 mb-4">
-          Made with care
-        </p>
-        <h2 className="font-[Imperial_Script] text-5xl sm:text-6xl mb-7">
-          A little more about the dish
-        </h2>
-        <p className="max-w-3xl text-primary/65 leading-8 text-[15px]">
-          {product.desc}
-        </p>
-      </section>
+    <ProductAbout product={product}/>
 
       {/* Related dishes */}
-      <section className="max-w-7xl mx-auto mt-28">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 mb-10">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-primary/45 mb-3">
-              Explore more
-            </p>
-            <h2 className="font-[Imperial_Script] text-5xl sm:text-6xl">
-              You may also like
-            </h2>
-          </div>
-
-          <Link
-            to="/Menu"
-            className="text-xs uppercase tracking-[0.18em] border-b border-primary pb-2 w-fit hover:opacity-50 transition"
-          >
-            View full menu
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {/* Related DishCards can go here */}
-        </div>
-      </section>
+     <RelatedProduct/>
     </div>
   );
 };

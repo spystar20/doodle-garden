@@ -19,6 +19,7 @@ const AuthenticationLayout = lazy(() => import('../Layout/AuthenticationLayout')
 const Login = lazy(() => import('../Auth/Login'))
 const Signup = lazy(() => import('../Auth/Signup'))
 import Loader from '../utils/Loader'
+const Cart= lazy(()=>import('../features/cart/pages/Cart'))
 const  FoodDetail= lazy( ()=>import( '../features/productDetail/pages/FoodDetail'))
 const AppRoutes = () => {
       return (
@@ -32,6 +33,7 @@ const AppRoutes = () => {
                               <Route path='/About' element={<About />} />
                               <Route path='/Booking' element={<Booking />} />
                               <Route path='/menu/product/:itemId' element={<FoodDetail/>}/>
+                              <Route path='/cart' element={<Cart/>}/>
                         </Route>
                         <Route element={<AuthenticationLayout />}>
                               <Route path='/Login' element={<Login />} />
