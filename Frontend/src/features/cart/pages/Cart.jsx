@@ -187,7 +187,7 @@ const Cart = () => {
           </section>
 
           {/* Order Summary */}
-          <aside className="h-fit bg-white border border-black/5 rounded-2xl p-6 md:p-8 shadow-sm">
+          <aside className="h-fit bg-white/60 border border-black/5 rounded-2xl p-6 md:p-8 shadow-sm">
             <h2 className="font-heading text-2xl text-primary mb-7">
               Order Summary
             </h2>
