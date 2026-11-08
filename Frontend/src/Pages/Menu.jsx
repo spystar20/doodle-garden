@@ -8,11 +8,12 @@ import DishCard from "../Components/DishCard";
 import DropDown from "../utils/DropDown";
 import Loader from "../utils/Loader";
 import { useCategories, useFilteredMenu } from "../hooks/menuHooks";
+import { useCartStore } from "../features/cart/store/useCartStore";
 
 const Menu = () => {
   const { data: categories = [] } = useCategories();
   const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
-
+const addToCart = useCartStore((state)=>state.addToCart)
   const [filter, setFilter] = useState({
     category: "",
     isVeg: null,
@@ -269,6 +270,7 @@ const Menu = () => {
         price={i.price}
         Isveg={i.isVeg}
         link={`/menu/product/${i._id}`}
+        addTocart={()=>addToCart(i)}
       />
     </motion.div>
   ))}

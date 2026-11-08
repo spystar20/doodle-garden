@@ -8,9 +8,11 @@ import ProductImage from "../components/ProductImage";
 import ProductInformation from "../components/ProductInformation";
 import ProductAbout from "../components/ProductAbout";
 import RelatedProduct from "../components/RelatedProduct";
+import { useCartStore } from "../../cart/store/useCartStore";
 
 const FoodDetail = () => {
   const { itemId } = useParams();
+  const addTocart = useCartStore((state)=>state.addToCart)
   const [quantity, setQuantity] = useState(1);
   const { isLoading, isError, data: product } = useMenuById(itemId);
 
@@ -49,7 +51,7 @@ const FoodDetail = () => {
       <ProductImage image={product.image} title={product.title} category={product.title}/>
 
         {/* Dish information */}
-     <ProductInformation desc={product.desc} title={product.title} price={product.price} reviews={product?.reviews?.length} setQuantity={setQuantity} isVeg={product.isVeg} rating={product.rating} quantity={quantity}/>
+     <ProductInformation desc={product.desc} title={product.title} price={product.price} reviews={product?.reviews?.length} setQuantity={setQuantity} addToCart={()=>addTocart(product,quantity)} isVeg={product.isVeg} rating={product.rating} quantity={quantity}/>
       </div>
 
       {/* About section */}

@@ -5,52 +5,11 @@ import { FiMinus, FiPlus, FiTrash2, FiShoppingBag, FiArrowLeft } from "react-ico
 import React from "react";
 import EmptyCart from "../components/EmptyCart";
 import CartHeader from "../components/CartHeader";
-const initialCart = [
-  {
-    _id: "1",
-    title: "Classic Margherita",
-    image: "https://images.unsplash.com/photo-1579751626657-72bc17010498?w=500",
-    category: "Pizza",
-    price: 299,
-    quantity: 1,
-    isVeg: true,
-  },
-  {
-    _id: "2",
-    title: "Creamy Alfredo Pasta",
-    image: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500",
-    category: "Pasta",
-    price: 249,
-    quantity: 1,
-    isVeg: true,
-  },
-];
-
+import { useCartStore } from "../store/useCartStore";
 const Cart = () => {
-  const [cartItems, setCartItems] = useState(initialCart);
-
-  const updateQuantity = (id, type) => {
-    setCartItems((prev) =>
-      prev
-        .map((item) =>
-          item._id === id
-            ? {
-                ...item,
-                quantity:
-                  type === "increase"
-                    ? item.quantity + 1
-                    : item.quantity - 1,
-              }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
-  };
-
-  const removeItem = (id) => {
-    setCartItems((prev) => prev.filter((item) => item._id !== id));
-  };
-
+const cartItems = useCartStore((state)=>state.cartItems)
+const updateQuantity = useCartStore((state)=>state.updateQuantity)
+const removeItem = useCartStore((state)=>state.removeFromCart)
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -144,7 +103,7 @@ const Cart = () => {
                       {/* Quantity */}
                       <div className="flex items-center border border-black/15 rounded-full">
                         <button
-                          onClick={() => updateQuantity(item._id, "decrease")}
+                          onClick={() => updateQuantity(item._id,item.quantity-1)}
                           className="p-2.5 hover:bg-black/5 rounded-full transition"
                           aria-label="Decrease quantity"
                         >
@@ -156,7 +115,7 @@ const Cart = () => {
                         </span>
 
                         <button
-                          onClick={() => updateQuantity(item._id, "increase")}
+                          onClick={() => updateQuantity(item._id, item.quantity+1)}
                           className="p-2.5 hover:bg-black/5 rounded-full transition"
                           aria-label="Increase quantity"
                         >

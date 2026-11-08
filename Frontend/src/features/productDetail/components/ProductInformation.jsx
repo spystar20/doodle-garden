@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from "motion/react";
 import { FaStar ,FaMinus,FaPlus} from 'react-icons/fa6';
-const ProductInformation = ({title,rating,reviews,price,desc,isVeg,quantity,setQuantity}) => {
+const ProductInformation = ({title,rating,reviews,price,desc,isVeg,quantity,setQuantity,addToCart}) => {
   return (
   <motion.div
           initial={{ opacity: 0, x: 25 }}
@@ -67,7 +67,7 @@ const ProductInformation = ({title,rating,reviews,price,desc,isVeg,quantity,setQ
 
             <div className="flex items-center border border-primary/25 rounded-full w-fit">
               <button
-                onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+                onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
                 disabled={quantity === 1}
                 className="w-12 h-12 flex items-center justify-center hover:bg-primary hover:text-brand rounded-l-full transition disabled:opacity-30"
                 aria-label="Decrease quantity"
@@ -80,7 +80,7 @@ const ProductInformation = ({title,rating,reviews,price,desc,isVeg,quantity,setQ
               </span>
 
               <button
-                onClick={() => setQuantity(prev => prev + 1)}
+                onClick={() => setQuantity((prev) => prev + 1)}
                 className="w-12 h-12 flex items-center justify-center hover:bg-primary hover:text-brand rounded-r-full transition"
                 aria-label="Increase quantity"
               >
@@ -91,7 +91,7 @@ const ProductInformation = ({title,rating,reviews,price,desc,isVeg,quantity,setQ
 
           {/* Action buttons */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-9">
-            <button className="py-4 px-6 border border-primary text-primary text-xs uppercase tracking-[0.18em] rounded-full hover:bg-primary hover:text-brand transition duration-300">
+            <button onClick={addToCart} className="py-4 px-6 border border-primary text-primary text-xs uppercase tracking-[0.18em] rounded-full hover:bg-primary hover:text-brand transition duration-300">
               Add to cart
             </button>
 

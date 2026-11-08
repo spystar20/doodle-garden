@@ -3,17 +3,17 @@ import {persist} from 'zustand/middleware'
 export const useCartStore = create( persist(
     (set) => ({
     cartItems: [],
-    addToCart: (dish) => set((state) => {
+    addToCart: (dish,quantity=1) => set((state) => {
         const existingItem = state.cartItems.find((item) => item._id === dish._id)
         if (existingItem) {
             return {
                 cartItems: state.cartItems.map((item) =>
-                    item._id === dish._id ? { ...item, quantity: item.quantity + 1 } : item
+                    item._id === dish._id ? { ...item, quantity: item.quantity + quantity} : item
                 )
             }
         }
         return {
-            cartItems: [...state.cartItems, { ...dish, quantity: 1 }]
+            cartItems: [...state.cartItems, { ...dish, quantity: quantity }]
         }
     }),
     removeFromCart: (id) => set((state) => ({

@@ -5,7 +5,7 @@ import { ImSpoonKnife } from "react-icons/im";
 import { FaCartPlus, FaHeart, FaRegHeart } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 
-const DishCard = ({image ,link, category,price,title,desc,rating,Isveg}) => {
+const DishCard = ({image ,link, category,price,title,desc,rating,Isveg,addTocart}) => {
   return (
     <div className="flex flex-col group w-[300px] overflow-hidden rounded-xl border bg-brand border-primary backdrop-blur-2xl p-1">
   <Link to={link}>
@@ -26,7 +26,11 @@ const DishCard = ({image ,link, category,price,title,desc,rating,Isveg}) => {
           <FaRegHeart />
         </span>
 
-        <span className="flex items-center gap-2 rounded-full bg-primary/60 p-2 text-sm text-brand backdrop-blur-md">
+        <span onClick={(e)=>{
+ e.stopPropagation(),
+ e.preventDefault()
+ ,addTocart()
+        }} className="flex items-center gap-2 rounded-full bg-primary/60 p-2 text-sm text-brand backdrop-blur-md">
           <FaCartPlus />
         </span>
       </div>
