@@ -1,5 +1,7 @@
 import { create } from 'zustand'
-export const useCartStore = create((set) => ({
+import {persist} from 'zustand/middleware'
+export const useCartStore = create( persist(
+    (set) => ({
     cartItems: [],
     addToCart: (dish) => set((state) => {
         const existingItem = state.cartItems.find((item) => item._id === dish._id)
@@ -32,4 +34,6 @@ export const useCartStore = create((set) => ({
         cartItems: []
     }))
 
+}),{
+    name:'doodle-cart'
 }))
