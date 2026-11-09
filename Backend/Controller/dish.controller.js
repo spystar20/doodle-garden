@@ -1,4 +1,4 @@
-import { asynHandler } from "../Middleware/asyncHandler.js"
+import { asyncHandler } from "../Middleware/asyncHandler.js"
 import MenuSchema from "../Model/MenuSchema.js"
 import cloudinary from "../Utils.js/cloudinary.js"
 import fs from 'fs'
@@ -84,7 +84,7 @@ return res.status(200).json(dish)
 
     }
 }
-export const getCategories =asynHandler( async(req,res)=>{
+export const getCategories =asyncHandler( async(req,res)=>{
 const categories = await MenuSchema.distinct('category')
 return res.status(200).json({categories})
 })

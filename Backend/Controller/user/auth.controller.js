@@ -1,9 +1,9 @@
-import { asynHandler } from "../../Middleware/asyncHandler.js";
+import { asyncHandler } from "../../Middleware/asyncHandler.js";
 import userSchema from '../../Model/UserSchema.js'
 import bcrypt from 'bcrypt'
 import { createAccessToken, createRefreshToken, verifyAccessToken, verifyRefreshToken } from "../../Utils.js/jwt.js";
 import { getAccessCookieOptions, getRefreshCookieOptions } from "../../Utils.js/cookie.js";
-export const SignUp = asynHandler(async(req,res)=>{
+export const SignUp = asyncHandler(async(req,res)=>{
 const {name,email,password} = req.body
 console.log(req.body)
 if(!name || !email || !password){
@@ -20,7 +20,7 @@ await userSchema.create({
 return res.status(200).json({message:'user created successfully'})
 })
 
-export const Login = asynHandler(async(req,res)=>{
+export const Login = asyncHandler(async(req,res)=>{
     const {email,password}= req.body
     if(!email || !password){
         return res.status(403).json({message:'please fill both the fields'})
@@ -39,12 +39,12 @@ const refreshToken = createRefreshToken({userId:existingUser._id})
     return res.cookie("accessToken",accessToken,getAccessCookieOptions()).cookie("refreshToken",refreshToken,getRefreshCookieOptions()).status(200).json({message:'login successfull',existingUser})
 })
 
-export const LogOut = asynHandler(async(req,res)=>{
+export const LogOut = asyncHandler(async(req,res)=>{
     
 
 })
 
-export const me = asynHandler(async(req,res)=>{
+export const me = asyncHandler(async(req,res)=>{
    
 const {accessToken,refreshToken} =req.cookies
 let payload
