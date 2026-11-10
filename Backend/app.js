@@ -9,13 +9,16 @@ import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import adminMenuRoutes from './Routes/admin/menu.routes.js'
 import adminReservationRoutes from './Routes/admin/reservation.routes.js'
+import cartRoutes from './Routes/user/cart.routes.js'
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
+
 app.use(cors({
     origin:process.env.FRONTEND_URL,credentials:true} ))
 app.use('/auth',authRoutes)
 app.use('/user',menuRoutes,reservationRoutes)
+app.use('/user/cart',cartRoutes)
 app.use('/admin',adminMenuRoutes,adminReservationRoutes)
 mongoose.connect(process.env.MONGO_URI).then(()=>{
 console.log("db connected")
