@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Categories = ({ categories, selectedCategory, setFilter }) => {
+const Categories = ({ categories, selectedCategory, setFilter,filter }) => {
   return (
   <div className="mb-10">
           <div className="flex flex-wrap justify-center gap-3">
