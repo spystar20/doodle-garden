@@ -4,11 +4,13 @@ import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Slider } from "@mui/material";
 import { FaArrowRight } from "react-icons/fa6";
-import DishCard from "../Components/DishCard";
-import DropDown from "../utils/DropDown";
-import Loader from "../utils/Loader";
+import DishCard from "../../../Components/DishCard";
+import DropDown from "../../../utils/DropDown";
+import Loader from "../../../utils/Loader";
 import { useCategories, useFilteredMenu } from "../hooks/menuHooks";
-import { useCartStore } from "../features/cart/store/useCartStore";
+import { useCartStore } from "../../cart/store/useCartStore";
+import FilterButton from "../components/FilterButton";
+import MenuHeader from "../components/MenuHeader";
 
 const Menu = () => {
   const { data: categories = [] } = useCategories();
@@ -61,49 +63,13 @@ const addToCart = useCartStore((state)=>state.addToCart)
     });
   }, [range?.minPrice, range?.maxPrice]);
 
-  const filterButton = (label, value, active) => (
-    <button
-      onClick={() => setFilter(prev => ({ ...prev, isVeg: value }))}
-      className={`px-5 py-2.5 rounded-full text-xs uppercase tracking-wider transition-all duration-300 ${
-        active
-          ? "bg-primary text-brand"
-          : "border border-primary/20 text-primary hover:bg-primary hover:text-brand"
-      }`}
-    >
-      {label}
-    </button>
-  );
-
   return (
     <div className="min-h-screen bg-brand text-primary font-body mt-20">
 
       <div className="max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-16 py-12 md:py-16">
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-14"
-        >
-          <p className="text-xs uppercase tracking-[0.35em] text-primary/50 mb-5">
-            Freshly prepared, thoughtfully served
-          </p>
-
-          <div className="flex items-center justify-center gap-5">
-            <span className="w-2 h-2 rounded-full bg-primary" />
-            <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl">
-              The Menu
-            </h1>
-            <span className="w-2 h-2 rounded-full bg-primary" />
-          </div>
-
-          <p className="text-primary/55 text-sm mt-5 max-w-lg mx-auto leading-7">
-            Explore our collection of carefully crafted dishes, made to
-            bring a little something special to your table.
-          </p>
-        </motion.div>
-
+   <MenuHeader/>
         {/* Categories */}
         <div className="mb-10">
           <div className="flex flex-wrap justify-center gap-3">
@@ -144,10 +110,9 @@ const addToCart = useCartStore((state)=>state.addToCart)
             <span className="text-xs uppercase tracking-[0.2em] text-primary/50 mr-1">
               Filter:
             </span>
-
-            {filterButton("All", null, filter.isVeg === null)}
-            {filterButton("Veg", true, filter.isVeg === true)}
-            {filterButton("Non Veg", false, filter.isVeg === false)}
+         <FilterButton label='All' value={null} active={filter.isVeg === null} setFilter={setFilter} />
+         <FilterButton label='Veg' value={true} active={filter.isVeg === true} setFilter={setFilter} />
+         <FilterButton label='Non Veg' value={false} active={filter.isVeg === false} setFilter={setFilter} />
 
             <div className="w-[150px]">
               <DropDown
@@ -159,7 +124,6 @@ const addToCart = useCartStore((state)=>state.addToCart)
               />
             </div>
           </div>
-
           {/* Price range */}
           <div className="w-full xl:max-w-[350px]">
             <div className="flex justify-between items-center mb-3">

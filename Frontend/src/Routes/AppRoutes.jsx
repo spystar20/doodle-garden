@@ -4,7 +4,7 @@ import MainLayout from '../Layout/MainLayout'
 const Home = lazy(() => new Promise(resolve =>
       setTimeout(() => resolve(import("../Pages/Home")), 3000)
 ))
-const Menu = lazy(() => import('../Pages/Menu'))
+const Menu = lazy(() => import('../features/menu/pages/Menu'))
 const Venu = lazy(() => import('../Pages/Venu'))
 const Contact = lazy(() => import('../Pages/Contact'))
 const About = lazy(() => import('../Pages/About'))
