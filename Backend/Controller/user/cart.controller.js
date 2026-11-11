@@ -55,7 +55,7 @@ return res.status(200).json({message:'cart updated',guestCart})
 const existingUserCart = await cartSchema.findOne({userId:userId})
 if(!existingUserCart){
           const userCart=  await cartSchema.create({
-userId:userId,guestId:null,items:[product,quantity]
+userId:userId,guestId:null,items:[{product,quantity}]
             })
             return res.status(200).json({message:'product added to cart',userCart})
 }

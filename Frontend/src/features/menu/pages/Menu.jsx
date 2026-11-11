@@ -1,22 +1,20 @@
 
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { AnimatePresence, motion } from "motion/react";
-import { Slider } from "@mui/material";
 import { FaArrowRight } from "react-icons/fa6";
-import DishCard from "../../../Components/DishCard";
 import DropDown from "../../../utils/DropDown";
-import Loader from "../../../utils/Loader";
 import { useCategories, useFilteredMenu } from "../hooks/menuHooks";
-import { useCartStore } from "../../cart/store/useCartStore";
 import FilterButton from "../components/FilterButton";
 import MenuHeader from "../components/MenuHeader";
 import Categories from "../components/Categories";
+import PriceRange from "../components/PriceRange";
+import MenuGrid from "../components/MenuGrid";
+import { useAddToCart } from "../../cart/hooks/cartHooks";
 
 const Menu = () => {
   const { data: categories = [] } = useCategories();
   const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
-const addToCart = useCartStore((state)=>state.addToCart)
+
   const [filter, setFilter] = useState({
     category: "",
     isVeg: null,
@@ -40,7 +38,10 @@ const addToCart = useCartStore((state)=>state.addToCart)
   }
 
   const { isLoading, isError, data } = useFilteredMenu(params);
-
+const {mutate:addToCart} = useAddToCart()
+const handleCart = ({ product, quantity = 1 }) => {
+    addToCart({ product, quantity })
+}
   const menu = data?.menu ?? [];
   const range = data?.priceRange?.[0];
 
@@ -96,56 +97,7 @@ const addToCart = useCartStore((state)=>state.addToCart)
             </div>
           </div>
           {/* Price range */}
-          <div className="w-full xl:max-w-[350px]">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-xs uppercase tracking-[0.2em] font-heading">
-                Price range
-              </h3>
-
-              <span className="text-xs font-medium">
-                ₹{filter.minPrice} — ₹{filter.maxPrice}
-              </span>
-            </div>
-
-            {priceRange.max > 0 && (
-              <Slider
-                value={[filter.minPrice, filter.maxPrice]}
-                min={priceRange.min}
-                max={priceRange.max}
-                step={50}
-                onChange={(e, value) =>
-                  setFilter(prev => ({
-                    ...prev,
-                    minPrice: value[0],
-                    maxPrice: value[1]
-                  }))
-                }
-                valueLabelDisplay="auto"
-                sx={{
-                  color: "#000",
-                  height: 3,
-                  "& .MuiSlider-track": {
-                    border: "none",
-                    height: 3
-                  },
-                  "& .MuiSlider-rail": {
-                    backgroundColor: "#000",
-                    opacity: 0.2,
-                    height: 3
-                  },
-                  "& .MuiSlider-thumb": {
-                    width: 14,
-                    height: 14,
-                    backgroundColor: "#FFFFF0",
-                    border: "2px solid black",
-                    "&:hover": {
-                      boxShadow: "0 0 0 6px rgba(0,0,0,.08)"
-                    }
-                  }
-                }}
-              />
-            )}
-          </div>
+       <PriceRange setFilter={setFilter} filter={filter} priceRange={priceRange}/>
         </div>
 
         {/* Result count */}
@@ -161,78 +113,7 @@ const addToCart = useCartStore((state)=>state.addToCart)
         )}
 
         {/* Menu grid */}
-        {isLoading ? (
-          <div className="py-20 flex justify-center">
-            <Loader  />
-          </div>
-        ) : isError ? (
-          <div className="py-20 text-center">
-            <h2 className="font-heading text-2xl">Something went wrong</h2>
-            <p className="text-primary/55 mt-3 text-sm">
-              We couldn't load the menu. Please try again.
-            </p>
-          </div>
-        ) : menu.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
-     <AnimatePresence mode="popLayout">
-  {menu.map((i) => (
-    <motion.div
-      key={i._id}
-      initial={{
-        opacity: 0,
-        y: 20,
-        filter: "blur(10px)"
-      }}
-      exit={{
-        opacity: 0,
-        y: -20
-      }}
-      transition={{
-        duration: 0.5
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        filter: "blur(0px)"
-      }}
-    >
-      <DishCard
-        rating={4}
-        category={i.category}
-        image={i.image}
-        title={i.title}
-        desc={i.desc}
-        price={i.price}
-        Isveg={i.isVeg}
-        link={`/menu/product/${i._id}`}
-        addTocart={()=>addToCart(i)}
-      />
-    </motion.div>
-  ))}
-</AnimatePresence>
-          </div>
-        ) : (
-          <div className="py-24 text-center">
-            <h2 className="font-[Imperial_Script] text-5xl sm:text-6xl">
-              Nothing on the menu just yet
-            </h2>
-            <p className="text-primary/55 text-sm mt-4">
-              Try changing your filters to discover more dishes.
-            </p>
-            <button
-              onClick={() => setFilter({
-                category: "",
-                isVeg: null,
-                sort: "",
-                minPrice: priceRange.min,
-                maxPrice: priceRange.max
-              })}
-              className="mt-7 px-6 py-3 bg-primary text-brand rounded-full text-xs uppercase tracking-wider"
-            >
-              Clear filters
-            </button>
-          </div>
-        )}
+  <MenuGrid isLoading={isLoading} isError={isError} menu={menu} setFilter={setFilter} priceRange={priceRange} addToCart={handleCart} />
 
         {/* Bottom actions */}
         <div className="mt-24 pt-12 border-t border-primary/15 flex flex-col sm:flex-row justify-center items-center gap-5">
