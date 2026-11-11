@@ -6,21 +6,27 @@ import React from "react";
 import EmptyCart from "../components/EmptyCart";
 import CartHeader from "../components/CartHeader";
 import { useCartStore } from "../store/useCartStore";
+import { useCart, useUpdateQuantity } from "../hooks/cartHooks";
 const Cart = () => {
-const cartItems = useCartStore((state)=>state.cartItems)
-const updateQuantity = useCartStore((state)=>state.updateQuantity)
+  const {data:cartData}=useCart()
+  const {mutate:mutateUpdate}=useUpdateQuantity()
+  const updateQuantity = ({productId,quantity})=>{
+    mutateUpdate({productId,quantity})
+  }
+  const cartItems = cartData?.existingCart?.items
+// const updateQuantity = useCartStore((state)=>state.updateQuantity)
 const removeItem = useCartStore((state)=>state.removeFromCart)
-  const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+  const subtotal = cartItems?.reduce(
+    (total, item) => total + item.product.price * item.quantity,
     0
   );
 
-  const totalItems = cartItems.reduce(
+  const totalItems = cartItems?.reduce(
     (total, item) => total + item.quantity,
     0
   );
 
-  if (cartItems.length === 0) {
+  if (cartItems?.length === 0) {
     return (
   <EmptyCart/>
     );
@@ -47,16 +53,16 @@ const removeItem = useCartStore((state)=>state.removeFromCart)
             </div>
 
             <div className="flex flex-col gap-6">
-              {cartItems.map((item) => (
+              {cartItems?.map((item) => (
                 <article
-                  key={item._id}
+                  key={item.product._id}
                   className="flex flex-col sm:flex-row gap-5 pb-6 border-b border-black/10"
                 >
                   {/* Dish Image */}
                   <div className="w-full sm:w-36 h-48 sm:h-36 shrink-0 overflow-hidden rounded-xl">
                     <img
-                      src={item.image}
-                      alt={item.title}
+                      src={item.product.image}
+                      alt={item.product.title}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -67,34 +73,34 @@ const removeItem = useCartStore((state)=>state.removeFromCart)
                       <div className="flex justify-between items-start gap-3">
                         <div>
                           <h3 className="font-heading text-xl text-primary">
-                            {item.title}
+                            {item.product.title}
                           </h3>
 
                           <p className="font-body text-xs text-gray-500 mt-1">
-                            {item.category}
+                            {item.product.category}
                           </p>
                         </div>
 
                         <p className="font-heading text-lg text-primary whitespace-nowrap">
-                          ₹{item.price * item.quantity}
+                          ₹{item.product.price * item.quantity}
                         </p>
                       </div>
 
                       <div className="flex items-center gap-2 mt-3">
                         <span
                           className={`w-3.5 h-3.5 border flex items-center justify-center ${
-                            item.isVeg ? "border-green-600" : "border-red-600"
+                            item.product.isVeg ? "border-green-600" : "border-red-600"
                           }`}
                         >
                           <span
                             className={`w-1.5 h-1.5 rounded-full ${
-                              item.isVeg ? "bg-green-600" : "bg-red-600"
+                              item.product.isVeg ? "bg-green-600" : "bg-red-600"
                             }`}
                           />
                         </span>
 
                         <span className="text-xs text-gray-500 font-body">
-                          {item.isVeg ? "Vegetarian" : "Non-Vegetarian"}
+                          {item.product.isVeg ? "Vegetarian" : "Non-Vegetarian"}
                         </span>
                       </div>
                     </div>
@@ -103,7 +109,8 @@ const removeItem = useCartStore((state)=>state.removeFromCart)
                       {/* Quantity */}
                       <div className="flex items-center border border-black/15 rounded-full">
                         <button
-                          onClick={() => updateQuantity(item._id,item.quantity-1)}
+                        disabled={item.quantity===1}
+                          onClick={() => updateQuantity({productId:item.product._id,quantity: item.quantity-1})}
                           className="p-2.5 hover:bg-black/5 rounded-full transition"
                           aria-label="Decrease quantity"
                         >
@@ -115,7 +122,7 @@ const removeItem = useCartStore((state)=>state.removeFromCart)
                         </span>
 
                         <button
-                          onClick={() => updateQuantity(item._id, item.quantity+1)}
+                          onClick={() => updateQuantity({productId:item.product._id,quantity: item.quantity+1})}
                           className="p-2.5 hover:bg-black/5 rounded-full transition"
                           aria-label="Increase quantity"
                         >

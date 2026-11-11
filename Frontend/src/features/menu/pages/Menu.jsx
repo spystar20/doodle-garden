@@ -38,7 +38,7 @@ const Menu = () => {
   }
 
   const { isLoading, isError, data } = useFilteredMenu(params);
-const {mutate:addToCart} = useAddToCart()
+const {mutate:addToCart,isPending,variables} = useAddToCart()
 const handleCart = ({ product, quantity = 1 }) => {
     addToCart({ product, quantity })
 }
@@ -113,7 +113,7 @@ const handleCart = ({ product, quantity = 1 }) => {
         )}
 
         {/* Menu grid */}
-  <MenuGrid isLoading={isLoading} isError={isError} menu={menu} setFilter={setFilter} priceRange={priceRange} addToCart={handleCart} />
+  <MenuGrid isLoading={isLoading} isError={isError} menu={menu} setFilter={setFilter} priceRange={priceRange} addToCart={handleCart} isPending={isPending} variables={variables}/>
 
         {/* Bottom actions */}
         <div className="mt-24 pt-12 border-t border-primary/15 flex flex-col sm:flex-row justify-center items-center gap-5">

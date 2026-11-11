@@ -1,5 +1,5 @@
 import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addTocart, fetchCart } from "../api/cartApi";
+import { addTocart, fetchCart, updateQuantity } from "../api/cartApi";
 import { toast } from "sonner";
  export const useCart = (guestId)=>{
     return useQuery({
@@ -18,4 +18,14 @@ import { toast } from "sonner";
         
  }
     })
+ }
+ export const useUpdateQuantity = ()=>{
+   const queryClient = useQueryClient()
+   return useMutation({
+      mutationFn:updateQuantity,
+      onSuccess:()=>{
+         queryClient.invalidateQueries({queryKey:['cart']})
+         toast.success('Quantity Updated')
+      }
+   })
  }

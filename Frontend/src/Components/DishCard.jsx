@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import React from 'react'
 import { BsFillCartCheckFill } from "react-icons/bs";
-
-const DishCard = ({ image, link, category, price, title, desc, rating, Isveg, addTocart,isAdded }) => {
+import { ImSpinner } from 'react-icons/im'
+const DishCard = ({ image, link, category, price, title, desc, rating, Isveg, addTocart,isAdded,isPending }) => {
   return (
     <div className="flex flex-col group w-[300px] overflow-hidden rounded-xl border bg-brand border-primary backdrop-blur-2xl p-1">
       <div className="relative">
@@ -33,17 +33,25 @@ const DishCard = ({ image, link, category, price, title, desc, rating, Isveg, ad
         aria-label={`${title} is already in your cart`}
     >
         <BsFillCartCheckFill />
-    </button>):( <motion.button
-            type="button"
-            onClick={addTocart}
-            whileTap={{ scale: 0.8, rotate: -12 }}
-            whileHover={{ scale: 1.1 }}
-            transition={{ type: "spring", stiffness: 500, damping: 15 }}
-            className="flex items-center gap-2 rounded-full bg-primary/60 p-2 text-sm text-brand backdrop-blur-md cursor-pointer"
-            aria-label={`Add ${title} to cart`}
-          >
-            <FaCartPlus />
-          </motion.button>)}
+    </button>):( 
+ <motion.button
+    type="button"
+    onClick={addTocart}
+    disabled={isPending}
+    whileTap={!isPending ? { scale: 0.8, rotate: -12 } : {}}
+    whileHover={!isPending ? { scale: 1.1 } : {}}
+    transition={{ type: "spring", stiffness: 500, damping: 15 }}
+    className={`flex items-center justify-center rounded-full bg-primary/60 p-2 text-sm text-brand backdrop-blur-md ${
+        isPending ? "opacity-60 cursor-not-allowed" : "cursor-pointer"
+    }`}
+    aria-label={isPending ? `Adding ${title} to cart` : `Add ${title} to cart`}
+>
+    {isPending ? (
+        <ImSpinner8 className="animate-spin" />
+    ) : (
+        <FaCartPlus />
+    )}
+</motion.button>)}
          
         </div>
 

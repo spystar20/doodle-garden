@@ -8,14 +8,15 @@ if(!userId){
     if(!guestId){
         return res.status(400).json({message:'Guest ID is required'})
     }
-    const guestCart = await cartSchema.findOne({guestId:guestId})
+    const guestCart = await cartSchema.findOne({guestId:guestId}).populate('items.product')
     if(!guestCart){
         return res.status(404).json({message:'guest cart not found'})
     }
+
     return res.status(200).json({guestCart})
 }
 
-const existingCart = await cartSchema.findOne({userId:userId})
+const existingCart = await cartSchema.findOne({userId:userId}).populate('items.product')
 if(!existingCart){
         return res.status(404).json({message:'user cart not found'})
 }
@@ -68,4 +69,41 @@ return res.status(200).json({message:'cart updated',existingUserCart})
  existingUserCart.items.push({product,quantity})
 await existingUserCart.save()
 return res.status(200).json({message:'cart updated',existingUserCart})
+})
+
+export const updateQuantity = asyncHandler(async(req,res)=>{
+const userId = req.user.userId
+const {guestId} = req.params
+const {productId,quantity}=req.body
+  if(!productId||!Number.isInteger(Number(quantity)||Number(quantity)<1)){
+        return res.status(400).json({message:'Valid product and quantity are required'})
+    }
+if(!userId){
+    if(!guestId){
+        return res.status(400).json({message:"Guest ID is required"})
+    }
+    const guestCart = await cartSchema.findOne({guestId:guestId})
+    if(!guestCart){
+        return res.status(404).json({message:'cart not found'})
+    }
+    const existingProduct = guestCart.items.find(item=>item.product.toString()===productId.toString())
+    if(!existingProduct){
+        return res.status(404).json({message:'product not found in the cart'})
+    }
+  existingProduct.quantity = Number(quantity)
+await guestCart.save()
+return res.status(200).json({message:'quantity updated'})
+}
+   const userCart = await cartSchema.findOne({userId:userId})
+    if(!userCart){
+        return res.status(404).json({message:'cart not found'})
+    }
+    const existingProduct = userCart.items.find(item=>item.product.toString()===productId.toString())
+    if(!existingProduct){
+        return res.status(404).json({message:'product not found in the cart'})
+    }
+  existingProduct.quantity = Number(quantity)
+
+await userCart.save()
+return res.status(200).json({message:'quantity updated'})
 })
