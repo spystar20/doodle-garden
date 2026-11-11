@@ -16,3 +16,11 @@ export const updateQuantity = async({productId,quantity})=>{
     const res = await api.put('/user/cart/update-quantity',{productId,quantity},{params:{guestId}})
     return res.data
 }
+export const removeCartItem = async({productId})=>{
+    const guestId = getGuestId()
+    const res = await api.delete('/user/cart/remove-item',{
+        data: { productId },
+        params: { guestId }
+    })
+    return res.data
+}

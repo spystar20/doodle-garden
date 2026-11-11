@@ -1,12 +1,11 @@
 
 import { IoStar } from 'react-icons/io5'
-import { ImSpoonKnife } from "react-icons/im"
+import { ImSpinner8, ImSpoonKnife } from "react-icons/im"
 import { FaCartPlus, FaRegHeart } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import React from 'react'
 import { BsFillCartCheckFill } from "react-icons/bs";
-import { ImSpinner } from 'react-icons/im'
 const DishCard = ({ image, link, category, price, title, desc, rating, Isveg, addTocart,isAdded,isPending }) => {
   return (
     <div className="flex flex-col group w-[300px] overflow-hidden rounded-xl border bg-brand border-primary backdrop-blur-2xl p-1">

@@ -70,10 +70,10 @@ return res.status(200).json({message:'cart updated',existingUserCart})
 await existingUserCart.save()
 return res.status(200).json({message:'cart updated',existingUserCart})
 })
-
+// api to update quantity of product
 export const updateQuantity = asyncHandler(async(req,res)=>{
-const userId = req.user.userId
-const {guestId} = req.params
+const userId = req.user?.userId
+const {guestId} = req.query
 const {productId,quantity}=req.body
   if(!productId||!Number.isInteger(Number(quantity)||Number(quantity)<1)){
         return res.status(400).json({message:'Valid product and quantity are required'})
@@ -106,4 +106,36 @@ return res.status(200).json({message:'quantity updated'})
 
 await userCart.save()
 return res.status(200).json({message:'quantity updated'})
+})
+// api to remove item from cart 
+export const removeCartItem = asyncHandler(async(req,res)=>{
+    const userId = req.user?.userId
+const {guestId} = req.query
+const {productId}=req.body
+if(!userId){
+      if(!guestId){
+        return res.status(400).json({message:"Gueest ID is required"})
+    }
+    const guestCart = await cartSchema.findOne({guestId:guestId})
+    if(!guestCart){
+return res.status(404).json({message:'cart not found'})
+    }
+
+       const existingProduct = guestCart.items.find(item=>item.product.toString()===productId.toString())
+    if(!existingProduct){
+        return res.status(404).json({message:'product not found in the cart'})
+    }
+  guestCart.items=  guestCart.items.filter(item=>item.product.toString()!==productId.toString())
+    await guestCart.save()
+    return res.status(200).json({message:'cart updated'})
+}
+const userCart = await cartSchema.findOne({userId:userId})
+       const existingProduct = userCart.items.find(item=>item.product.toString()===productId.toString())
+    if(!existingProduct){
+        return res.status(404).json({message:'product not found in the cart'})
+    }
+   userCart.items= userCart.items.filter(item=>item.product.toString()!==productId.toString())
+    await userCart.save()
+    return res.status(200).json({message:'cart updated'})
+
 })

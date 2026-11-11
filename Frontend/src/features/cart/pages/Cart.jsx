@@ -6,16 +6,18 @@ import React from "react";
 import EmptyCart from "../components/EmptyCart";
 import CartHeader from "../components/CartHeader";
 import { useCartStore } from "../store/useCartStore";
-import { useCart, useUpdateQuantity } from "../hooks/cartHooks";
+import { useCart, useRemoveCartItem, useUpdateQuantity } from "../hooks/cartHooks";
 const Cart = () => {
   const {data:cartData}=useCart()
   const {mutate:mutateUpdate}=useUpdateQuantity()
+  const {mutate:removeItem} = useRemoveCartItem()
   const updateQuantity = ({productId,quantity})=>{
     mutateUpdate({productId,quantity})
   }
+  const handleRemove = (productId)=>{
+    removeItem({productId})
+  }
   const cartItems = cartData?.existingCart?.items
-// const updateQuantity = useCartStore((state)=>state.updateQuantity)
-const removeItem = useCartStore((state)=>state.removeFromCart)
   const subtotal = cartItems?.reduce(
     (total, item) => total + item.product.price * item.quantity,
     0
@@ -131,7 +133,7 @@ const removeItem = useCartStore((state)=>state.removeFromCart)
                       </div>
 
                       <button
-                        onClick={() => removeItem(item._id)}
+                        onClick={() => handleRemove(item.product._id)}
                         className="flex items-center gap-2 text-xs text-gray-500 hover:text-red-600 transition font-body"
                       >
                         <FiTrash2 size={14} />
