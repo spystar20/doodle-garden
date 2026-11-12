@@ -20,7 +20,7 @@ console.log(res)
         fetchAuth()
     },[])
   return (
-<Authorized.Provider value={{user,setUser}} >
+<Authorized.Provider value={{user,setUser,fetchAuth}} >
     {children}
 </Authorized.Provider>  )
 }

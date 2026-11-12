@@ -1,31 +1,19 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router';
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
-import { api } from '../../axios/api';
-import { toast } from 'sonner';
-import { useContext } from 'react';
-import { Authorized } from '../AuthContext/AuthContext';
-import { getGuestId } from '../utils/guestId';
 const Login = () => {
+  const {mutate:useLogin}=useLogin()
+  const {fetchAuth}=useContext()
   const [showPassword, setShowPassword] = useState(false);
  const [ formData,setFormData]=useState({email:'',password:''})
- const navigate = useNavigate()
- const handleSubmit = async()=>{
-  try{
-    if(!formData.email){
-      return toast.error('email is required')
+ const handleSubmit = ()=>{
+  useLogin(formData,
+    {
+      onSucess:async()=>{
+        await fetchAuth()
+      }
     }
-    if(!formData.password){
-      return toast.error('password is required')
-    }
-const res = await api.post('/auth/login',{...formData,guestId:getGuestId()})
-toast.success(`welcome back `)
-navigate('/')
-
-  }catch(err){
-    toast.error(`${err}`)
-console.log(err)
-  }
+  )
  }
    return (
    <div className="w-full min-h-screen bg-brand flex items-center justify-center">

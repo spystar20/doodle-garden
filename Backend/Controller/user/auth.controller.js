@@ -37,7 +37,7 @@ export const Login = asyncHandler(async(req,res)=>{
     }
     const guestCart =guestId? await cartSchema.findOne({guestId:guestId}):null
     if(guestCart){
-      const existingCart = await cartSchema.findOne({userId:existingUser._id})}
+      const existingCart = await cartSchema.findOne({userId:existingUser._id})
 
     if(existingCart){
         guestCart.items.forEach(item => {
@@ -55,7 +55,7 @@ export const Login = asyncHandler(async(req,res)=>{
  guestCart.guestId= null
  await guestCart.save()
     }
-
+    }
 await existingCart.save()
 await cartSchema.findOneAndDelete(guestCart._id)
 const accessToken = createAccessToken({userId:existingUser._id})
