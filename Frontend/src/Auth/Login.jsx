@@ -5,6 +5,7 @@ import { api } from '../../axios/api';
 import { toast } from 'sonner';
 import { useContext } from 'react';
 import { Authorized } from '../AuthContext/AuthContext';
+import { getGuestId } from '../utils/guestId';
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
  const [ formData,setFormData]=useState({email:'',password:''})
@@ -17,7 +18,7 @@ const Login = () => {
     if(!formData.password){
       return toast.error('password is required')
     }
-const res = await api.post('/auth/login',formData)
+const res = await api.post('/auth/login',{...formData,guestId:getGuestId()})
 toast.success(`welcome back `)
 navigate('/')
 

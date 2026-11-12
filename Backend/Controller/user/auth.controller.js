@@ -3,6 +3,7 @@ import userSchema from '../../Model/UserSchema.js'
 import bcrypt from 'bcrypt'
 import { createAccessToken, createRefreshToken, verifyAccessToken, verifyRefreshToken } from "../../Utils.js/jwt.js";
 import { getAccessCookieOptions, getRefreshCookieOptions } from "../../Utils.js/cookie.js";
+import cartSchema from '../../Model/cartSchema.js'
 export const SignUp = asyncHandler(async(req,res)=>{
 const {name,email,password} = req.body
 console.log(req.body)
@@ -21,7 +22,7 @@ return res.status(200).json({message:'user created successfully'})
 })
 
 export const Login = asyncHandler(async(req,res)=>{
-    const {email,password}= req.body
+    const {email,password,guestId}= req.body
     if(!email || !password){
         return res.status(403).json({message:'please fill both the fields'})
     }
@@ -29,10 +30,34 @@ export const Login = asyncHandler(async(req,res)=>{
     if(!existingUser){
                 return res.status(403).json({message:'user does not exist . Please SignIn'})
     }
+
     const comparePass = await bcrypt.compare(password,existingUser.password)
     if(!comparePass){
         return res.status(403).json({message:'incorrect password'})
     }
+    const guestCart =guestId? await cartSchema.findOne({guestId:guestId}):null
+    if(guestCart){
+      const existingCart = await cartSchema.findOne({userId:existingUser._id})}
+
+    if(existingCart){
+        guestCart.items.forEach(item => {
+    const existingItem = existingCart.items.find(existing=>existing.product.toString()===item.product.toString())
+    if(existingItem){
+        existingItem.quantity += item.quantity
+    }else{
+    existingCart.items.push({product:item.product,quantity:item.quantity})
+   
+}
+});
+ 
+    }else{
+ guestCart.userId=existingUser._id
+ guestCart.guestId= null
+ await guestCart.save()
+    }
+
+await existingCart.save()
+await cartSchema.findOneAndDelete(guestCart._id)
 const accessToken = createAccessToken({userId:existingUser._id})
 const refreshToken = createRefreshToken({userId:existingUser._id})
 
