@@ -11,7 +11,9 @@ const orderModel = new mongoose.Schema({
         price: { type: Number, required: true },
         quantity: { type: Number, required: true }
     }]
-    ,
+    ,orderSource:{
+        type:String,enum:['cart','direct'],required:true
+    },
     customerDetails:{
 name:{type:String,required:true},
 phone:{type:String,required:true},
