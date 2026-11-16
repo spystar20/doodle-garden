@@ -2,7 +2,8 @@ import express from 'express'
 import dotenv from 'dotenv'
 dotenv.config()
 import authRoutes from './Routes/user/user.auth.route.js'
-import menuRoutes from './Routes/user/menu.routes.js'
+import userMenuRoutes from './Routes/user/menu.routes.js'
+import adminMenuRoutes from './Routes/admin/menu.routes.js'
 import reservationRoutes from './Routes/user/reservation.routes.js'
 import cors from 'cors'
 import mongoose from 'mongoose'
@@ -18,7 +19,9 @@ app.use(cookieParser())
 app.use(cors({
     origin:process.env.FRONTEND_URL,credentials:true} ))
 app.use('/auth',authRoutes)
-app.use('/user',menuRoutes,reservationRoutes)
+app.use('/admin/reservation',reservationRoutes)
+app.use('/admin/menu',adminMenuRoutes)
+app.use('/user/menu',userMenuRoutes)
 app.use('/user/cart',cartRoutes)
 app.use('/user/payment',paymentRoutes)
 app.use('/admin',adminMenuRoutes,adminReservationRoutes)

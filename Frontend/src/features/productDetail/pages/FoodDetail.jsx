@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link, useParams } from "react-router";
 import { FaArrowLeft } from "react-icons/fa6";
 import Loader from "../../../utils/Loader";
-import { useMenuById } from "../../../hooks/menuHooks";
+import { useMenuById } from "../../menu/hooks/menuHooks";
 import ProductImage from "../components/ProductImage";
 import ProductInformation from "../components/ProductInformation";
 import ProductAbout from "../components/ProductAbout";

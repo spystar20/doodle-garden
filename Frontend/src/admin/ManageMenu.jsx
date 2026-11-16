@@ -5,7 +5,7 @@ import { ImPlus, ImSpoonKnife } from "react-icons/im";
 import DishCard from '../Components/DishCard';
 import AdminDishCard from '../Components/AdminDishCard';
 import { toast, Toaster } from 'sonner';
-import { useMenu } from '../hooks/menuHooks';
+import { useMenu } from '../features/menu/hooks/menuHooks';
 import { useDeleteDish } from '../hooks/adminMutation/menuMuation';
 
 const ManageMenu = () => {

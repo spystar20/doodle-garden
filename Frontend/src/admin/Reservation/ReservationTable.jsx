@@ -14,7 +14,7 @@ setStatusOpt(prev=> prev ===id ? null:id)}
 
 const handleStatus = async(reservationId,status)=>{
   try{
-const res = await api.put(`/auth/admin/reservation/${reservationId}/status`,{status})
+const res = await api.put(`/admin/reservation/${reservationId}/status`,{status})
 console.log(res)
   toast.success('status updated')
   fetchData()
@@ -24,7 +24,7 @@ console.log(res)
 }
      const fetchData = async()=>{
             try{
-const res = await api.get('/auth/admin/reservation')
+const res = await api.get('/admin/reservation/')
 setData(res?.data?.reservation)
 console.log(res)
             }catch(Err){
