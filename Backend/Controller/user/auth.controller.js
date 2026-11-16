@@ -49,15 +49,16 @@ export const Login = asyncHandler(async(req,res)=>{
    
 }
 });
- 
+ await existingCart.save()
+ await cartSchema.findOneAndDelete(guestCart._id)
     }else{
  guestCart.userId=existingUser._id
  guestCart.guestId= null
  await guestCart.save()
     }
     }
-await existingCart.save()
-await cartSchema.findOneAndDelete(guestCart._id)
+
+
 const accessToken = createAccessToken({userId:existingUser._id})
 const refreshToken = createRefreshToken({userId:existingUser._id})
 

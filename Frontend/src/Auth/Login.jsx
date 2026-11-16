@@ -1,15 +1,17 @@
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router';
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
+import { useLogin } from './hooks/hook';
+import {Authorized} from '../AuthContext/AuthContext'
 const Login = () => {
-  const {mutate:useLogin}=useLogin()
-  const {fetchAuth}=useContext()
+  const {mutate:login}=useLogin()
+  const {fetchAuth}=useContext(Authorized)
   const [showPassword, setShowPassword] = useState(false);
  const [ formData,setFormData]=useState({email:'',password:''})
  const handleSubmit = ()=>{
-  useLogin(formData,
+  login(formData,
     {
-      onSucess:async()=>{
+      onSuccess:async()=>{
         await fetchAuth()
       }
     }

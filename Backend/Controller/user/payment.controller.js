@@ -1,9 +1,10 @@
-import asyncHandler from '../../Middleware/asyncHandler.js'
+import {asyncHandler} from '../../Middleware/asyncHandler.js'
 import userModel from '../../Model/UserSchema.js'
 import menuModel from '../../Model/MenuSchema.js'
 import cartSchema from '../../Model/cartSchema.js'
 import orderSchema from '../../Model/orderSchema.js'
 import razorpay from '../../config/razorpay.js'
+import crypto from 'crypto'
 export const createOrder = asyncHandler(async (req, res) => {
     const { orderSource, customerDetails, orderType, paymentType, pickupDate, pickupTimeSlot, } = req.body
     const { name, phone, address, city, pincode } = customerDetails || {}
@@ -117,4 +118,53 @@ if(orderSource==='cart'&& paymentType==='cod'){
 return res.status(201).json({message:'order created successfully',success:true,order,...(paymentType==='online' &&{
 razorpayKey:process.env.RAZORPAY_API_KEY,razorpayOrder
 })})
+})
+
+export const verifyPayment = asyncHandler(async(req,res)=>{
+    const {razorpay_order_id,razorpay_payment_id,razorpay_signature}=req.body
+    if(!razorpay_order_id||!razorpay_payment_id||!razorpay_signature){
+        return res.status(400).json({message:'valid credentials are required'})
+    }
+    const body = razorpay_order_id + '|' + razorpay_payment_id
+    const signature = crypto.createHmac('sha256',process.env.RAZORPAY_SECRET_KEY).update(body).digest('hex')
+    const isAuthenticated = signature === razorpay_signature
+    if(!isAuthenticated){
+        return res.status(403).json({message:'signature did not matched'})
+    }
+    const order = await orderSchema.findOne({
+    razorpayOrderID: razorpay_order_id,
+    userId: req.user.userId
+})
+if (!order) {
+    return res.status(404).json({
+        message: 'Order not found'
+    })
+}
+if (order.paymentStatus === 'paid') {
+    return res.status(400).json({
+        message: 'Payment already verified'
+    })
+}
+if(order.paymentType !=='online'||order.paymentStatus!=='pending'){
+return res.status(400).json({
+message:'Invalid payment verification'
+})
+}
+const payment = await razorpay.payments.fetch(razorpay_payment_id)
+if(!payment){
+    return res.status(404).json({message:'payment not found'})
+}
+if(payment.order_id !== order.razorpayOrderID || payment.amount !==order.amount*100||payment.status!=='captured'){
+return res.status(400).json({message:'Payment verfication failed'})
+}
+order.razorpayPaymentId=razorpay_payment_id
+order.paymentStatus='paid'
+await order.save()
+if (order.orderSource === 'cart') {
+    await cartSchema.findOneAndUpdate(
+        { userId: order.userId },
+        { $set: { items: [] } }
+    )
+}
+return res.status(201).json({message:'payment verified',order,success:true})
 })
