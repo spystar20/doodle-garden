@@ -10,6 +10,7 @@ import { useMenuById } from '../../../../features/menu/hooks/menuHooks';
 import { useEditDish } from '../../../hooks/adminHooks';
 import CategoryDropdown from '../../../components/CategoryDropDown';
 import FoodTypeSelector from '../../../components/FoodTypeSelector';
+import ProductImageUpload from '../../../components/ProductImageUpload';
 
 
 const EditMenu = () => {
@@ -20,18 +21,7 @@ const EditMenu = () => {
   const navigate = useNavigate()
      const {isLoading,isError,data:menu} =useMenuById(itemId)
 const {mutate:editDish }=useEditDish()
-   const categoryOptions = [
-  { value: "appetizer", label: "Appetizer" },
-  { value: "salad", label: "Salad" },
-  { value: "soup", label: "Soup" },
-  { value: "pizza", label: "Pizza" },
-  { value: "pasta", label: "Pasta" },
-  { value: "burger", label: "Burger" },
-  { value: "main-course", label: "Main Course" },
-  { value: "rice-bowls", label: "Rice Bowls" },
-  { value: "dessert", label: "Dessert" },
-  { value: "beverages", label: "Beverages" },
-]
+ 
 const [formData ,setFormData] = useState({title:'',desc:'',price:'',category:''})
 const [isVeg,setIsveg] = useState(null)
 const handleMenu = ()=>{
@@ -67,10 +57,6 @@ setPreview(URL.createObjectURL(file))
     }
 useEffect(() => {
   if (!menu) return;
-
- 
-
-
   setFormData({
     title: menu.title || "",
     desc: menu.desc || "",
@@ -179,7 +165,7 @@ useEffect(() => {
       </form>
 
       {/* Dish Image */}
-      <div className="flex flex-col gap-4 text-primary/80">
+      {/* <div className="flex flex-col gap-4 text-primary/80">
 
         <h2 className="text-2xl font-medium font-heading">
           Dish Image
@@ -218,8 +204,13 @@ useEffect(() => {
 
         </div>
 
-      </div>
-
+      </div> */}
+<ProductImageUpload   preview={preview}
+  onChange={handleImage}
+  onRemove={() => {
+    setPreview('')
+    setImage('')
+  }}/>
     </div>
 
   </div>
