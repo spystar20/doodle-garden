@@ -13,7 +13,7 @@ export const useAddDish = ()=>{
     form.append('category',formData.category)
     form.append('isVeg',isVeg)
     form.append('image',image)
-const res = await api.post('/admin/create-menu',form)
+const res = await api.post('/admin/menu/create',form)
 return res.data
         },
         onSuccess:async(_,variables)=>{
@@ -34,7 +34,7 @@ export const useEditDish = ()=>{
     form.append('category',formData.category)
     form.append('isVeg',isVeg)
     form.append('image',image)
-const res = await axios.put(`http://localhost:3000/auth/menu/${itemId}/edit`,form)
+const res = await api.put(`/admin/menu/${itemId}/edit`,form)
 return res.data
         },
         onSuccess:async(_,variables)=>{
@@ -48,7 +48,7 @@ export const useDeleteDish = ()=>{
     const queryClient = useQueryClient()
     return useMutation({
 mutationFn:async({itemId})=>{
-    const res = await api.delete(`admin/menu/${itemId}/delete`) 
+    const res = await api.delete(`/admin/menu/${itemId}/delete`) 
 }   ,
 onSuccess:async(_,variables)=>{
 await Promise.all([

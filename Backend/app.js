@@ -8,7 +8,6 @@ import reservationRoutes from './Routes/user/reservation.routes.js'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
-import adminMenuRoutes from './Routes/admin/menu.routes.js'
 import adminReservationRoutes from './Routes/admin/reservation.routes.js'
 import cartRoutes from './Routes/user/cart.routes.js'
 import paymentRoutes from './Routes/user/payment.routes.js'
@@ -18,13 +17,14 @@ app.use(cookieParser())
 
 app.use(cors({
     origin:process.env.FRONTEND_URL,credentials:true} ))
+    
 app.use('/auth',authRoutes)
-app.use('/admin/reservation',reservationRoutes)
+app.use('/admin/reservation',adminReservationRoutes)
+app.use('/user/reservation',reservationRoutes)
 app.use('/admin/menu',adminMenuRoutes)
 app.use('/user/menu',userMenuRoutes)
 app.use('/user/cart',cartRoutes)
 app.use('/user/payment',paymentRoutes)
-app.use('/admin',adminMenuRoutes,adminReservationRoutes)
 mongoose.connect(process.env.MONGO_URI).then(()=>{
 console.log("db connected")
 }).catch((err)=>{

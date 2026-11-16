@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchCategories, fetchFilterMenu, fetchMenu, fetchMenuById } from "../../../api/menuApi";
+import { fetchCategories, fetchFilterMenu, fetchMenuById } from "../../../api/menuApi";
 
 export const useMenuById = (itemId) => {
   return useQuery({
@@ -19,7 +19,3 @@ export const useFilteredMenu = (filter) => useQuery({
   queryFn: () => fetchFilterMenu(filter)
 });
 // for admin
-export const useMenu = () => useQuery({
-  queryKey: ['menu'],
-  queryFn: () => fetchMenu()
-});

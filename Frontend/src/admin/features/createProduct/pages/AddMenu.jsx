@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { IoChevronDown } from 'react-icons/io5';
-import Select from 'react-select'
-import { api } from '../../axios/api';
-import axios from 'axios';
 import { toast } from 'sonner';
 import { ImCross } from 'react-icons/im';
-import { useAddDish } from '../hooks/adminMutation/menuMuation';
+import { useAddDish } from '../../../hooks/adminHooks';
+import PageHeader from '../../../components/PageHeader';
+import CategoryDropdown from '../../../components/CategoryDropDown';
+import FoodTypeSelector from '../../../components/FoodTypeSelector';
 export const AddMenu = () => {
-  const [open,setOpen]= useState(false)
-  const [category, setCategory] = useState(null);
   const [preview,setPreview]= useState('')
   const [image,setImage] = useState('')
    const categoryOptions = [
@@ -56,17 +54,7 @@ setPreview(URL.createObjectURL(file))
    <div className="w-full px-6 py-6 font-body text-brand md:px-12">
 
   {/* Page Header */}
-  <div className="flex flex-col gap-2">
-    <h2 className="font-heading text-4xl font-semibold">
-      Add New Dish
-    </h2>
-
-    <p className="text-sm text-brand/60">
-      Create and publish a new menu item for Doodle Garden.
-    </p>
-  </div>
-
-
+  <PageHeader title=" Add New Dish" desc="Create and publish a new menu item for Doodle Garden."/>
   {/* Dish Information Section */}
   <div className="flex flex-col gap-5 py-8">
 
@@ -115,56 +103,14 @@ setPreview(URL.createObjectURL(file))
 
 
         {/* Category Dropdown */}
-        <div className="relative">
 
-          <div
-            onClick={() => setOpen(!open)}
-            className="flex cursor-pointer items-center justify-between rounded-xl border border-primary/20 p-3 transition-all duration-300 hover:border-primary"
-          >
-            <span className="font-body">
-              {category?.label || "Select Category"}
-            </span>
-
-            <IoChevronDown
-              className={`transition duration-300 ${
-                open ? "rotate-180" : ""
-              }`}
-            />
-          </div>
-
-
-          {open && (
-            <div className="absolute left-0 top-full z-50 mt-2 max-h-60 w-full overflow-y-auto rounded-xl border border-primary/20 bg-primary p-2 shadow-xl">
-
-              {categoryOptions.map((item) => (
-                <div
-                  key={item.value}
-                  onClick={() => {
-                    setCategory(item);
-
-                    setFormData((prev) => ({
-                      ...prev,
-                      category: item.value,
-                    }));
-
-                    setOpen(false);
-                  }}
-                  className={`cursor-pointer rounded-lg px-4 py-3 font-body transition
-                  ${
-                    category?.value === item.value
-                      ? "bg-brand text-primary"
-                      : "text-brand hover:bg-brand/10"
-                  }`}
-                >
-                  {item.label}
-                </div>
-              ))}
-
-            </div>
-          )}
-
-        </div>
-
+<CategoryDropdown   value={formData.category}
+  onChange={(value) =>
+    setFormData(prev => ({
+      ...prev,
+      category: value
+    }))
+  }/>
 
         {/* Price */}
         <div className="rounded-xl border border-primary/20 p-3 transition-all duration-300 focus-within:border-primary hover:border-primary/60">
@@ -184,45 +130,8 @@ setPreview(URL.createObjectURL(file))
 
 
         {/* Food Type */}
-        <div className="flex flex-col gap-3 py-2">
-
-          <h2 className="font-heading text-lg font-medium">
-            Food Type
-          </h2>
-
-          <div className="flex gap-3">
-
-            {/* Veg */}
-            <button
-              type="button"
-              onClick={() => setIsveg(true)}
-              className={`rounded-full border px-6 py-2 font-heading text-sm transition-all duration-300 ${
-                isVeg === true
-                  ? "border-green-500 bg-green-500 text-white"
-                  : "border-primary/20 hover:border-green-500 hover:bg-green-500 hover:text-white"
-              }`}
-            >
-              Veg
-            </button>
-
-
-            {/* Non Veg */}
-            <button
-              type="button"
-              onClick={() => setIsveg(false)}
-              className={`rounded-full border px-5 py-2 font-heading text-sm transition-all duration-300 ${
-                isVeg === false
-                  ? "border-red-500 bg-red-500 text-white"
-                  : "border-primary/20 hover:border-red-500 hover:bg-red-500 hover:text-white"
-              }`}
-            >
-              Non-Veg
-            </button>
-
-          </div>
-
-        </div>
-
+      
+<FoodTypeSelector value={isVeg} onChange={setIsveg}/>
 
         {/* Submit */}
         <button
@@ -237,7 +146,7 @@ setPreview(URL.createObjectURL(file))
 
 
       {/* Right: Image Upload */}
-      <div className="flex flex-col gap-4">
+      {/* <div className="flex flex-col gap-4">
 
         <h2 className="font-heading text-2xl font-medium">
           Dish Image
@@ -275,8 +184,13 @@ setPreview(URL.createObjectURL(file))
 
         </div>
 
-      </div>
-
+      </div> */}
+<ProductImageUpload   preview={preview}
+  onChange={handleImage}
+  onRemove={() => {
+    setPreview('')
+    setImage('')
+  }}/>
     </div>
 
   </div>

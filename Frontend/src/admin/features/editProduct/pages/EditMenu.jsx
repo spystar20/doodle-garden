@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { IoChevronDown } from 'react-icons/io5';
 import Select from 'react-select'
-import { api } from '../../axios/api';
+import { api } from '../../../../../axios/api';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { ImCross } from 'react-icons/im';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useMenuById } from '../hooks/menuHooks';
-import { useEditDish } from '../hooks/adminMutation/menuMuation';
+import { useMenuById } from '../../../../features/menu/hooks/menuHooks';
+import { useEditDish } from '../../../hooks/adminHooks';
+import CategoryDropdown from '../../../components/CategoryDropDown';
+import FoodTypeSelector from '../../../components/FoodTypeSelector';
+
 
 const EditMenu = () => {
-      const [open,setOpen]= useState(false)
-  const [category, setCategory] = useState(null);
+    
   const [preview,setPreview]= useState('')
   const [image,setImage] = useState('')
   const {itemId} = useParams()
@@ -41,7 +43,7 @@ editDish({
 setFormData({title:'',desc:'',price:'',category:''})
 setIsveg(null)
 setPreview('')
-setCategory('')
+
 setTimeout(() => {
   navigate('/admin/manage-menu')
 }, 1500);
@@ -66,11 +68,8 @@ setPreview(URL.createObjectURL(file))
 useEffect(() => {
   if (!menu) return;
 
-  const selectedCategory = categoryOptions.find(
-    (item) => item.value === menu.category
-  );
+ 
 
-  setCategory(selectedCategory || null);
 
   setFormData({
     title: menu.title || "",
@@ -141,55 +140,15 @@ useEffect(() => {
         </div>
 
         {/* Category */}
-        <div className="relative">
-
-          <div
-            onClick={() => setOpen(!open)}
-            className="flex cursor-pointer items-center justify-between rounded-lg border-2 border-primary/40 p-3 hover:border-primary"
-          >
-            <span>
-              {category?.label || "Select Category"}
-            </span>
-
-            <IoChevronDown
-              className={`transition duration-300 ${
-                open ? "rotate-180" : ""
-              }`}
-            />
-          </div>
-
-          {open && (
-            <div className="absolute left-0 top-full z-50 mt-2 w-full overflow-x-hidden overflow-y-scroll max-h-60 rounded-lg border border-primary/20 bg-primary shadow-lg">
-
-              {categoryOptions.map((item) => (
-                <div
-                  key={item.value}
-                  onClick={() => {
-                    setCategory(item);
-
-                    setFormData((prev) => ({
-                      ...prev,
-                      category: item.value,
-                    }));
-
-                    setOpen(false);
-                  }}
-                  className={`cursor-pointer px-4 py-3 transition ${
-                    category?.value === item.value
-                      ? "bg-brand text-primary"
-                      : "hover:bg-brand/10 text-brand"
-                  }`}
-                >
-                  {item.label}
-                </div>
-              ))}
-
-            </div>
-          )}
-
-        </div>
-
-        {/* Price */}
+<CategoryDropdown
+  value={formData.category}
+  onChange={(value) =>
+    setFormData(prev => ({
+      ...prev,
+      category: value
+    }))
+  }
+/>        {/* Price */}
         <div className="border-2 border-primary/40 hover:border-primary rounded-lg p-1.5 pl-5">
           <input
             value={formData.price}
@@ -206,45 +165,7 @@ useEffect(() => {
         </div>
 
         {/* Food Type */}
-        <div className="grid grid-cols-2">
-
-          <div className="flex flex-col py-2 gap-2">
-
-            <h2 className="text-lg font-heading">
-              Food Type
-            </h2>
-
-            <div className="flex gap-3">
-
-              <button
-                type="button"
-                onClick={() => setIsveg(true)}
-                className={`rounded-full border px-6 py-1 duration-300 ease-in hover:bg-green-500 hover:border-green-500 ${
-                  isVeg === true
-                    ? "bg-green-500 text-primary"
-                    : "bg-transparent"
-                }`}
-              >
-                Veg
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setIsveg(false)}
-                className={`rounded-full border px-4 py-1 duration-300 ease-in hover:bg-red-500 hover:border-red-500 ${
-                  isVeg === false
-                    ? "bg-red-500 text-brand"
-                    : "bg-transparent"
-                }`}
-              >
-                Non-Veg
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
+      <FoodTypeSelector value={isVeg} onChange={setIsveg}/>
 
         {/* Update Button */}
         <button

@@ -22,7 +22,7 @@ const [formData,setFormData] =useState({name:'',phone:'',guest:'',date:'',time:'
 const handleSubmit = async(e)=>{
   try{
     e.preventDefault()
-const res = await api.post('/auth/reservation',formData)
+const res = await api.post('/user/reservation/create',formData)
 toast.success(  "Your reservation request has been submitted successfully. We'll confirm it shortly.")
 setSowGuestOpt(false)
 console.log(res)

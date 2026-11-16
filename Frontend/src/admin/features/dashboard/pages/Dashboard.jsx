@@ -1,6 +1,6 @@
 import React from 'react'
-import ManageMenu from './ManageMenu'
-import AddMenu from './AddMenu'
+import ManageMenu from '../../manageProduct/pages/ManageMenu'
+import AddMenu from '../../createProduct/pages/AddMenu'
 import { Route, Router } from 'react-router-dom'
 
 export const Dashboard = () => {
