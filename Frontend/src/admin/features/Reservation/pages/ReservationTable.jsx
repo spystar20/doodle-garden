@@ -1,13 +1,35 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Menu, MenuItem } from '@mui/material'
 import { FaSearch, FaCheck, FaTimes, FaEye } from "react-icons/fa";
+import ReservationSearch from '../components/ReservationSearch';
+import ReservationFilter from '../components/ReservationFilter'
+import {
+  FormControl,
+  Select,
+  
+} from '@mui/material'
 import { toast } from 'sonner';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper
+} from '@mui/material'
 import { api } from '../../../../../axios/api';
+import PageHeader from '../../../components/PageHeader';
 const ReservationTable = () => {
     const [data,setData] = useState([])
     const [Statusopt,setStatusOpt] = useState(null)
-    
+    const [search, setSearch] = useState('')
+const [statusFilter, setStatusFilter] = useState('all')
+    const filteredData = data.filter((reservation) => {
+  return statusFilter === 'all' || reservation.status === statusFilter
+})
     const handleStatusToggle =(id)=>{
 setStatusOpt(prev=> prev ===id ? null:id)}
 
@@ -43,107 +65,156 @@ console.log(res)
                 return 'bg-red-500/20 text-red-600'
         }
     }
+    
   return (
 
-    <div className="w-full min-h-screen px-8 py-6 text-biege font-[Outfit]">
+    <div className="w-full min-h-screen px-8 py-6 text-brand font-[Outfit]">
 
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-semibold">Reservations</h1>
-        <p className="text-biege/70 mt-1">
-          Manage and review customer booking requests.
-        </p>
-      </div>
-
-    
-
+<PageHeader title="Reservations"  desc="  Manage and review customer booking requests."/>
       {/* Search + Filter */}
-      <div className="border-biege/45  border rounded-2xl p-3 mb-6 flex items-center justify-between gap-4">
+<div className="border-biege/45 border rounded-2xl p-3 mb-6 flex items-center justify-between gap-4">
+  <ReservationSearch search={search} setSearch={setSearch} />
+  <ReservationFilter
+    statusFilter={statusFilter}
+    setStatusFilter={setStatusFilter}
+  />
+</div>
 
-        <div className="flex items-center gap-3 border border-biege/20 rounded-xl px-4 py-2 w-full max-w-md">
-          <FaSearch className="text-biege/50" />
-          <input
-            type="text"
-            placeholder="Search customer..."
-            className="w-full outline-none bg-transparent text-biege"
-          />
-        </div>
+<TableContainer
+  component={Paper}
+  sx={{
+    borderRadius: '16px',
+    backgroundColor: '#FFFFF0',
+    overflowX: 'auto',
+    boxShadow: 'none'
+  }}
+>
+  <Table sx={{ minWidth: 900 }}>
+    <TableHead sx={{ backgroundColor: '#00000008' }}>
+      <TableRow>
+        {['Guest', 'Phone', 'Date', 'Time', 'Guests', 'Status', 'Actions'].map((heading) => (
+          <TableCell
+            key={heading}
+            sx={{
+              fontFamily: 'Outfit',
+              fontWeight: 600,
+              color: '#000',
+              whiteSpace: 'nowrap',
+              borderBottom: '1px solid #00000020'
+            }}
+          >
+            {heading}
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
 
-        <select className="border bg-biege/90 rounded-xl px-4 py-2 text-black outline-none">
-          <option>All</option>
-          <option>Pending</option>
-          <option>Confirmed</option>
-          <option>Cancelled</option>
-        </select>
+    <TableBody>
+      {filteredData.map((reservation) => (
+        <TableRow
+          key={reservation._id}
+          hover
+          sx={{
+            '&:last-child td': { borderBottom: 0 }
+          }}
+        >
+          <TableCell sx={{ fontFamily: 'Outfit', color: '#000' }}>
+            {reservation.name}
+          </TableCell>
 
-      </div>
+          <TableCell sx={{ fontFamily: 'Outfit', color: '#000' }}>
+            {reservation.phone}
+          </TableCell>
 
-      {/* Table */}
-      <div className="bg-biege rounded-2xl overflow-hidden">
+          <TableCell sx={{ fontFamily: 'Outfit', color: '#000', whiteSpace: 'nowrap' }}>
+            {new Date(reservation.date).toLocaleDateString('en-IN', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric'
+            })}
+          </TableCell>
 
-        <table className="w-full text-black">
+          <TableCell sx={{ fontFamily: 'Outfit', color: '#000', whiteSpace: 'nowrap' }}>
+            {new Date(reservation.time).toLocaleTimeString('en-IN')}
+          </TableCell>
 
-          <thead className="border-b border-black/10 bg-black/5">
-            <tr>
-              <th className="text-left px-6 py-4 font-semibold">Guest</th>
-              <th className="text-left px-6 py-4 font-semibold">Phone</th>
-              <th className="text-left px-6 py-4 font-semibold">Date</th>
-              <th className="text-left px-6 py-4 font-semibold">Time</th>
-              <th className="text-left px-6 py-4 font-semibold">Guests</th>
-              <th className="text-left px-6 py-4 font-semibold">Status</th>
-              <th className="text-left px-6 py-4 font-semibold">Actions</th>
-            </tr>
-          </thead>
+          <TableCell sx={{ fontFamily: 'Outfit', color: '#000' }}>
+            {reservation.guest}
+          </TableCell>
 
-          <tbody>
-{data.map((data,index)=>(
-            <tr key={index} className="border-b border-black/10">
-              <td className="px-6 py-4">{data.name}</td>
-              <td className="px-6 py-4">{data.phone}</td>
-              <td className="px-6 py-4">{new Date(data.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}</td>
-              <td className="px-6 py-4">{new Date(data.time).toLocaleTimeString('en-IN')}</td>
-              <td className="px-6 py-4">{data.guest}</td>
+          {/* Status */}
+          <TableCell sx={{ position: 'relative', fontFamily: 'Outfit' }}>
+            <span
+              onClick={() => handleStatusToggle(reservation._id)}
+              className={`${getStatusStyle(reservation.status)} px-4 py-1 rounded-full text-sm cursor-pointer capitalize whitespace-nowrap`}
+            >
+              {reservation.status}
+            </span>
 
-              <td className="justify-center py-4 relative flex flex-col items-center">
-                <span onClick={()=>handleStatusToggle(data._id)} className={`${getStatusStyle(data.status)} px-4 py-1 rounded-full text-sm`}>
-{data.status}                </span>
-                {Statusopt === data._id  && (
-                <span  className='bg-biege shadow-2xl z-10 rounded-lg border-black/20  min-w-[100px] flex items-center justify-center gap-2 flex-col text-black border absolute -bottom-10 '>
-{data.status !== 'confirmed' &&(
-                  <span onClick={()=>{handleStatus(data._id,'confirmed'),handleStatusToggle(data._id)}} className='px-3  py-1 w-full text-sm hover:bg-green-100/50'>confirmed</span>
-)}
-{data.status !== 'cancelled'&&(
-                                    <span onClick={()=>{handleStatus(data._id,'cancelled'),handleStatusToggle(data._id)}} className=' px-3 py-1 w-full  hover:bg-red-100/50 text-sm'>cancelled</span>
-                                    )}
-
-                </span>
+            {Statusopt === reservation._id && (
+              <div className="absolute left-4 top-[70%] bg-biege shadow-2xl z-20 rounded-lg border border-black/20 min-w-[120px] flex flex-col text-black">
+                {reservation.status !== 'confirmed' && (
+                  <button
+                    onClick={() => {
+                      handleStatus(reservation._id, 'confirmed')
+                      handleStatusToggle(reservation._id)
+                    }}
+                    className="px-3 py-2 w-full text-sm text-left hover:bg-green-100/50 capitalize"
+                  >
+                    Confirmed
+                  </button>
                 )}
-              </td>
 
-              <td className="px-6 py-4">
-                <div className="flex gap-2">
-
-                  <button className="p-2 rounded-lg bg-green-500 text-white">
-                    <FaCheck />
+                {reservation.status !== 'cancelled' && (
+                  <button
+                    onClick={() => {
+                      handleStatus(reservation._id, 'cancelled')
+                      handleStatusToggle(reservation._id)
+                    }}
+                    className="px-3 py-2 w-full text-sm text-left hover:bg-red-100/50 capitalize"
+                  >
+                    Cancelled
                   </button>
+                )}
+              </div>
+            )}
+          </TableCell>
 
-                  <button className="p-2 rounded-lg bg-red-500 text-white">
-                    <FaTimes />
-                  </button>
+          {/* Actions */}
+          <TableCell>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handleStatus(reservation._id, 'confirmed')}
+                disabled={reservation.status === 'confirmed'}
+                title="Confirm reservation"
+                className="p-2 rounded-lg bg-green-500 text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <FaCheck />
+              </button>
 
-                  <button className="p-2 rounded-lg bg-black text-biege">
-                    <FaEye />
-                  </button>
+              <button
+                onClick={() => handleStatus(reservation._id, 'cancelled')}
+                disabled={reservation.status === 'cancelled'}
+                title="Cancel reservation"
+                className="p-2 rounded-lg bg-red-500 text-white cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <FaTimes />
+              </button>
 
-                </div>
-              </td>
-            </tr>
-))}
-          </tbody>
-
-        </table>
-
-      </div>
+              <button
+                title="View reservation"
+                className="p-2 rounded-lg bg-black text-brand cursor-pointer"
+              >
+                <FaEye />
+              </button>
+            </div>
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+</TableContainer>
 
     </div>
 )
