@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { IoPulse, IoPulseSharp, IoRadioButtonOff, IoStar } from 'react-icons/io5'
-import { MdOutline18UpRating, MdOutline6kPlus } from 'react-icons/md'
-import { ImPlus, ImSpoonKnife } from "react-icons/im";
-import DishCard from '../../../../Components/DishCard';
-import AdminDishCard from '../../../../Components/AdminDishCard';
-import { toast, Toaster } from 'sonner';
+
+import AdminDishCard from '../../../components/AdminDishCard';
+import { toast } from 'sonner';
 import { useDeleteDish, useMenu } from '../../../hooks/adminHooks';
 
 

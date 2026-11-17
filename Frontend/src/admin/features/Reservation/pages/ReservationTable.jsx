@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { FaSearch, FaCheck, FaTimes, FaEye } from "react-icons/fa";
 import { toast } from 'sonner';
-
 import { api } from '../../../../../axios/api';
 const ReservationTable = () => {
     const [data,setData] = useState([])

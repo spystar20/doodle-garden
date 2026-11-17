@@ -1,28 +1,13 @@
 import React, { useState } from 'react'
 import { IoChevronDown } from 'react-icons/io5';
 import { toast } from 'sonner';
-import { ImCross } from 'react-icons/im';
 import { useAddDish } from '../../../hooks/adminHooks';
 import PageHeader from '../../../components/PageHeader';
-import CategoryDropdown from '../../../components/CategoryDropDown';
-import FoodTypeSelector from '../../../components/FoodTypeSelector';
-import ProductImageUpload from '../../../components/ProductImageUpload';
 import ProductForm from '../../../components/ProductForm';
 export const AddMenu = () => {
   const [preview,setPreview]= useState('')
   const [image,setImage] = useState('')
-   const categoryOptions = [
-  { value: "appetizer", label: "Appetizer" },
-  { value: "salad", label: "Salad" },
-  { value: "soup", label: "Soup" },
-  { value: "pizza", label: "Pizza" },
-  { value: "pasta", label: "Pasta" },
-  { value: "burger", label: "Burger" },
-  { value: "main-course", label: "Main Course" },
-  { value: "rice-bowls", label: "Rice Bowls" },
-  { value: "dessert", label: "Dessert" },
-  { value: "beverages", label: "Beverages" },
-]
+
 const [formData ,setFormData] = useState({title:'',desc:'',price:'',category:''})
 const [isVeg,setIsveg] = useState(null)
 const {mutate:addNew}=useAddDish()
@@ -64,38 +49,27 @@ setPreview(URL.createObjectURL(file))
       Dish Information
     </h5>
 
-
-    {/* Main Form Card */}
-    <div className="grid w-full max-w-5xl grid-cols-1 gap-8 rounded-2xl bg-brand p-6 text-primary shadow-xl lg:grid-cols-2">
-
-      {/* Left: Form */}
-    <form className="flex flex-col gap-4">
   <ProductForm
     formData={formData}
     setFormData={setFormData}
     isVeg={isVeg}
     setIsveg={setIsveg}
-  />
+    preview={preview}
+    handleImage={handleImage}
+    handleRemoveImage={() => {
+      setPreview('')
+      setImage('')
+    }}
+  >
 
   <button
     type="button"
     onClick={handleMenu}
-    className="mt-4 w-full rounded-full bg-primary py-3 font-heading text-lg uppercase tracking-wide text-brand transition-all duration-300 hover:scale-[0.98]"
+    className="w-full max-w-5xl rounded-full bg-primary py-3 font-heading text-lg uppercase tracking-wide text-brand transition-all duration-300 hover:scale-[0.98]"
   >
     Add Dish
   </button>
-</form>
-
-
-      {/* Right: Image Upload */}
-<ProductImageUpload   preview={preview}
-  onChange={handleImage}
-  onRemove={() => {
-    setPreview('')
-    setImage('')
-  }}/>
-    </div>
-
+  </ProductForm>
   </div>
 
 </div>
