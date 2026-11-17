@@ -1,5 +1,5 @@
 import React, { Children } from 'react'
-import CategoryDropdown from './CategoryDropDown'
+import CategoryDropdown from './CategoryDropdown'
 import FoodTypeSelector from './FoodTypeSelector'
 import ProductImageUpload from './ProductImageUpload'
 
