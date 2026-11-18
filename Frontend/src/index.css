@@ -190,28 +190,52 @@ input[type='number']::-webkit-outer-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
-/* Time container (right panel) */
-/* Entire <ul> time list wrapper */
+/* Time list container */
 .react-datepicker__time-list {
-  @apply max-h-64 overflow-y-auto scroll-auto  bg-black rounded-lg shadow-sm px-2 py-2;
+  @apply max-h-64 overflow-y-auto scroll-auto bg-black rounded-lg shadow-sm px-2 py-2;
 }
 
-/* Each time option (li) */
+/* Each time option */
 .react-datepicker__time-list-item {
-  @apply text-white  py-1 px-3 rounded-md cursor-pointer hover:bg-pink-100 hover:text-pink-600 transition font-['Outfit'];
+  @apply text-brand py-2 px-3 rounded-md cursor-pointer transition font-['Outfit'];
+}
+
+/* Hovered time option */
+.react-datepicker__time-list-item:hover {
+  background-color: #FFFFF0 !important;
+  color: #000000 !important;
 }
 
 /* Selected time */
 .react-datepicker__time-list-item--selected {
-  @apply bg-pink-500 text-white font-bold;
-}
-.react-datepicker-time__header {
-  @apply text-pink-600 text-lg font-semibold font-['Outfit'] text-center border-b border-gray-200 pb-2;
-}
-.react-datepicker__header {
-  @apply bg-pink-50 text-center py-2 px-4 rounded-t-lg border-b border-pink-200;
+  background-color: #FFFFF0 !important;
+  color: #000000 !important;
+  font-weight: 600;
 }
 
+/* Time picker heading */
+.react-datepicker-time__header {
+  @apply text-brand text-lg font-semibold font-['Outfit'] text-center border-b border-brand/20 pb-2;
+}
+
+/* Calendar and time picker header */
+.react-datepicker__header {
+  @apply bg-black text-center py-2 px-4 rounded-t-lg border-b border-brand/20;
+}
+
+/* Time picker scrollbar */
+.react-datepicker__time-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.react-datepicker__time-list::-webkit-scrollbar-thumb {
+  background-color: #FFFFF0;
+  border-radius: 10px;
+}
+
+.react-datepicker__time-list::-webkit-scrollbar-track {
+  background-color: #000000;
+}
 .scrollbar{
   scrollbar-width: thin;
   scrollbar-color: black transparent ;
