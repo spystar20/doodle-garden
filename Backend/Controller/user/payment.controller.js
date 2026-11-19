@@ -81,6 +81,7 @@ if(orderType==='delivery'){
 }else if(orderType==='pickup'){
       if(!pickupDate||!pickupTimeSlot){
         return res.status(400).json({message:'provide valid date and time '})
+        
     }
     const selectedDate = new Date(pickupDate)
     if(Number.isNaN(selectedDate.getTime()) || selectedDate<new Date()){

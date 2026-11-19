@@ -6,6 +6,7 @@ import PaymentMethod from '../component/PaymentMethod'
 import { useCart } from '../../cart/hooks/cartHooks'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { usePlaceOrder, useVerifyPayment } from '../hooks/checkoutHooks'
+import { formatDate } from 'date-fns'
 
 const Checkout = () => {
     const [orderType, setOrderType] = useState('delivery')
@@ -29,6 +30,12 @@ const cartItems = cartData?.existingCart?.items || []
     city: '',
     pincode: ''
 })
+const formatDate = (date)=>{
+    const Year = date.getFullYear()
+    const month = String(date.getMonth()+1).padStart(2,'0')
+    const day = String(date.getDate()).padStart(2,'0')
+    return `${Year}-${month}-${day}`
+}
 const handleChange = (e) => {
     setFormData({
         ...formData,
@@ -71,7 +78,7 @@ const orderDetails = {
     paymentType:paymentMethod,
     orderType,
     customerDetails:formData,
-    pickupDate:pickupDate?.toISOString(),
+    pickupDate:pickupDate ? formatDate(pickupDate):undefined,
     pickupTimeSlot:pickupTimeSlot?.toLocaleTimeString('en-US',{
         hour:'2-digit',minute:'2-digit',hour12:true
     }),

@@ -217,7 +217,25 @@ input[type='number'] {
 .react-datepicker-time__header {
   @apply text-brand text-lg font-semibold font-['Outfit'] text-center border-b border-brand/20 pb-2;
 }
+/* Increase time dropdown width */
+.react-datepicker__time-container {
+  width: 130px !important;
+}
 
+/* Match the time list width */
+.react-datepicker__time-container .react-datepicker__time {
+  width: 130px !important;
+}
+
+.react-datepicker__time-container .react-datepicker__time-box {
+  width: 130px !important;
+}
+
+/* Keep time options centered */
+.react-datepicker__time-list-item {
+  width: 100% !important;
+  text-align: center;
+}
 /* Calendar and time picker header */
 .react-datepicker__header {
   @apply bg-black text-center py-2 px-4 rounded-t-lg border-b border-brand/20;
@@ -235,6 +253,18 @@ input[type='number'] {
 
 .react-datepicker__time-list::-webkit-scrollbar-track {
   background-color: #000000;
+}
+ .react-datepicker__day{
+  color:var(---color-brand) !important;
+}
+.react-datepicker__day-name{
+  color: black;
+}
+.react-datepicker__day--keyboard-selected{
+  color:black !important;
+}
+.react-datepicker__day:hover{
+  color: #000000 !important;
 }
 .scrollbar{
   scrollbar-width: thin;
