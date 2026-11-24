@@ -24,7 +24,7 @@ export const createOrder = asyncHandler(async (req, res) => {
             timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',hourCycle:'h23'
         }).formatToParts(new Date())
         const value = Object.fromEntries(
-            parts.map(({types,value})=>[type,value])
+            parts.map(({type,value})=>[type,value])
         )
         return Number(value.hour)*60+Number(value.minute)
     }
@@ -102,12 +102,41 @@ if(orderType==='delivery'){
         return res.status(400).json({message:'provide valid date and time '})
         
     }
-    const selectedDate = new Date(pickupDate)
-    if(Number.isNaN(selectedDate.getTime()) || selectedDate<new Date()){
-           return res.status(400).json({
-        message: 'Please provide a valid pickup date'
-    })
+    const [year,month,date]=pickupDate.split('-').map(Number)
+    const validDate = new Date(Date.UTC(year,month-1,date))
+    if(validDate.getUTCFullYear() !==year || validDate.getUTCMonth() !==month-1 || validDate.getUTCDate() !== date){
+        return res.status(400).json({message:'invalid date'})
+    }
+    const today = getIndianDate()
+    if(pickupDate< today){
+                return res.status(400).json({message:'pickup date can not be in past '})
 
+    }
+    const timeMatch = String(pickupTimeSlot).match(
+        /^(0?[1-9]|1[0-2]):(00|30)\s?(AM|PM)$/i
+    )
+    if(!timeMatch){
+        return res.status(400).json({message:'please pick valid time '})
+    }
+    let hours = Number(timeMatch[1])%12
+    let minutes = Number(timeMatch[2])
+    let period = timeMatch[3].toUpperCase()
+    if(period==='PM'){
+ hours+=12
+    }
+    const selectedTime = hours*60+minutes
+    const openingTime = 10*60
+    const closingTime = 21*60+30
+    if(selectedTime>closingTime||selectedTime<openingTime){
+        return res.status(400).json({message:'please select the time from the given time slot'})
+    }
+    if(pickupDate===today){
+        const currentTime = getIndianTime()
+        if(selectedTime<=currentTime){
+                  return res.status(400).json({
+            message: 'Please select a future pickup time'
+        })
+        }
     }
 }
 const order = await orderSchema.create({
