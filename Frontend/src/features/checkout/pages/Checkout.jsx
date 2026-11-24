@@ -6,7 +6,6 @@ import PaymentMethod from '../component/PaymentMethod'
 import { useCart } from '../../cart/hooks/cartHooks'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { usePlaceOrder, useVerifyPayment } from '../hooks/checkoutHooks'
-import { formatDate } from 'date-fns'
 
 const Checkout = () => {
     const [orderType, setOrderType] = useState('delivery')

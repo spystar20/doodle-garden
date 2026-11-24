@@ -5,10 +5,29 @@ import cartSchema from '../../Model/cartSchema.js'
 import orderSchema from '../../Model/orderSchema.js'
 import razorpay from '../../config/razorpay.js'
 import crypto from 'crypto'
+import { type } from 'os'
 export const createOrder = asyncHandler(async (req, res) => {
     const { orderSource, customerDetails, orderType, paymentType, pickupDate, pickupTimeSlot, } = req.body
     const { name, phone, address, city, pincode } = customerDetails || {}
     const userId = req.user.userId
+    const getIndianDate = ()=>{
+        const parts = new Intl.DateTimeFormat('en-GB',{
+            timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'
+        }).formatToParts(new Date())
+        const value = Object.fromEntries(
+            parts.map(({type,value})=>[type,value])
+        )
+        return `${value.year}-${value.month}-${value.day}`
+    }
+    const getIndianTime = ()=>{
+        const parts = new Intl.DateTimeFormat('en-Gb',{
+            timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',hourCycle:'h23'
+        }).formatToParts(new Date())
+        const value = Object.fromEntries(
+            parts.map(({types,value})=>[type,value])
+        )
+        return Number(value.hour)*60+Number(value.minute)
+    }
     if (!userId) {
         return res.status(403).json({ message: 'please login to continue' })
     }
