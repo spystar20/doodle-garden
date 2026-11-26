@@ -5,7 +5,6 @@ import cartSchema from '../../Model/cartSchema.js'
 import orderSchema from '../../Model/orderSchema.js'
 import razorpay from '../../config/razorpay.js'
 import crypto from 'crypto'
-import { type } from 'os'
 export const createOrder = asyncHandler(async (req, res) => {
     const { orderSource, customerDetails, orderType, paymentType, pickupDate, pickupTimeSlot, } = req.body
     const { name, phone, address, city, pincode } = customerDetails || {}
@@ -216,4 +215,18 @@ if (order.orderSource === 'cart') {
     )
 }
 return res.status(201).json({message:'payment verified',order,success:true})
+})
+
+//  order type - direct online 
+//  payment type - cod online 
+
+export const fetchOrderDetails = asyncHandler(async(req,res)=>{
+const userId = req.user.userId
+const {orderId}=req.params
+const existingOrder = await orderSchema.findOne({userId,_id:orderId}).populate('items.productId')
+if(!existingOrder){
+    return res.status(404).json({message:'order not found'})
+}
+return res.status(200).json({message:'order details fetched successfully',order:existingOrder})
+
 })

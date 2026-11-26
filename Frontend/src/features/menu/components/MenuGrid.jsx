@@ -24,8 +24,9 @@ const MenuGrid = ({ isLoading, isError, menu, setFilter, priceRange, addToCart, 
                     <AnimatePresence mode="popLayout">
                         {menu.map((i) => {
                             const isAdded = data?.existingCart?.items?.find(
-                                item => item?.product?.toString() === i._id
+                                item => item?.product?._id === i._id
                             ) ?? false;
+                            console.log(data)
 const isAdding = isPending && variables.product === i._id
                             return (<motion.div
                                 key={i._id}

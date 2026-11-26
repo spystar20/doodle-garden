@@ -56,9 +56,7 @@ const handleOnlinePayment = async(res)=>{
                 })
                 console.log('Verification result:', result)
                 if(result.success){
-                        navigate('/orderConfirmation', {
-        state: { order: result.order }
-    })
+                        navigate(`/orderConfirmation/${res.order._id}`)
                 }
 
             }catch(err){
@@ -89,9 +87,7 @@ try{
 const res = await placeOrder(orderDetails)
 console.log(res)
 if(res.success && paymentMethod==='cod'){
-    navigate('/orderConfirmation',{
-        state:{order:res.order}
-    })
+ navigate(`/orderConfirmation/${res.order._id}`)
 }else if (res.success && paymentMethod==='online'){
     handleOnlinePayment(res)
 }

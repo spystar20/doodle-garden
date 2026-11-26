@@ -2,11 +2,8 @@ import React from 'react'
 
 const CartHeader = () => {
   return (
-  <div className="mb-10 md:mb-14">
-          <p className="font-brand text-2xl text-primary mb-2">
-            Doodle's Garden
-          </p>
-
+  <div className="mb-10 ">
+         
           <h1 className="font-heading text-4xl md:text-5xl text-primary">
             Your Cart
           </h1>

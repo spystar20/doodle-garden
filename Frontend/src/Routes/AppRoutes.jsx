@@ -24,12 +24,14 @@ const Cart = lazy(() => import('../features/cart/pages/Cart'))
 const FoodDetail = lazy(() => import('../features/productDetail/pages/FoodDetail'))
 const NotFound = lazy(() => import('../Pages/NotFound'))
 const Checkout = lazy(() => import('../features/checkout/pages/Checkout'))
+const OrderConfirmation = lazy(()=>import('../features/orderConfirmation/pages/OrderConfirmation'))
 const AppRoutes = () => {
       return (
             <Suspense fallback={<Loader />}>
                   <Routes>
                         <Route element={<ProtectedRoutes />}>
                               <Route path='/checkout' element={<Checkout />} />
+                              <Route path='/orderConfirmation/:orderId' element={<OrderConfirmation/>}/>
                         </Route>
                         <Route element={<MainLayout />}>
                               <Route path='/' element={<Home />} />

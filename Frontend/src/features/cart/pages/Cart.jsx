@@ -36,7 +36,7 @@ const Cart = () => {
   }
 
   return (
-    <main className="min-h-screen bg-brand px-5 md:px-10 lg:px-16 py-12 md:py-16">
+    <main className="min-h-screen bg-brand px-5 md:px-10 lg:px-16 py-6">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}

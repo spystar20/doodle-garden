@@ -1,267 +1,268 @@
-import React, { useState } from 'react'
+
+import React, { useState, useEffect, useContext } from 'react'
 import logo from '../assets/logo.png'
 import { Link } from 'react-router'
 import Aos from 'aos'
-import { useEffect } from 'react'
 import 'aos/dist/aos.css'
-import { IoMenu } from "react-icons/io5";
-import { MdMenu, MdOutlineRestaurantMenu } from "react-icons/md";
-import { useContext } from 'react'
+import { IoMenu } from 'react-icons/io5'
+import { MdOutlineRestaurantMenu } from 'react-icons/md'
 import { Authorized } from '../AuthContext/AuthContext'
-import { FaUserCircle ,FaCalendarAlt,FaHeart,
-} from "react-icons/fa";
-import {FaUserPen} from 'react-icons/fa6'
-import { BsBoxSeamFill } from "react-icons/bs";
-import {ImExit} from 'react-icons/im'
+import {
+  FaUserCircle,
+  FaCalendarAlt,
+  FaHeart,
+  FaShoppingCart
+} from 'react-icons/fa'
+import { FaUserPen } from 'react-icons/fa6'
+import { BsBoxSeamFill } from 'react-icons/bs'
+import { ImExit } from 'react-icons/im'
+import { useCart } from '../features/cart/hooks/cartHooks'
+
 const Navbar = () => {
-  useEffect(() => {
-    Aos.init({ duration: 1500 })
-  }, [])
-const [showOptions , setShowOptions]=useState(false)
+  const [showOptions, setShowOptions] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
-  const {user} = useContext(Authorized)
-  console.log(user)
-  const toggleOptions=()=>{
-    setShowOptions(!showOptions)
-  }
-  const toggleMenu = () => {
-    setShowMenu(!showMenu)
-  }
+  const { user } = useContext(Authorized)
+const {data:cartData}=useCart()
+const cartCount = cartData?.existingCart?.items?.reduce((total,item)=>total+item.quantity,0)??0
+
+  useEffect(() => {
+    Aos.init({ duration: 1000 })
+  }, [])
+
+  const toggleOptions = () => setShowOptions(!showOptions)
+  const toggleMenu = () => setShowMenu(!showMenu)
+
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Menu', path: '/Menu' },
+    { name: 'Venue', path: '/Venue' },
+    { name: 'Contact Us', path: '/Contact' },
+    { name: 'About Us', path: '/About' }
+  ]
+
   return (
- <div
-  data-aos="fade-in"
-  className="w-full font-body bg-brand shadow-lg md:px-4 p-2 md:py-5 fixed top-0 z-[999] capitalize"
+    <header
+      data-aos="fade-in"
+      className="sticky left-0 top-0 z-[999] w-full bg-brand/95 backdrop-blur-md shadow-md border-b border-primary/10 font-body "
+    >
+      {/* Desktop Navbar */}
+      <div className="hidden lg:grid grid-cols-[1fr_auto_1fr] items-center gap-8 px-8 xl:px-16 py-4">
+
+        {/* Navigation Links */}
+        <nav>
+          <ul className="flex items-center gap-5 xl:gap-8 text-sm xl:text-base font-medium">
+            {navLinks.map((link) => (
+              <li key={link.path}>
+                <Link
+                  to={link.path}
+                  className="relative text-primary/80 hover:text-primary transition-colors duration-300 hover-underline-animation left"
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Logo */}
+        <Link to="/" className="flex justify-center">
+          <img
+            src={logo}
+            alt="Doodle's Garden"
+            className="w-[210px] xl:w-[245px] object-contain"
+          />
+        </Link>
+
+        {/* Actions */}
+        <div className="flex items-center justify-end gap-5">
+<Link
+  to="/cart"
+  aria-label={`Shopping cart, ${cartCount} items`}
+  className="relative flex items-center justify-center text-primary hover:scale-110 transition-transform duration-200"
 >
-  <div className="hidden lg:grid grid-cols-3 items-start justify-between lg:items-center py-6 px-4 lg:py-0 md:px-20">
+  <FaShoppingCart className="text-2xl" />
 
-    <ul className="lg:flex grid grid-cols-2 justify-between gap-5 lg:gap-10 capitalize text-base font-body md:hidden">
-      <Link to="/">
-        <li className="text-primary cursor-pointer hover-underline-animation left">
-          home
-        </li>
-      </Link>
-
-      <Link to="/Menu">
-        <li className="text-primary cursor-pointer hover-underline-animation left">
-          menu
-        </li>
-      </Link>
-
-      <Link to="/Venue">
-        <li className="text-primary cursor-pointer hover-underline-animation left">
-          venue
-        </li>
-      </Link>
-
-      <Link to="/Contact">
-        <li className="text-primary cursor-pointer hover-underline-animation left">
-          contact us
-        </li>
-      </Link>
-
-      <Link to="/About">
-        <li className="text-primary cursor-pointer hover-underline-animation left">
-          about us
-        </li>
-      </Link>
-    </ul>
-
-    <div className="items-center justify-center flex">
-      <img
-        className="hidden md:block md:w-[12vw] lg:w-[255px]"
-        src={logo}
-        alt=""
-      />
-    </div>
-
-    {user ? (
-      <div className="flex justify-end relative">
-        <div className="flex items-center gap-2">
-
-          <span className="relative">
-            <FaUserCircle
-              className="text-3xl text-primary/80 cursor-pointer"
-              onClick={toggleOptions}
-            />
-
-            <span
-              className={`absolute top-12 -translate-x-1/2 w-64 px-4 py-5 border border-primary/10 shadow-lg rounded-lg bg-brand z-[99] duration-300 ease-in transition-all ${
-                showOptions
-                  ? "opacity-100 translate-y-1"
-                  : "opacity-0 translate-y-8"
-              }`}
-            >
-              <span className="flex flex-col text-base border-b border-primary/20 pb-3">
-                <h5 className="font-medium">
-                  Hello {user?.name}
-                </h5>
-
-                <span className="lowercase text-primary/70">
-                  {user?.email}
-                </span>
-              </span>
-
-              <ul className="text-base py-3 gap-1.5 flex flex-col border-primary/20 border-b">
-                <li className="flex gap-x-1.5 items-center hover:translate-x-1 duration-200 ease-in transition-all cursor-pointer hover:font-medium">
-                  <BsBoxSeamFill />
-                  <span>Orders</span>
-                </li>
-
-                <li className="flex gap-x-1.5 items-center hover:translate-x-1 duration-200 ease-in transition-all cursor-pointer hover:font-medium">
-                  <FaCalendarAlt />
-                  <span>Reservations</span>
-                </li>
-
-                <li className="flex gap-x-1.5 items-center hover:translate-x-1 duration-200 ease-in transition-all cursor-pointer hover:font-medium">
-                  <FaHeart />
-                  <span>Favorites</span>
-                </li>
-              </ul>
-
-              <ul className="text-base py-3 gap-1.5 flex flex-col">
-                <li className="flex gap-x-1.5 items-center hover:translate-x-1 duration-200 ease-in transition-all cursor-pointer hover:font-medium">
-                  <FaUserPen />
-                  <span>Edit Profile</span>
-                </li>
-
-                <li className="flex gap-x-1.5 items-center hover:translate-x-1 duration-200 ease-in transition-all cursor-pointer hover:font-medium">
-                  <ImExit />
-                  <span>Logout</span>
-                </li>
-              </ul>
-            </span>
-          </span>
-
-          <Link to="/Booking">
-            <button className="rounded-xl border-2 border-primary shadow-2xl bg-primary text-brand py-1 px-6 hover:scale-95 scale-100 font-body text-base">
-              book a table
-            </button>
-          </Link>
-
-        </div>
-      </div>
-    ) : (
-      <div className="flex items-center justify-end gap-4 text-lg">
-
-        <div>
-          <Link
-            to="/login"
-            className="rounded-xl border-2 shadow-2xl hover:bg-primary hover:text-brand py-2 px-10 border-primary hover:scale-75 scale-100 font-body text-base"
-          >
-            <button>Login</button>
-          </Link>
-        </div>
-
-        <div>
-          <Link to="/sign-in">
-            <button className="rounded-xl border-2 shadow-2xl bg-primary text-brand py-2 px-10 hover:scale-95 scale-100 font-body text-base">
-              Signup
-            </button>
-          </Link>
-        </div>
-
-      </div>
-    )}
-  </div>
-
-  {/* navbar in mobile */}
-
-  <div className="lg:hidden md:py-5 sticky top-0 z-50 flex flex-col items-start justify-between">
-    <div className="flex justify-between items-center w-full">
-
-      <div>
-        <img
-          className="block w-[150px] md:w-[15vw]"
-          src={logo}
-          alt=""
-        />
-      </div>
-
-      <div className="flex flex-row justify-center items-center gap-2">
-
-        <span>
-          <Link to="/Booking">
-            <button className="bg-primary md:py-4 md:text-2xl text-brand p-2 rounded-lg font-body text-sm">
-              book a table
-            </button>
-          </Link>
-        </span>
-
-        <span>
-          <IoMenu
-            onClick={toggleMenu}
-            className={`text-xl transition-all ease-in cursor-pointer md:text-6xl ${
-              showMenu ? "hidden" : "block"
-            }`}
-          />
-        </span>
-
-        <span>
-          <MdOutlineRestaurantMenu
-            onClick={toggleMenu}
-            className={`text-xl transition-all ease-in cursor-pointer md:text-6xl ${
-              showMenu ? "block" : "hidden"
-            }`}
-          />
-        </span>
-
-      </div>
-    </div>
-  </div>
-
-  {showMenu && (
-    <div className="flex justify-center shadow-2xl items-center py-4 md:py-10 left-0 rounded-2xl w-full top-12 md:top-[10rem] z-[999] bg-primary text-brand fixed">
-      <ul className="flex w-full font-medium flex-col justify-center items-center md:gap-10 gap-5 text-lg capitalize font-body">
-
-        <Link to="/">
-          <li
-            onClick={toggleMenu}
-            className="hover:text-primary hover:bg-brand cursor-pointer hover-underline-animation left"
-          >
-            home
-          </li>
-        </Link>
-
-        <Link to="/Menu">
-          <li
-            onClick={toggleMenu}
-            className="hover:text-primary hover:bg-brand cursor-pointer hover-underline-animation left"
-          >
-            menu
-          </li>
-        </Link>
-
-        <Link to="/Venue">
-          <li
-            onClick={toggleMenu}
-            className="cursor-pointer hover:text-primary hover:bg-brand hover-underline-animation left"
-          >
-            venue
-          </li>
-        </Link>
-
-        <Link to="/Contact">
-          <li
-            onClick={toggleMenu}
-            className="cursor-pointer hover:text-primary hover:bg-brand hover-underline-animation left"
-          >
-            contact us
-          </li>
-        </Link>
-
-        <Link to="/About">
-          <li
-            onClick={toggleMenu}
-            className="cursor-pointer hover:text-primary hover:bg-brand hover-underline-animation left"
-          >
-            about us
-          </li>
-        </Link>
-
-      </ul>
-    </div>
+  {cartCount > 0 && (
+    <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-brand">
+      {cartCount}
+    </span>
   )}
-</div>
+</Link>
+          {user ? (
+            <div className="relative flex items-center gap-4">
+
+              <button
+                type="button"
+                onClick={toggleOptions}
+                aria-label="Open profile menu"
+                className="text-primary/80 hover:text-primary transition-colors"
+              >
+                <FaUserCircle className="text-3xl" />
+              </button>
+
+              {showOptions && (
+                <div className="absolute right-0 top-12 w-64 rounded-xl border border-primary/10 bg-brand p-4 shadow-xl animate-in fade-in slide-in-from-top-2">
+
+                  <div className="border-b border-primary/15 pb-3">
+                    <h5 className="font-semibold text-primary">
+                      Hello {user?.name}
+                    </h5>
+                    <p className="text-sm text-primary/60 lowercase break-all">
+                      {user?.email}
+                    </p>
+                  </div>
+
+                  <ul className="flex flex-col gap-1 border-b border-primary/15 py-3 text-sm">
+                    <li className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-primary/5 cursor-pointer transition">
+                      <BsBoxSeamFill />
+                      Orders
+                    </li>
+                    <li className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-primary/5 cursor-pointer transition">
+                      <FaCalendarAlt />
+                      Reservations
+                    </li>
+                    <li className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-primary/5 cursor-pointer transition">
+                      <FaHeart />
+                      Favorites
+                    </li>
+                  </ul>
+
+                  <ul className="flex flex-col gap-1 pt-3 text-sm">
+                    <li className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-primary/5 cursor-pointer transition">
+                      <FaUserPen />
+                      Edit Profile
+                    </li>
+                    <li className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-primary/5 cursor-pointer transition">
+                      <ImExit />
+                      Logout
+                    </li>
+                  </ul>
+                </div>
+              )}
+
+              <Link
+                to="/Booking"
+                className="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-brand shadow-md hover:bg-primary/85 hover:-translate-y-0.5 transition-all duration-200"
+              >
+                Book a Table
+              </Link>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link
+                to="/login"
+                className="rounded-lg border border-primary px-5 py-2 text-sm font-medium text-primary hover:bg-primary hover:text-brand transition-all duration-200"
+              >
+                Login
+              </Link>
+              <Link
+                to="/sign-in"
+                className="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-brand shadow-md hover:bg-primary/85 hover:-translate-y-0.5 transition-all duration-200"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile Navbar */}
+      <div className="flex lg:hidden items-center justify-between px-4 py-3 md:px-8 md:py-4">
+
+        <Link to="/" onClick={() => setShowMenu(false)}>
+          <img
+            src={logo}
+            alt="Doodle's Garden"
+            className="w-[135px] md:w-[190px] object-contain"
+          />
+        </Link>
+
+        <div className="flex items-center gap-3 md:gap-5">
+<Link
+  to="/cart"
+  aria-label={`Shopping cart, ${cartCount} items`}
+  className="relative text-primary text-xl md:text-2xl hover:scale-110 transition-transform"
+>
+  <FaShoppingCart />
+
+  {cartCount > 0 && (
+    <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-brand">
+      {cartCount}
+    </span>
+  )}
+</Link>
+          <Link
+            to="/Booking"
+            className="rounded-lg bg-primary px-3 py-2 md:px-5 md:py-3 text-xs md:text-base font-medium text-brand shadow-md hover:bg-primary/85 transition"
+          >
+            Book a Table
+          </Link>
+
+          <button
+            type="button"
+            onClick={toggleMenu}
+            aria-label={showMenu ? 'Close menu' : 'Open menu'}
+            className="text-primary text-2xl md:text-4xl"
+          >
+            {showMenu ? <MdOutlineRestaurantMenu /> : <IoMenu />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`lg:hidden absolute left-0 top-full w-full overflow-hidden bg-primary text-brand shadow-xl transition-all duration-300 ease-in-out ${
+          showMenu
+            ? 'max-h-[600px] opacity-100 visible'
+            : 'max-h-0 opacity-0 invisible'
+        }`}
+      >
+        <nav className="px-6 py-6 md:py-8">
+          <ul className="flex flex-col items-center gap-5 md:gap-7 text-base md:text-lg font-medium">
+            {navLinks.map((link) => (
+              <li key={link.path}>
+                <Link
+                  to={link.path}
+                  onClick={toggleMenu}
+                  className="hover:text-brand/60 transition-colors"
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-6 border-t border-brand/20 pt-5">
+            {user ? (
+              <div className="flex flex-col items-center gap-4">
+                <span className="text-sm text-brand/70">
+                  Hello, {user?.name}
+                </span>
+                <span className="text-sm">My Account</span>
+                <span className="text-sm">Orders</span>
+              </div>
+            ) : (
+              <div className="flex justify-center gap-4">
+                <Link
+                  to="/login"
+                  onClick={toggleMenu}
+                  className="rounded-lg border border-brand px-6 py-2 hover:bg-brand hover:text-primary transition"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/sign-in"
+                  onClick={toggleMenu}
+                  className="rounded-lg bg-brand px-6 py-2 text-primary hover:bg-brand/80 transition"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
+        </nav>
+      </div>
+    </header>
   )
 }
 
