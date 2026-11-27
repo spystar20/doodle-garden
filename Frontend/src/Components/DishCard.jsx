@@ -6,7 +6,14 @@ import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
 import React from 'react'
 import { BsFillCartCheckFill } from "react-icons/bs";
-const DishCard = ({ image, link, category, price, title, desc, rating, Isveg, addTocart,isAdded,isPending }) => {
+import { useAddToCart } from '../features/cart/hooks/cartHooks'
+const DishCard = ({ image, link, category, price, title, desc, rating, Isveg,isAdded ,productId}) => {
+const {mutate:addToCart,isPending} = useAddToCart()
+const handleCart = () => {
+      if (!productId) return
+
+    addToCart({ product:productId, quantity:1 })
+}
   return (
     <div className="flex flex-col group w-[300px] overflow-hidden rounded-xl border bg-brand border-primary backdrop-blur-2xl p-1">
       <div className="relative">
@@ -35,7 +42,7 @@ const DishCard = ({ image, link, category, price, title, desc, rating, Isveg, ad
     </button>):( 
  <motion.button
     type="button"
-    onClick={addTocart}
+    onClick={handleCart}
     disabled={isPending}
     whileTap={!isPending ? { scale: 0.8, rotate: -12 } : {}}
     whileHover={!isPending ? { scale: 1.1 } : {}}

@@ -4,7 +4,7 @@ import React from "react";
 import DishCard from '../../../Components/DishCard'
 import FunctionLoader from "../../../utils/FunctionLoader";
 import { useCart } from "../../cart/hooks/cartHooks";
-const MenuGrid = ({ isLoading, isError, menu, setFilter, priceRange, addToCart, isPending, variables }) => {
+const MenuGrid = ({ isLoading, isError, menu, setFilter, priceRange,  }) => {
     const { data } = useCart()
     return (
         <div>
@@ -60,9 +60,7 @@ const isAdding = isPending && variables.product === i._id
                                     Isveg={i.isVeg}
                                     isAdded={isAdded}
                                     link={`/menu/product/${i._id}`}
-                                    addTocart={() => addToCart({
-                                        product: i._id, quantity: 1
-                                    })}
+                                    
                                 />
                             </motion.div>
                             )
