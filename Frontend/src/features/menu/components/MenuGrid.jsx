@@ -23,11 +23,9 @@ const MenuGrid = ({ isLoading, isError, menu, setFilter, priceRange,  }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
                     <AnimatePresence mode="popLayout">
                         {menu.map((i) => {
-                            const isAdded = data?.existingCart?.items?.find(
+                            const isAdded = data?.existingCart?.items?.some(
                                 item => item?.product?._id === i._id
                             ) ?? false;
-                            console.log(data)
-const isAdding = isPending && variables.product === i._id
                             return (<motion.div
                                 key={i._id}
                                 initial={{
@@ -49,8 +47,7 @@ const isAdding = isPending && variables.product === i._id
                                 }}
                             >
                                 <DishCard
-                                    
-                                    isPending={isAdding}
+                                    productId={i._id}
                                     rating={4}
                                     category={i.category}
                                     image={i.image}

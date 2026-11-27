@@ -9,7 +9,6 @@ import MenuHeader from "../components/MenuHeader";
 import Categories from "../components/Categories";
 import PriceRange from "../components/PriceRange";
 import MenuGrid from "../components/MenuGrid";
-import { useAddToCart } from "../../cart/hooks/cartHooks";
 
 const Menu = () => {
   const { data: categories = [] } = useCategories();
@@ -63,7 +62,7 @@ const Menu = () => {
   }, [range?.minPrice, range?.maxPrice]);
 
   return (
-    <div className="min-h-screen bg-brand text-primary font-body mt-20">
+    <div className="min-h-screen bg-brand text-primary font-body ">
 
       <div className="max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-16 py-12 md:py-16">
 

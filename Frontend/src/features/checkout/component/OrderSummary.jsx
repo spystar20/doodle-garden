@@ -3,13 +3,10 @@ import React from 'react'
 import { useCart } from '../../cart/hooks/cartHooks'
 const OrderSummary = ({ orderType, orderSource, product, quantity }) => {
     const { data: cartData, isLoading } = useCart()
-
     const cartItems = cartData?.existingCart?.items || []
-
-    const items = orderSource === 'direct'
-        ? [{ product, quantity }]
-        : cartItems
-
+const items = orderSource === 'direct'
+    ? [{ product, quantity }]
+    : cartItems
     const subtotal = items.reduce(
         (total, item) => total + item.product.price * item.quantity, 0
     )
@@ -29,7 +26,8 @@ const OrderSummary = ({ orderType, orderSource, product, quantity }) => {
             </h2>
 
             <div className="flex flex-col gap-4">
-                {items.map(item => (
+                {orderSource==='cart'?(
+                items.map(item => (
                     <div key={item.product._id} className="flex items-center gap-3">
                         <img
                             src={item.product.image}
@@ -48,7 +46,27 @@ const OrderSummary = ({ orderType, orderSource, product, quantity }) => {
                             ₹{item.product.price * item.quantity}
                         </p>
                     </div>
-                ))}
+                ))
+                ):(
+                     <div  className="flex items-center gap-3">
+                        <img
+                            src={product.image}
+                            alt={product.title}
+                            className="w-16 h-16 rounded-lg object-cover"
+                        />
+
+                        <div className="flex-1">
+                            <h3 className="font-medium">{product.title}</h3>
+                            <p className="text-sm text-primary/60">
+                                Qty: {quantity}
+                            </p>
+                        </div>
+
+                        <p className="font-medium">
+                            ₹{product.price*quantity}
+                        </p>
+                    </div>
+                )}
             </div>
 
        <div className="border-t border-primary/10 pt-4 flex flex-col gap-3">

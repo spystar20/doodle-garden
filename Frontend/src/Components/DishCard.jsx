@@ -2,13 +2,28 @@
 import { IoStar } from 'react-icons/io5'
 import { ImSpinner8, ImSpoonKnife } from "react-icons/im"
 import { FaCartPlus, FaRegHeart } from 'react-icons/fa6'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
 import React from 'react'
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { useAddToCart } from '../features/cart/hooks/cartHooks'
 const DishCard = ({ image, link, category, price, title, desc, rating, Isveg,isAdded ,productId}) => {
 const {mutate:addToCart,isPending} = useAddToCart()
+const navigate = useNavigate()
+const handleBuyNow = () => {
+    navigate('/checkout', {
+        state: {
+            orderSource: 'direct',
+            product: {
+                _id: productId,
+                image,
+                title,
+                price
+            },
+            quantity: 1
+        }
+    })
+}
 const handleCart = () => {
       if (!productId) return
 
@@ -94,7 +109,7 @@ const handleCart = () => {
         </div>
 
         <div>
-          <button className="w-full cursor-pointer border-primary text-brand rounded-full bg-primary py-2 text-sm font-medium font-body">
+          <button onClick={handleBuyNow} className="w-full cursor-pointer border-primary text-brand rounded-full bg-primary py-2 text-sm font-medium font-body">
             Buy Now
           </button>
         </div>

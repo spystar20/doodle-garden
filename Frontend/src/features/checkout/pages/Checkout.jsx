@@ -16,8 +16,10 @@ const Checkout = () => {
     const navigate = useNavigate()
         const location = useLocation()
     const orderSource = location?.state?.orderSource || 'cart'
+    
 const product = location?.state?.product
 const quantity = location?.state?.quantity||1
+
     const { data: cartData, isLoading } = useCart()
     const {mutateAsync:placeOrder,isPending}=usePlaceOrder()
     const {mutateAsync:verifyPayment}=useVerifyPayment()
@@ -153,7 +155,7 @@ if (orderSource==='cart'&& !cartItems.length) {
         </div>
 
         <div>
-            <OrderSummary orderType={orderType} orderSource={orderSource} product={product} quantity={quantity} />
+            <OrderSummary orderType={orderType} orderSource={orderSource} product={product} quantity={quantity}  />
         </div>
     </div>
 
