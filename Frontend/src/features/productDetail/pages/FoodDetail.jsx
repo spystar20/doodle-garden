@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { FaArrowLeft } from "react-icons/fa6";
 import Loader from "../../../utils/Loader";
 import { useMenuById } from "../../menu/hooks/menuHooks";
@@ -9,17 +9,27 @@ import ProductInformation from "../components/ProductInformation";
 import ProductAbout from "../components/ProductAbout";
 import RelatedProduct from "../components/RelatedProduct";
 import { useAddToCart } from "../../cart/hooks/cartHooks";
-import { usePlaceOrder } from "../../checkout/hooks/checkoutHooks";
 
 const FoodDetail = () => {
   const { itemId } = useParams();
   const {mutate:addTocart} = useAddToCart()
-  const {mutate:buyNow}=usePlaceOrder()
+ const navigate = useNavigate()
   const [quantity, setQuantity] = useState(1);
   const { isLoading, isError, data: product } = useMenuById(itemId);
 const handleCart=()=>{
   console.log('clicked')
 addTocart({product:product._id,quantity})
+}
+const buyNow = ()=>{
+navigate('/checkout',{state:{
+  orderSource:'direct',
+  product:{
+    image:product.image,
+title:product.title,
+_id:product._id,
+price:product.price
+  },quantity
+}})
 }
   if (isLoading) return <Loader />;
 
@@ -56,7 +66,7 @@ addTocart({product:product._id,quantity})
       <ProductImage image={product.image} title={product.title} category={product.title}/>
 
         {/* Dish information */}
-     <ProductInformation desc={product.desc} title={product.title} price={product.price} reviews={product?.reviews?.length} setQuantity={setQuantity}  addToCart={()=>handleCart()} isVeg={product.isVeg} rating={product.rating} quantity={quantity} />
+     <ProductInformation desc={product.desc} title={product.title} price={product.price} reviews={product?.reviews?.length} setQuantity={setQuantity}  addToCart={()=>handleCart()} buyNow={buyNow} isVeg={product.isVeg} rating={product.rating} quantity={quantity} />
       </div>
 
       {/* About section */}

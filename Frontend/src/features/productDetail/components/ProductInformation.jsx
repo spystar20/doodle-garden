@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from "motion/react";
 import { FaStar ,FaMinus,FaPlus} from 'react-icons/fa6';
-const ProductInformation = ({title,rating,reviews,price,desc,isVeg,quantity,setQuantity,addToCart}) => {
+const ProductInformation = ({title,rating,reviews,price,desc,isVeg,quantity,setQuantity,addToCart,buyNow}) => {
   return (
   <motion.div
           initial={{ opacity: 0, x: 25 }}
@@ -95,7 +95,7 @@ const ProductInformation = ({title,rating,reviews,price,desc,isVeg,quantity,setQ
               Add to cart
             </button>
 
-            <button className="py-4 px-6 bg-primary text-brand text-xs uppercase tracking-[0.18em] rounded-full hover:bg-primary/85 transition duration-300">
+            <button onClick={buyNow} className="py-4 px-6 bg-primary text-brand text-xs uppercase tracking-[0.18em] rounded-full hover:bg-primary/85 transition duration-300">
               Buy now
             </button>
           </div>

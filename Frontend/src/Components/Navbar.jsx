@@ -113,9 +113,11 @@ const cartCount = cartData?.existingCart?.items?.reduce((total,item)=>total+item
                   </div>
 
                   <ul className="flex flex-col gap-1 border-b border-primary/15 py-3 text-sm">
-                    <li className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-primary/5 cursor-pointer transition">
+                    <li >
+          <Link to="/my-orders" className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-primary/5 cursor-pointer transition">
                       <BsBoxSeamFill />
                       Orders
+                      </Link>
                     </li>
                     <li className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-primary/5 cursor-pointer transition">
                       <FaCalendarAlt />
