@@ -8,14 +8,19 @@ import ProductImage from "../components/ProductImage";
 import ProductInformation from "../components/ProductInformation";
 import ProductAbout from "../components/ProductAbout";
 import RelatedProduct from "../components/RelatedProduct";
-import { useCartStore } from "../../cart/store/useCartStore";
+import { useAddToCart } from "../../cart/hooks/cartHooks";
+import { usePlaceOrder } from "../../checkout/hooks/checkoutHooks";
 
 const FoodDetail = () => {
   const { itemId } = useParams();
-  const addTocart = useCartStore((state)=>state.addToCart)
+  const {mutate:addTocart} = useAddToCart()
+  const {mutate:buyNow}=usePlaceOrder()
   const [quantity, setQuantity] = useState(1);
   const { isLoading, isError, data: product } = useMenuById(itemId);
-
+const handleCart=()=>{
+  console.log('clicked')
+addTocart({product:product._id,quantity})
+}
   if (isLoading) return <Loader />;
 
   if (isError || !product) {
@@ -31,7 +36,7 @@ const FoodDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-brand text-primary font-body pt-28 pb-20 px-5 md:px-10 lg:px-20">
+    <div className="min-h-screen bg-brand text-primary font-body py-4 pb-20 px-5 md:px-10 lg:px-20">
 
       {/* Back navigation */}
       <div className="max-w-7xl mx-auto mb-10">
@@ -51,7 +56,7 @@ const FoodDetail = () => {
       <ProductImage image={product.image} title={product.title} category={product.title}/>
 
         {/* Dish information */}
-     <ProductInformation desc={product.desc} title={product.title} price={product.price} reviews={product?.reviews?.length} setQuantity={setQuantity} addToCart={()=>addTocart(product,quantity)} isVeg={product.isVeg} rating={product.rating} quantity={quantity}/>
+     <ProductInformation desc={product.desc} title={product.title} price={product.price} reviews={product?.reviews?.length} setQuantity={setQuantity}  addToCart={()=>handleCart()} isVeg={product.isVeg} rating={product.rating} quantity={quantity} />
       </div>
 
       {/* About section */}
